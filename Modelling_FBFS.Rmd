@@ -176,9 +176,88 @@ FBFS are possible solutions to the increasing rainfall variability and drought i
 
 #### Materials and Method
 
+```{r, include = FALSE, echo = FALSE, cache = FALSE}
+
+### Installing devtools package to get decisionSupportExtra from github ####
+if (!require("devtools")) {
+  install.packages("devtools")
+}
+
+## Installing decisionSupportExtra package from github ####
+devtools::install_github("Issoufou-Liman/decisionSupportExtra", build = TRUE, force = TRUE, upgrade = "always", build_opts = c("--no-resave-data", "--no-manual"))
+
+## removing objects that are no longer needed ####
+rm(list=setdiff(ls(), "network_bn_fit"))
+
+## Loading decisionSupportExtra package ####
+library(decisionSupportExtra)
+
+## Loading the Bayesian network ####
+source("source_files/BNs.R")
+
+## Water supply adequacy partial  ####
+
+soil_water_net <- bnlearn::model2network("[SoilType][ManureApp][SoilHoldWater|SoilType:ManureApp][EvapoTranspirat][InitWaterCont][RainAmount][FloodReachsPlot][AvailSoilWater|SoilHoldWater:EvapoTranspirat:RainAmount:InitWaterCont:FloodReachsPlot]")
+
+abbr_node_names <- bnlearn::nodes(soil_water_net)
+
+soil_water_net <- bnlearn::model2network("[Soil_type][Manure_application][Soil_water_holding_capacity|Soil_type:Manure_application][Evapotranspiration_at_initial_stage][Initial_soil_water_content][Rainfall_amount_at_initial_stage][Amount_of_flood_reaching_the_plot_at_initial_stage][Available_soil_water_at_initial_stage|Soil_water_holding_capacity:Evapotranspiration_at_initial_stage:Rainfall_amount_at_initial_stage:Initial_soil_water_content:Amount_of_flood_reaching_the_plot_at_initial_stage]")
+
+legende <- bnlearn::nodes(soil_water_net)
+
+soil_water_net <- decisionSupportExtra::extract_bn(bn = network_bn_fit, string_model = soil_water_net)
+
+bnlearn::nodes(soil_water_net) <- abbr_node_names[c(3, 1, 2, 4, 5, 6, 8, 7)]
+
+legende <- mapply(paste, abbr_node_names, sprintf('\u2192'), legende)
+legende <- gsub("_", " ",  legende)
+legende <- gsub(" at initial stage", "",  legende)
+
+source("source_files/graphviz_chart_bn.R")
+
+## some common plots specifications
+bn_legend_bg <- adjustcolor( "yellow", alpha.f = 0.15)
+plots_lwd <- 0.5
+min_plots_width_in = 2.63
+max_plots_width_in = 7.5
+max_plots_height_in = 8.75
+min_plots_res=300
+max_plots_res = 600
+bnplots_compression = "lzw"
+bnplots_family = 'sans'
+bnplots_font = 2
+
+## exporting the plot to file.####
+export_fun <- function(export, output_dir = "figures"){
+  paste0(output_dir, '/', export, ".png")
+}
+
+png(export_fun(export = "Modelling_FBFS_Avail_soil_water"),
+     res = min_plots_res,
+     units = 'in',
+     # compression = bnplots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/2.75,
+     pointsize = 10.5)
+
+par(font=bnplots_font, family = bnplots_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = soil_water_net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/2, max_plots_width_in), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow", main = NULL,
+                   sub = NULL, target_node="AvailSoilWater")
+
+legend('topleft', legend = legende, text.width = 0.6*strwidth(legende[which.max(nchar(legende))]), 
+       cex=0.6, ncol = 2,
+       bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=bn_legend_bg,
+       title = 'Legend', title.col = 'lightgreen', inset=c(0.04, 0.08))
+
+dev.off()
+```
+
 \begin{figure}[!htbp]
     \centering
-    \includegraphics{figures/190428_CHART_Avail_soil_water_Partial}
+    \includegraphics{figures/Modelling_FBFS_Avail_soil_water}
     \caption{Illustration of the causality defining the factor of soil water content in FBFS in       Kenya and Ethiopia.
     \label{Figure_5}}
 \end{figure}
