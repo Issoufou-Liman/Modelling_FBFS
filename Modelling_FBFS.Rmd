@@ -20,11 +20,11 @@ institute:
 abstract: "Modelling the performance of crops grown under specific conditions is an important tool for decision support. Towards this end, many crop models are being used to inform agricultural policies. However, many of these models are applied beyond a reasonable scope of application, mainly because they are either designed for other settings, they fail to capture system complexity, or because some of their data requirements are not within reach. In this paper, we demonstrate an approach to overcome the above-mentioned problems using a probabilistic crop model based on the Decision Theory methods. Using the innovative method, we transparently use all available sources of information and consider various sources of uncertainty using participatory analysis. The transdisciplinary process provides a model where all important variables and their interactions, as determined by local experts and relevant literature, are used to simulate the plausible ranges of expected grain and biomass yield at various stages of crop development. System components are described using individual Bayesian networks in which expert knowledge is employed to specify causality among important variables along with their probability distributions. These Bayesian networks, along with other quantitative variables, are used as input for a Monte Carlo model to simulate the plausible performance of crops. Our objective is to develop a customizable solution-oriented approach for crop modelling in settings where data and resources are limited. We describe how such a model can be developed and provide three case study applications focusing on flood-based farming systems. The case studies illustrate the extensible scope of such a model by assessing the performance of a cropping system, individual crops, or other factors of high agricultural importance across the Tigray region of Ethiopia and Kisumu County of Kenya. The probabilistic tools and transdisciplinary approaches of Decision Theory allow experts and analysts to address the system complexity and data uncertainties in crop modelling." 
 Keywords: "Flood-based farming systems, crop modelling, customized decision support tools, uncertainty, Bayesian Networks, MC Simulation."
 fontfamily: mathpazo
-fontsize: 11pt
+fontsize: 12pt
 spacing: double
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 documentclass: article
-classoption: preprint # oneside
+classoption: oneside # preprint
 geometry: margin=1in
 linkcolor: blue
 urlcolor: blue
@@ -186,14 +186,14 @@ if (!require("devtools")) {
 ## Installing decisionSupportExtra package from github ####
 devtools::install_github("Issoufou-Liman/decisionSupportExtra", build = TRUE, force = TRUE, upgrade = "always", build_opts = c("--no-resave-data", "--no-manual"))
 
-## removing objects that are no longer needed ####
-rm(list=setdiff(ls(), "network_bn_fit"))
-
 ## Loading decisionSupportExtra package ####
 library(decisionSupportExtra)
 
 ## Loading the Bayesian network ####
 source("source_files/BNs.R")
+
+## removing objects that are no longer needed ####
+rm(list=setdiff(ls(), "network_bn_fit"))
 
 ## Water supply adequacy partial  ####
 
@@ -222,10 +222,9 @@ min_plots_width_in = 2.63
 max_plots_width_in = 7.5
 max_plots_height_in = 8.75
 min_plots_res=300
-max_plots_res = 600
 bnplots_compression = "lzw"
-bnplots_family = 'sans'
-bnplots_font = 2
+bnplots_family = 'serif' # 'sans'
+bnplots_font = 1 # 2
 
 ## exporting the plot to file.####
 export_fun <- function(export, output_dir = "figures"){
@@ -266,7 +265,93 @@ A split-split plot experiment with 10 repetitions was used to test the effect of
 
 #### Results and Discussions
 
-An ANOVA was conducted to test the effects of soil type, manure application and the amount of harvested flood water on the available soil water for crops at the initial stage of crop development using a split-split plot experimental design. It appears that all treatments and their interactions are statistically significant (p < 0.05; Table 1; Suppl.) for the 3 states of the target node expect the interaction between the treatments Amount of flood reaching the plot and Manure application when the target is set to waterlogging (p > 0.05; Table 1; Suppl.). Blocks effect are not statistically significant (p < 0.05) owing to their negligible contribution in the experiment.
+```{r, include = FALSE, echo = FALSE, cache = FALSE}
+## constructing the evidence list ####
+evidence <- c("Manure_application", "Soil_type", "Amount_of_flood_reaching_the_plot_at_initial_stage")
+evidence <- sapply(evidence, function (i){
+  dimnames(network_bn_fit[[i]][['prob']])[[1]]
+})
+
+evidence <- expand.grid(evidence, stringsAsFactors = FALSE)
+evidence <- evidence[c('Soil_type', 'Manure_application', 'Amount_of_flood_reaching_the_plot_at_initial_stage')]
+
+bloks = 1:10
+evidence <- lapply(bloks, function(i){
+  cbind(block = rep(i, nrow(evidence)), evidence)
+})
+evidence <- do.call(rbind, evidence)
+evidence <- evidence[order(evidence$Amount_of_flood_reaching_the_plot_at_initial_stage),]
+# evidence <- sapply(evidence, as.character)
+make_evidence <- function(evidence_matrix){
+  tmp <- 1:nrow(evidence_matrix)
+  names(tmp) <- paste0('Traitment_', tmp)
+  sapply(tmp, function(i){
+    out <- evidence_matrix[i, ]
+    # out <- as.character(out)
+    names(out) <- colnames(evidence_matrix)
+    out
+    
+  }, simplify = FALSE)
+}
+evidence_list <- make_evidence(sapply(evidence[, -1], as.character))
+
+format_bnlearn_evidence <- function(x){
+  # parse(text=paste0('(',names(x),'==',"'", x,"'",")",collapse = '&'))
+  paste0('(',names(x),'==',"'", x,"'",")",collapse = '&')
+  
+}
+
+evidence_list <- sapply(evidence_list, format_bnlearn_evidence, simplify = FALSE, USE.NAMES = TRUE)
+
+
+ssp = sapply(evidence_list, function(i) {
+  out = parse(text=paste0('bnlearn::cpdist', '(', 'network_bn_fit', ',', "'", 'Available_soil_water_at_initial_stage',"'" , ',', i,')'))
+  out = eval(out)
+  out = table(out)
+  out/sum(out, na.rm = TRUE)
+}, simplify = F, USE.NAMES = TRUE)
+
+
+ssp = data.frame(evidence, do.call(rbind, ssp), stringsAsFactors = FALSE)
+ssp$query <- lapply(1:nrow(ssp), function(i){
+  paste0((ssp[i, 2:4]), collapse = "\n")
+})
+
+ssp$query <- factor(ssp$query, levels = unique(ssp$query))
+ssp  <- reshape::melt(ssp, id.vars = names(ssp)[c(1:4, 8)])
+library(ggplot2)
+bnplots_family <- 'serif'
+bnplots_font <- 12
+my_theme <- theme_bw(base_size = bnplots_font+4, base_family = bnplots_family) +
+  theme(panel.grid.minor.x = element_blank(),
+        strip.background.x = element_blank(),
+        legend.title = element_blank(),
+        # remove facet spacing on x-direction
+        panel.spacing.x = unit(0,"line"))
+
+```
+
+```{r figs,echo=FALSE,fig.width=14.2,fig.height=7.14,dpi=min_plots_res,fig.cap="\\label{fig:figs} Effect of the states of soil type manure application and flood water on the available soil water content at initial stage of crop development in Kisumu and Tigray"}
+
+ggplot(data = ssp, aes(x=variable, y = value, fill = variable))+
+  geom_boxplot()+
+  facet_grid(.~Soil_type+Manure_application+Amount_of_flood_reaching_the_plot_at_initial_stage, 
+             space = 'free_x', scales = 'free_x', switch = 'x')+
+  scale_fill_discrete(labels = function(x) gsub("[.]", " ", x))+
+  labs(x = "Factors of available soil water", y = "Probability of available soil water")+
+  my_theme +
+  # switch the facet strip label to outside 
+  # remove background color
+  theme(strip.placement = 'outside',
+        axis.text.x = element_blank(),
+         axis.title = element_text(size = bnplots_font+8),
+        legend.text = element_text(size = bnplots_font+8),
+        legend.position = 'top',
+        legend.spacing.x = unit(1.0, 'cm')
+       )
+```
+
+  An ANOVA was conducted to test the effects of soil type, manure application and the amount of harvested flood water on the available soil water for crops at the initial stage of crop development using a split-split plot experimental design. It appears that all treatments and their interactions are statistically significant (p < 0.05; Table 1; Suppl.) for the 3 states of the target node expect the interaction between the treatments Amount of flood reaching the plot and Manure application when the target is set to waterlogging (p > 0.05; Table 1; Suppl.). Blocks effect are not statistically significant (p < 0.05) owing to their negligible contribution in the experiment.
 The post hoc test (Figure 11; Suppl.) revealed that clay soils are better for soil water contrary to sandy ones. Even without manure addition and little amount of flood, drought is unlikely to occur under clayey soils. A similar situation is observed under sandy soils when it comes to waterlogging. While drought is not expected under both clayey and sandy soils supplemented with manure and good flood, the risk of waterlogging is eminent particularly under clayey soils. In general, normal conditions are rather rare as result of scoring probability below 0.5 expect in the sandy soils which have low chance for waterlogging. In general, drought, contrary to waterlogging, is equally unlikely under both loamy and clayey regardless of the manure application if at least the desired amount of flood is expected . 
 
 ### Probabilistic Assessment of Biomass Accumulation in Major Crops grown under FBFS in Kisumu, Kenya and Tigray, Ethiopia.
