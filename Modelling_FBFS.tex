@@ -1,4 +1,4 @@
-\documentclass[11pt,preprint]{article}
+\documentclass[12pt,oneside]{article}
 \usepackage[]{mathpazo}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -77,17 +77,37 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{May 07, 2019}
+    \date{May 11, 2019}
 
-\usepackage{hyperref} \usepackage{titlesec} \renewcommand{\thesection}{\Roman{section}.} \renewcommand{\thesubsection}{\thesection\arabic{subsection}.} \renewcommand{\thesubsubsection}{\thesubsection\arabic{subsubsection}.} \renewcommand{\theparagraph}{\normalsize\itshape} \renewcommand{\thesubparagraph}{\small\textit}
+% \documentclass{article} https://tex.stackexchange.com/questions/60209/how-to-add-an-extra-level-of-sections-with-headings-below-subsubsection
+\makeatletter
+% Editing the default numbering style
+\renewcommand{\thesection}{\Roman{section}.}
+\renewcommand{\thesubsection}{\thesection\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\thesubsection\arabic{subsubsection}.}
 
-\titlespacing{\section}{\parskip}{12pt plus 2pt minus 1pt}{0pt plus 1pt minus 1pt}
-\titlespacing{\subsection}{9pt}{12pt plus 2pt minus 1pt}{0pt plus 1pt minus 1pt}
-\titlespacing{\subsubsection}{27pt}{12pt plus 2pt minus 1pt}{0pt plus 1pt minus 1pt}
-\titlespacing{\paragraph}{54pt}{12pt plus 2pt minus 1pt}{0pt plus 1pt minus 1pt}
-\titlespacing{\subparagraph}{54pt}{12pt plus 2pt minus 1pt}{0pt plus 1pt minus 1pt}
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+            {-2.5ex\@plus -1ex \@minus -.25ex}%
+            {1.25ex \@plus .25ex}%
+            {\normalfont\normalsize\bfseries}}   
 
-\titleformat{\subparagraph}{}{\small\textit}{1em}{\itshape}
+% \renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+%             {-1.25ex\@plus -1ex \@minus -.30ex}%
+%             {1.00ex \@plus .30ex}%
+%             {\normalfont\normalsize\bfseries}}
+            
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+            {-1.25ex\@plus -1ex \@minus -.30ex}%
+            {1.00ex \@plus .30ex}%
+            {\normalfont\normalsize\bfseries\itshape}}  
+            
+\renewcommand{\theparagraph}{\thesubsubsection\arabic{paragraph}.}
+\renewcommand{\thesubparagraph}{\theparagraph\arabic{subparagraph}.}
+
+
+\makeatother
+\setcounter{secnumdepth}{3} % how many sectioning levels to assign numbers to
+\setcounter{tocdepth}{5}    % how many sectioning levels to show in ToC
 
 \begin{document}
 \maketitle
@@ -174,12 +194,14 @@ systems' complexity and imperfect information. We argue that crop models
 should consider data uncertainty and find ways to include data inputs of
 varying nature, origin and quality. We demonstrate the usefulness and
 usability of this concept by developing a flexible crop model for
-Flood-based Farming Systems (FBFS). FBFS are agricultural systems
-receiving additional irrigation from various types of non-harmful floods
-that are unpredictable, of short duration, of low annual frequency and
-occurring in relatively low-lying areas with gentle topography. In FBFS,
-water supply to crops is often determined by complex socio-institutional
-arrangements for water acquisition and
+Flood-based Farming Systems (FBFS).
+
+FBFS are agricultural systems receiving additional irrigation from
+various types of non-harmful floods that are unpredictable, of short
+duration, of low annual frequency and occurring in relatively low-lying
+areas with gentle topography. In FBFS, water supply to crops is often
+determined by complex socio-institutional arrangements for water
+acquisition and
 sharing.\textsuperscript{\protect\hyperlink{ref-Haile_2010}{8},\protect\hyperlink{ref-VanSteenbergen_et_al_2010}{9}}
 In this contexts, floods are not natural disasters but temporary
 situations of excess water, driven by the natural variability as in the
@@ -191,9 +213,11 @@ such that the water availability is governed by recurrent floods
 followed by recession providing opportunities for farming. Many
 authors\textsuperscript{\protect\hyperlink{ref-Harlan_Pasquereau_1969}{11}--\protect\hyperlink{ref-VanSteenbergen_et_al_2011}{14}}
 have stressed their importance for rural livelihoods in different
-communities. Water management practices in FBFS take advantage of
-extreme rainfall variability by saving water against potential drought.
-However, FBFS also pose many challenges for agricultural
+communities.
+
+Water management practices in FBFS take advantage of extreme rainfall
+variability by saving water against potential drought. However, FBFS
+also pose many challenges for agricultural
 production,\textsuperscript{\protect\hyperlink{ref-VanSteenbergen_et_al_2010}{9},\protect\hyperlink{ref-Puertas_et_al_2011}{13}}
 many of which are related to the timing, frequency or size of
 flood.\textsuperscript{\protect\hyperlink{ref-Puertas_et_al_2011}{13}}
@@ -213,6 +237,7 @@ productivity because of the lack of risk assessment procedures suited to
 FBFS. Such a decision support gap results in substantial opportunity
 loss in many
 context.\textsuperscript{\protect\hyperlink{ref-Erkossa_et_al_2014}{15},\protect\hyperlink{ref-Hardaker_et_al_2015}{16}}
+
 The promises of spate irrigation (a variant of FBFS) compared to rainfed
 agriculture has been reported in Kobo (Ethiopia) as four times and
 double yield increase respectively for pepper and
@@ -256,30 +281,29 @@ social and institutional arrangements) found in FBFS.
 \hypertarget{study-area}{%
 \section{Study Area}\label{study-area}}
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics{figures/Modelling_FBFS_study_area}
-    \caption{Differences in the practices of FBFS in Tigray region (Ethiopia) and Kisumu County                (Kenya).
-    \label{Figure_1}}
-\end{figure}
-
 The study areas, namely the Kisumu County and the Tigray region
 respectively in Kenya and Ethiopia, are located within relatively
 low-lying lands with differences regarding the management of agronomic
-flooding and other agricultural practices (Figure \ref{Figure_1}). While
-FBFS in Kisumu mainly source their water from permanent reservoirs via
-inundation canals, those in Tigray mostly obtain their water from
-ephemeral rivers where farmers are required to divert important amounts
-of spate flow within a relatively short period of time. Communities in
-the two study areas employ specific strategies for flood and land
-management (Figure \ref{Figure_1}). These differences were addressed by
-a stratified sampling frame applied during field work. In the Tigray
-region (Ethiopia), three schemes including Tsige'a (39.59967° N,
-12.79827° E), Harosha (39.62788° N, 12.31102° E), and Dayu (39.60545° N,
-12.47372° E) were sampled to capture different flood water diversion
-strategies. While the flood is diverted using improved water diversion
-in Tsige'a, traditional and modern ones are found respectively in
-Harosha and Dayu. Here, traditional flood water diversions are to be
+flooding and other agricultural practices (Figure
+\ref{figures:figure_1}). While FBFS in Kisumu mainly source their water
+from permanent reservoirs via inundation canals, those in Tigray mostly
+obtain their water from ephemeral rivers where farmers are required to
+divert important amounts of spate flow within a relatively short period
+of time.
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/Modelling_FBFS_study_area} \caption{\label{figures:figure_1}Differences in the practices of FBFS in Kisumu County (Kenya) and Tigray region (Ethiopia)}\label{fig:figure_1}
+\end{figure}
+
+Communities in the two study areas employ specific strategies for flood
+and land management (Figure \ref{figures:figure_1}). These differences
+were addressed by a stratified sampling frame applied during field work.
+In the Tigray region (Ethiopia), three schemes including Tsige'a
+(39.59967° N, 12.79827° E), Harosha (39.62788° N, 12.31102° E), and Dayu
+(39.60545° N, 12.47372° E) were sampled to capture different flood water
+diversion strategies. While the flood is diverted using improved water
+diversion in Tsige'a, traditional and modern ones are found respectively
+in Harosha and Dayu. Here, traditional flood water diversions are to be
 understood as physical infrastructures (e.g.~deflecting spurs, soil
 bunds) constructed by the farmers across flood channels using locally
 available materials. In modern ones, concrete infrastructures
@@ -302,18 +326,18 @@ other locations in that it also serves as a safe disposal for excessive
 water in East Kano. In East Nyankach, water is obtained through runoff
 harvesting via various household ponds and water tanks. These
 differences have important implications for water supply, social
-organization, and crops grown under FBFS (Figure \ref{Figure_1}). For
-example, risks related to water supply may be more prominent in the
-Out-growers' scheme compared to the schemes managed by the NIB. While
-the water sources and acquisition procedures vary under rice-based
-systems in Kisumu (i.e.~Awach Kano, East Kano, West Kano, Out-growers),
-cultural practices are similar. In these areas, rice is sown (after
-tillage and flooding) in monocultures during floods, followed by various
-types of flood recession crops that are intercropped depending on the
-farmer and water availability (Figure \ref{Figure_1}). In Tigray,
-however, crops (mainly Maize, Sorghum, Teff) are mostly sown based on
-rainfall to later be irrigated using flood water (Figure
-\ref{Figure_1}).
+organization, and crops grown under FBFS (Figure
+\ref{figures:figure_1}). For example, risks related to water supply may
+be more prominent in the Out-growers' scheme compared to the schemes
+managed by the NIB. While the water sources and acquisition procedures
+vary under rice-based systems in Kisumu (i.e.~Awach Kano, East Kano,
+West Kano, Out-growers), cultural practices are similar. In these areas,
+rice is sown (after tillage and flooding) in monocultures during floods,
+followed by various types of flood recession crops that are intercropped
+depending on the farmer and water availability (Figure
+\ref{figures:figure_1}). In Tigray, however, crops (mainly Maize,
+Sorghum, Teff) are mostly sown based on rainfall to later be irrigated
+using flood water (Figure \ref{figures:figure_1}).
 
 \hypertarget{materials-and-methods}{%
 \section{Materials and methods}\label{materials-and-methods}}
@@ -328,16 +352,17 @@ The modelling concept is based on two different probabilistic
 approaches, the MC simulation for handling continuous variables, and the
 BNs for handling the discrete ones, as mentioned earlier. The resulting
 models, embedding complex relationships among several processes of high
-agricultural importance, were interfaced (Figure \ref{Figure_2}) to
-provide quantitative assessment in FBFS. Our goal was to develop a
+agricultural importance, were interfaced (Figure \ref{figures:figure_2})
+to provide quantitative assessment in FBFS. Our goal was to develop a
 detailed description of the important processes, highlighting the
 factors of risk and uncertainty, that influence crops development and
-production focusing on various yield metrics (Figure \ref{Figure_2}).
-Towards this end, the conceptual framework (Figure \ref{Figure_2})
-defines a farmland as the smallest entity evolving within a complex
-farming system where processes, fulfilling specific functions, are
-driven by several variables. These variables defining various biotic and
-abiotic factors are, in turn, moderated by a package of agricultural
+production focusing on various yield metrics (Figure
+\ref{figures:figure_2}). Towards this end, the conceptual framework
+(Figure \ref{figures:figure_2}) defines a farmland as the smallest
+entity evolving within a complex farming system where processes,
+fulfilling specific functions, are driven by several variables. These
+variables defining various biotic and abiotic factors are, in turn,
+moderated by a package of agricultural
 practices.\textsuperscript{\protect\hyperlink{ref-Jax_and_Setala_2005}{17}}
 The interactions between these and the resulting low-level functions and
 processes profile the farmland in terms of relevant farming constraints.
@@ -367,15 +392,12 @@ leading to key intermediate variables were used to ultimately assess the
 level of farming constraints using low-level BNs estimating the
 probability of farming constraint at plot level. These local BNs were
 connected to be used as synthetic inputs for the MC model (Figure
-\ref{Figure_3}; Suppl.) describing the crop development stages following
-the FAO
+\ref{figures:figure_3}; Suppl.) describing the crop development stages
+following the FAO
 nomenclature.\textsuperscript{\protect\hyperlink{ref-Allen_et_al_1998}{18}}
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics{figures/Modelling_FBFS_conceptual_framework}
-    \caption{Conceptual framework of important processes to include in the development of a mixed     model describing FBFS in Kenya and Ethiopia.
-    \label{Figure_2}}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/Modelling_FBFS_conceptual_framework} \caption{\label{figures:figure_2}Conceptual framework of important processes to include in the development of a mixed model describing FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:figure_2}
 \end{figure}
 
 A Monte Carlo simulation is an intensive computation, where each unknown
@@ -427,15 +449,15 @@ assessment.\textsuperscript{\protect\hyperlink{ref-Hubbard_2014}{22},\protect\hy
 Specifications}\label{methodological-specifications}}
 
 We use an MC model to specify deterministic relationships targeting
-several unknown (dependent) variables (Figure \ref{Figure_2}) and
-estimate them based on random values of the known (independent) ones
+several unknown (dependent) variables (Figure \ref{figures:figure_2})
+and estimate them based on random values of the known (independent) ones
 used as inputs for deterministic relationship linking the dependent to
 the independent
 variables.\textsuperscript{\protect\hyperlink{ref-Rosenstock_et_al_2014}{24},\protect\hyperlink{ref-Luedeling_et_al_2015}{26}}
 The BNs were used as multivariate models specifying the probabilities of
 the states of unknown variables conditional on the probabilities of the
-states of the known ones (Figure \ref{Figure_2}) as specified in a
-causal relationships between these discrete
+states of the known ones (Figure \ref{figures:figure_2}) as specified in
+a causal relationships between these discrete
 variables.\textsuperscript{\protect\hyperlink{ref-Pearl_1988}{19},\protect\hyperlink{ref-Jensen_1996}{21}}
 The MC model was based on the `yield gap' concept where yield is
 crop-specific, primarily determined by the genetic potential of the
@@ -495,13 +517,15 @@ information, including literature, online databases, expert knowledge
 elicitation, farmer and expert interviews and remote sensing. The model
 development process consisted of 5 sequential steps aiming at developing
 theories to be contextualised with farmers' realities (Figure
-\ref{Figure_3}). We reviewed the essential literature regarding the
-subject (literature review) to understand the concept, design broad
+\ref{figures:figure_3}). We reviewed the essential literature regarding
+the subject (literature review) to understand the concept, design broad
 leading questions, and target potential experts for interviews (high
 level discussion with experts). These high-level discussions provided
 the theoretical framework and leading questions for focus group
 discussions with farmers and meetings with local experts upon which
-individuals farmers interviews were conducted (Figure \ref{Figure_3}).
+individuals farmers interviews were conducted (Figure
+\ref{figures:figure_3}).
+
 The literature review covered most of the flood-based livelihood network
 database\textsuperscript{\protect\hyperlink{ref-FBLN_2018}{12}} and
 extended to other relevant sources. The high-level discussion involved
@@ -523,11 +547,8 @@ training\textsuperscript{\protect\hyperlink{ref-Hubbard_2014}{22},\protect\hyper
 and the available data. Following the 5 steps, we adopted a procedure
 where participants led the discussions depending on their expertise.
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics{figures/Modelling_FBFS_approach_overview}
-    \caption{Overview of the approach used to develop the crop model for FBFS in Kenya and            Ethiopia.
-    \label{Figure_3}}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/Modelling_FBFS_approach_overview} \caption{\label{figures:figure_3}Overview of the approach used to develop the crop model for FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:figure_3}
 \end{figure}
 
 \hypertarget{data-processing}{%
@@ -602,12 +623,14 @@ to generate the probabilities of farming constraints conditional on
 different combination of the states of variables involved in the BNs.
 The farming constraint was then used as a loss factor along with the
 other quantitative yield metrics (see section III.1) to feed the MC
-model (Figure \ref{Figure_2}). The BNs were programmed to provide the
-90\% confidence probability distribution, the minimal, the maximal, and
-the median values of the farming constraint factor. Note that the
-probability distributions of the node farming constraints were chosen,
-at each stage of crop development, based on reasonable bounds for
-skewness and kurtosis via visual observation supported by
+model (Figure \ref{figures:figure_2}).
+
+The BNs were programmed to provide the 90\% confidence probability
+distribution, the minimal, the maximal, and the median values of the
+farming constraint factor. Note that the probability distributions of
+the node farming constraints were chosen, at each stage of crop
+development, based on reasonable bounds for skewness and kurtosis via
+visual observation supported by
 bootstrapping.\textsuperscript{\protect\hyperlink{ref-Delignette-Muller_and_Dutang_2015}{35}}
 We fitted several candidate distributions using the fitdist function
 from the fitdistrplus
@@ -644,18 +667,15 @@ used to describe 5 important FBFS processes. These processes were then
 used to describe the farming constraints which was considered as
 quantitative node to be part of the 32 nodes of the MC model. The
 further modelling process includes four work streams (Figure
-\ref{Figure_4}), represented by the individual variables (e.g.~soil
-nutrients in pink), the local BNs (e.g.~cropping options in green)
-describing the sub-processes formed by these variables, the main BNs
-describing the farming constraints (in greenish yellow) to which these
-local BNs converge, and the crop development subject to the farming
-constraints (light green).
+\ref{figures:figure_4}), represented by the individual variables
+(e.g.~soil nutrients in pink), the local BNs (e.g.~cropping options in
+green) describing the sub-processes formed by these variables, the main
+BNs describing the farming constraints (in greenish yellow) to which
+these local BNs converge, and the crop development subject to the
+farming constraints (light green).
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics{figures/Modelling_FBFS_model_overview}
-    \caption{Conceptual model used to integrate the local BNs as part of a mixed model describing     input allocation and agricultural management in FBFS in Kenya and Ethiopia.
-    \label{Figure_4}}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/Modelling_FBFS_model_overview} \caption{\label{figures:figure_4}Conceptual model used to integrate the local BNs as part of a mixed model describing input allocation and agricultural management in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:figure_4}
 \end{figure}
 
 \hypertarget{case-studies}{%
@@ -701,17 +721,15 @@ this end, we queried the BNs sub-model targeting the node available soil
 water (AvailSoilWater) conditional on different combination of the
 states of 3 parent nodes that are relevant for soil water. These are the
 nodes amount of flood reaching the plot (FloodReachsPlot) which is a
-direct parent (Figure \ref{Figure_5}), the soil type (SoilType) and the
-manure application (ManureApp) which are ancestors (indirect parents).
+direct parent (Figure \ref{figures:figure_5}), the soil type (SoilType)
+and the manure application (ManureApp) which are ancestors (indirect
+parents).
 
 \hypertarget{materials-and-method}{%
 \paragraph{Materials and Method}\label{materials-and-method}}
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics{figures/190428_CHART_Avail_soil_water_Partial}
-    \caption{Illustration of the causality defining the factor of soil water content in FBFS in       Kenya and Ethiopia.
-    \label{Figure_5}}
+\begin{figure}
+\includegraphics[width=1\linewidth]{figures/Modelling_FBFS_Avail_soil_water} \caption{\label{figures:figure_5}Illustration of the causality defining the factor of soil water content in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:figure_5}
 \end{figure}
 
 A split-split plot experiment with 10 repetitions was used to test the
@@ -735,6 +753,15 @@ R.\textsuperscript{\protect\hyperlink{ref-DeMendiburu_2016}{39},\protect\hyperli
 \hypertarget{results-and-discussions}{%
 \paragraph{Results and Discussions}\label{results-and-discussions}}
 
+\begin{figure}
+\centering
+\includegraphics{Modelling_FBFS_files/figure-latex/figure_6-1.pdf}
+\caption{\label{figures:figure_6}Effect of the states of soil type
+manure application and flood water on the available soil water content
+at initial stage of crop development in Kisumu (Kenya) and Tigray
+(Ethiopia).}
+\end{figure}
+
 An ANOVA was conducted to test the effects of soil type, manure
 application and the amount of harvested flood water on the available
 soil water for crops at the initial stage of crop development using a
@@ -745,18 +772,20 @@ interaction between the treatments Amount of flood reaching the plot and
 Manure application when the target is set to waterlogging (p
 \textgreater{} 0.05; Table 1; Suppl.). Blocks effect are not
 statistically significant (p \textless{} 0.05) owing to their negligible
-contribution in the experiment. The post hoc test (Figure 11; Suppl.)
-revealed that clay soils are better for soil water contrary to sandy
-ones. Even without manure addition and little amount of flood, drought
-is unlikely to occur under clayey soils. A similar situation is observed
-under sandy soils when it comes to waterlogging. While drought is not
-expected under both clayey and sandy soils supplemented with manure and
-good flood, the risk of waterlogging is eminent particularly under
-clayey soils. In general, normal conditions are rather rare as result of
-scoring probability below 0.5 expect in the sandy soils which have low
-chance for waterlogging. In general, drought, contrary to waterlogging,
-is equally unlikely under both loamy and clayey regardless of the manure
-application if at least the desired amount of flood is expected .
+contribution in the experiment.
+
+The post hoc test (Figure 11; Suppl.) revealed that clay soils are
+better for soil water contrary to sandy ones. Even without manure
+addition and little amount of flood, drought is unlikely to occur under
+clayey soils. A similar situation is observed under sandy soils when it
+comes to waterlogging. While drought is not expected under both clayey
+and sandy soils supplemented with manure and good flood, the risk of
+waterlogging is eminent particularly under clayey soils. In general,
+normal conditions are rather rare as result of scoring probability below
+0.5 expect in the sandy soils which have low chance for waterlogging. In
+general, drought, contrary to waterlogging, is equally unlikely under
+both loamy and clayey regardless of the manure application if at least
+the desired amount of flood is expected .
 
 \hypertarget{probabilistic-assessment-of-biomass-accumulation-in-major-crops-grown-under-fbfs-in-kisumu-kenya-and-tigray-ethiopia.}{%
 \subsubsection{Probabilistic Assessment of Biomass Accumulation in Major
@@ -811,21 +840,22 @@ practice in the study areas. In general yield / yield gain vary
 according to farming constraints with relatively higher chance of low
 biomass with increasing farming constraints. While the variability is
 substantial with time and varying level of farming constraints, the
-distributions have not changed much. Based on the 90\% confidence
-intervals, the exploitable yield gap, the actual exploited yield gap,
-and the expected yield can nearly double between high and low farming
-constraints contrary to the yield opportunity loss . These have also
-exhibited interesting change with time. Zero chances of yield
-opportunity loss, which seems to have tied distribution and little
-change with time, are plausible with minimal farming constraints.
-However, there seems to be more of possibilities for high gains than
-there are for high losses in terms of exploitable yield gaps, and this
-has not much changed with time. In a nutshell, based on the 90\%
-confidence interval, there are possibilities for substantial increases
-in biomass yields biomass yield regardless of the level of the farming
-constraints. This increase, however, seems to be more important moving
-from high to medium level of constraints than it is between the medium
-and the low level.
+distributions have not changed much.
+
+Based on the 90\% confidence intervals, the exploitable yield gap, the
+actual exploited yield gap, and the expected yield can nearly double
+between high and low farming constraints contrary to the yield
+opportunity loss . These have also exhibited interesting change with
+time. Zero chances of yield opportunity loss, which seems to have tied
+distribution and little change with time, are plausible with minimal
+farming constraints. However, there seems to be more of possibilities
+for high gains than there are for high losses in terms of exploitable
+yield gaps, and this has not much changed with time. In a nutshell,
+based on the 90\% confidence interval, there are possibilities for
+substantial increases in biomass yields biomass yield regardless of the
+level of the farming constraints. This increase, however, seems to be
+more important moving from high to medium level of constraints than it
+is between the medium and the low level.
 
 \hypertarget{quantitative-grain-yield-variability-and-relative-performance-of-rice-and-sorghum-under-different-scenarios-for-water-and-crop-enemies-at-mid-stage-of-crop-development-in-flood-based-agriculture.}{%
 \subsubsection{Quantitative grain yield variability and relative
@@ -918,16 +948,18 @@ significant differences in the levels of the different treatments (p
 water which was not statistically significant in the ANOVA test. Crop
 type seems to be the most important factor of grain yield variability
 followed by the available soil water. Weeds impact seems to be the least
-important. In general, Rice outperformed Sorghum (diff = 6.76; p
-\textless{} 0.01; Table 3; Suppl. 33). When the farmer planned for both
-crops, waterlogging is worse than drought risk, particularly under well
-managed weeds (diff = -15.28 p \textless{} 0.01; Table 3; Suppl. 25).
-When proper pest \& diseases control is considered, waterlogging is
-better than drought conditions coupled with severe level of pests \&
-diseases (diff = -11.06; p \textless{} 0.01; Table 3; Suppl. 34). Rice
-under drought is better than Sorghum under waterlogging condition (diff
-= -92.02; p \textless{} 0.01; Table 3; Suppl. 25) regardless of the
-state of crop protection deployed for sorghum (diff \(\geq\) -55.53; p
+important.
+
+In general, Rice outperformed Sorghum (diff = 6.76; p \textless{} 0.01;
+Table 3; Suppl. 33). When the farmer planned for both crops,
+waterlogging is worse than drought risk, particularly under well managed
+weeds (diff = -15.28 p \textless{} 0.01; Table 3; Suppl. 25). When
+proper pest \& diseases control is considered, waterlogging is better
+than drought conditions coupled with severe level of pests \& diseases
+(diff = -11.06; p \textless{} 0.01; Table 3; Suppl. 34). Rice under
+drought is better than Sorghum under waterlogging condition (diff =
+-92.02; p \textless{} 0.01; Table 3; Suppl. 25) regardless of the state
+of crop protection deployed for sorghum (diff \(\geq\) -55.53; p
 \textless{} 0.01; Table 3; Suppl. 4 2 - 3). However, Sorghum under
 waterlogging outperformed Rice subjected to drought conditions (diff
 \(\geq\) -55.53; p \textless{} 0.01; Table 3; Suppl. 4 4 - 5) suggesting

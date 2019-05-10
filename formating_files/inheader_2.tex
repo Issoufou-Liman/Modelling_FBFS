@@ -1,0 +1,30 @@
+% \documentclass{article} https://tex.stackexchange.com/questions/60209/how-to-add-an-extra-level-of-sections-with-headings-below-subsubsection
+\makeatletter
+% Editing the default numbering style
+\renewcommand{\thesection}{\Roman{section}.}
+\renewcommand{\thesubsection}{\thesection\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\thesubsection\arabic{subsubsection}.}
+
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+            {-2.5ex\@plus -1ex \@minus -.25ex}%
+            {1.25ex \@plus .25ex}%
+            {\normalfont\normalsize\bfseries}}   
+
+% \renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+%             {-1.25ex\@plus -1ex \@minus -.30ex}%
+%             {1.00ex \@plus .30ex}%
+%             {\normalfont\normalsize\bfseries}}
+            
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+            {-1.25ex\@plus -1ex \@minus -.30ex}%
+            {1.00ex \@plus .30ex}%
+            {\normalfont\normalsize\bfseries\itshape}}  
+            
+\renewcommand{\theparagraph}{\thesubsubsection\arabic{paragraph}.}
+\renewcommand{\thesubparagraph}{\theparagraph\arabic{subparagraph}.}
+
+
+\makeatother
+\setcounter{secnumdepth}{3} % how many sectioning levels to assign numbers to
+\setcounter{tocdepth}{5}    % how many sectioning levels to show in ToC
+
