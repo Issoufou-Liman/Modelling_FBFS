@@ -70,7 +70,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE, dpi = 300)
+knitr::opts_chunk$set(echo = TRUE, tidy = 'formatR', cache = TRUE, dpi = 300)
 ```
 
 
@@ -144,6 +144,72 @@ knitr::include_graphics("figures/Modelling_FBFS_model_overview.png")
 ```
 
 ## Case studies
+```{r Setting the Scene, include = FALSE, echo = FALSE, cache = FALSE}
+
+set.seed(123)
+
+### Installing devtools package to get decisionSupportExtra from github ####
+if (!require("devtools")) {
+  install.packages("devtools")
+}
+
+## Installing decisionSupportExtra package from github ####
+if (!require("decisionSupportExtra")) {
+  devtools::install_github("Issoufou-Liman/decisionSupportExtra", build = TRUE, force = TRUE,
+                           upgrade = "always", build_opts = c("--no-resave-data", "--no-manual"))
+
+}
+
+## loading required packages ####
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(gRain,
+               bnlearn,
+               Rgraphviz,
+               ggplot2,
+               grid,
+               gridExtra,
+               decisionSupport,
+               fitdistrplus,
+               rriskDistributions,
+               scales
+)
+
+## Loading decisionSupportExtra package ####
+library(decisionSupportExtra)
+
+## Loading the Bayesian network ####
+source("source_files/BNs.R")
+
+## removing objects that are no longer needed ####
+rm(list=setdiff(ls(), "network_bn_fit"))
+
+## A function responsable plotting the locol BNs
+source("source_files/graphviz_chart_bn.R")
+
+## some common plots specifications
+legend_bg <- adjustcolor( "yellow", alpha.f = 0.15)
+plots_lwd <- 0.5
+min_plots_width_in <- 2.63
+max_plots_width_in <- 7.5
+max_plots_height_in <- 8.75
+min_plots_res <- 300
+plots_compression <- "lzw"
+plots_font_family <- 'serif' # 'sans'
+plots_font <- 1 # 2
+plot_font_size <- 12
+
+## exporting the plot to file.####
+export_fun <- function(export, output_dir = "figures"){
+  paste0(output_dir, '/', export, ".png")
+}
+
+my_theme <- theme_bw(base_size = plot_font_size + 4, base_family = plots_font_family) +
+  theme(panel.grid.minor.x = element_blank(),
+        strip.background.x = element_blank(),
+        legend.title = element_blank(),
+        # remove facet spacing on x-direction
+        panel.spacing.x = unit(0,"line"))
+```
 
 ### Qualitative Soil water Assessment under different Management Decisions at initial stage of crop development in Flood-based livelihood systems.
 
@@ -159,83 +225,46 @@ FBFS are possible solutions to the increasing rainfall variability and drought i
 
 #### Materials and Method
 
-```{r, include = FALSE, echo = FALSE, cache = TRUE}
+```{r case study 1 methods, include = FALSE, echo = FALSE, cache = FALSE}
 
-### Installing devtools package to get decisionSupportExtra from github ####
-if (!require("devtools")) {
-  install.packages("devtools")
-}
+## Available soil water BNs  ####
 
-## Installing decisionSupportExtra package from github ####
-if (!require("devtools")) {
-  devtools::install_github("Issoufou-Liman/decisionSupportExtra", build = TRUE, force = TRUE,
-                           upgrade = "always", build_opts = c("--no-resave-data", "--no-manual"))
+net <- bnlearn::model2network("[SoilType][ManureApp][SoilHoldWater|SoilType:ManureApp][EvapoTranspirat][InitWaterCont][RainAmount][FloodReachsPlot][AvailSoilWater|SoilHoldWater:EvapoTranspirat:RainAmount:InitWaterCont:FloodReachsPlot]")
 
-}
+abbr_node_names <- bnlearn::nodes(net)
 
-## Loading decisionSupportExtra package ####
-library(decisionSupportExtra)
+net <- bnlearn::model2network("[Soil_type][Manure_application][Soil_water_holding_capacity|Soil_type:Manure_application][Evapotranspiration_at_initial_stage][Initial_soil_water_content][Rainfall_amount_at_initial_stage][Amount_of_flood_reaching_the_plot_at_initial_stage][Available_soil_water_at_initial_stage|Soil_water_holding_capacity:Evapotranspiration_at_initial_stage:Rainfall_amount_at_initial_stage:Initial_soil_water_content:Amount_of_flood_reaching_the_plot_at_initial_stage]")
 
-## Loading the Bayesian network ####
-source("source_files/BNs.R")
+legende <- bnlearn::nodes(net)
 
-## removing objects that are no longer needed ####
-rm(list=setdiff(ls(), "network_bn_fit"))
+net <- decisionSupportExtra::extract_bn(bn = network_bn_fit, string_model = net)
 
-## Water supply adequacy partial  ####
+saveRDS(net, paste0("output_files", "/", substring(gsub(" ", "_", gsub('-|:', '', Sys.time())), 3), "_BNs_Case_study_1.rds"))
 
-soil_water_net <- bnlearn::model2network("[SoilType][ManureApp][SoilHoldWater|SoilType:ManureApp][EvapoTranspirat][InitWaterCont][RainAmount][FloodReachsPlot][AvailSoilWater|SoilHoldWater:EvapoTranspirat:RainAmount:InitWaterCont:FloodReachsPlot]")
-
-abbr_node_names <- bnlearn::nodes(soil_water_net)
-
-soil_water_net <- bnlearn::model2network("[Soil_type][Manure_application][Soil_water_holding_capacity|Soil_type:Manure_application][Evapotranspiration_at_initial_stage][Initial_soil_water_content][Rainfall_amount_at_initial_stage][Amount_of_flood_reaching_the_plot_at_initial_stage][Available_soil_water_at_initial_stage|Soil_water_holding_capacity:Evapotranspiration_at_initial_stage:Rainfall_amount_at_initial_stage:Initial_soil_water_content:Amount_of_flood_reaching_the_plot_at_initial_stage]")
-
-legende <- bnlearn::nodes(soil_water_net)
-
-soil_water_net <- decisionSupportExtra::extract_bn(bn = network_bn_fit, string_model = soil_water_net)
-
-bnlearn::nodes(soil_water_net) <- abbr_node_names[c(3, 1, 2, 4, 5, 6, 8, 7)]
+bnlearn::nodes(net) <- abbr_node_names[c(3, 1, 2, 4, 5, 6, 8, 7)]
 
 legende <- mapply(paste, abbr_node_names, sprintf('\u2192'), legende)
 legende <- gsub("_", " ",  legende)
 legende <- gsub(" at initial stage", "",  legende)
 
-source("source_files/graphviz_chart_bn.R")
-
-## some common plots specifications
-bn_legend_bg <- adjustcolor( "yellow", alpha.f = 0.15)
-plots_lwd <- 0.5
-min_plots_width_in <- 2.63
-max_plots_width_in <- 7.5
-max_plots_height_in <- 8.75
-min_plots_res <- 300
-bnplots_compression <- "lzw"
-bnplots_family <- 'serif' # 'sans'
-bnplots_font <- 1 # 2
-
-## exporting the plot to file.####
-export_fun <- function(export, output_dir = "figures"){
-  paste0(output_dir, '/', export, ".png")
-}
-
 png(export_fun(export = "Modelling_FBFS_Avail_soil_water"),
      res = min_plots_res,
      units = 'in',
-     # compression = bnplots_compression,
+     # compression = plots_compression,
      width = max_plots_width_in, 
      height = max_plots_height_in/2.75,
      pointsize = 10.5)
 
-par(font=bnplots_font, family = bnplots_family, lwd=plots_lwd)
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
 
-graphviz_chart_bn (x = soil_water_net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
                    grid = TRUE, scale = c(max_plots_height_in/2, max_plots_width_in), col = "black", bg = "transparent",
                    text.col = "black", bar.col = "green", strip.bg = "lightyellow", main = NULL,
                    sub = NULL, target_node="AvailSoilWater")
 
 legend('topleft', legend = legende, text.width = 0.6*strwidth(legende[which.max(nchar(legende))]), 
        cex=0.6, ncol = 2,
-       bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=bn_legend_bg,
+       bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=legend_bg,
        title = 'Legend', title.col = 'lightgreen', inset=c(0.04, 0.08))
 
 dev.off()
@@ -249,70 +278,19 @@ A split-split plot experiment with 10 repetitions was used to test the effect of
 
 #### Results and Discussions
 
-```{r, include = FALSE, echo = FALSE, cache = FALSE}
+```{r case study 1 results, include = FALSE, echo = FALSE, cache = FALSE}
 ## constructing the evidence list ####
-evidence <- c("Manure_application", "Soil_type", "Amount_of_flood_reaching_the_plot_at_initial_stage")
-evidence <- sapply(evidence, function (i){
-  dimnames(network_bn_fit[[i]][['prob']])[[1]]
-})
-
-evidence <- expand.grid(evidence, stringsAsFactors = FALSE)
-evidence <- evidence[c('Soil_type', 'Manure_application', 'Amount_of_flood_reaching_the_plot_at_initial_stage')]
+evidence <- c('Soil_type', 'Manure_application', 'Amount_of_flood_reaching_the_plot_at_initial_stage')
 
 bloks = 1:10
-evidence <- lapply(bloks, function(i){
-  cbind(block = rep(i, nrow(evidence)), evidence)
-})
-evidence <- do.call(rbind, evidence)
-evidence <- evidence[order(evidence$Amount_of_flood_reaching_the_plot_at_initial_stage),]
-# evidence <- sapply(evidence, as.character)
-make_evidence <- function(evidence_matrix){
-  tmp <- 1:nrow(evidence_matrix)
-  names(tmp) <- paste0('Traitment_', tmp)
-  sapply(tmp, function(i){
-    out <- evidence_matrix[i, ]
-    # out <- as.character(out)
-    names(out) <- colnames(evidence_matrix)
-    out
+ssp <- sapply(bloks, function (nothing){
+    out <- sample_cpdist(bn = network_bn_fit, node = "Available_soil_water_at_initial_stage",
+                         op = "proba", evidence = evidence, include_relatives = FALSE)
+    cbind(out$prior, out$posterior)
     
-  }, simplify = FALSE)
-}
-evidence_list <- make_evidence(sapply(evidence[, -1], as.character))
-
-format_bnlearn_evidence <- function(x){
-  # parse(text=paste0('(',names(x),'==',"'", x,"'",")",collapse = '&'))
-  paste0('(',names(x),'==',"'", x,"'",")",collapse = '&')
-  
-}
-
-evidence_list <- sapply(evidence_list, format_bnlearn_evidence, simplify = FALSE, USE.NAMES = TRUE)
-
-
-ssp = sapply(evidence_list, function(i) {
-  out = parse(text=paste0('bnlearn::cpdist', '(', 'network_bn_fit', ',', "'", 'Available_soil_water_at_initial_stage',"'" , ',', i,')'))
-  out = eval(out)
-  out = table(out)
-  out/sum(out, na.rm = TRUE)
 }, simplify = F, USE.NAMES = TRUE)
 
-
-ssp = data.frame(evidence, do.call(rbind, ssp), stringsAsFactors = FALSE)
-ssp$query <- lapply(1:nrow(ssp), function(i){
-  paste0((ssp[i, 2:4]), collapse = "\n")
-})
-
-ssp$query <- factor(ssp$query, levels = unique(ssp$query))
-ssp  <- reshape::melt(ssp, id.vars = names(ssp)[c(1:4, 8)])
-library(ggplot2)
-bnplots_family <- 'serif'
-bnplots_font <- 12
-my_theme <- theme_bw(base_size = bnplots_font+4, base_family = bnplots_family) +
-  theme(panel.grid.minor.x = element_blank(),
-        strip.background.x = element_blank(),
-        legend.title = element_blank(),
-        # remove facet spacing on x-direction
-        panel.spacing.x = unit(0,"line"))
-
+ssp  <- reshape::melt(ssp)
 ```
 
 ```{r figure_6,echo=FALSE,fig.width=14.2,fig.height=7.14,dpi=min_plots_res,fig.cap="\\label{figures:figure_6}Effect of the states of soil type manure application and flood water on the available soil water content at initial stage of crop development in Kisumu (Kenya) and Tigray (Ethiopia)."}
@@ -328,8 +306,8 @@ ggplot(data = ssp, aes(x=variable, y = value, fill = variable))+
   # remove background color
   theme(strip.placement = 'outside',
         axis.text.x = element_blank(),
-         axis.title = element_text(size = bnplots_font+8),
-        legend.text = element_text(size = bnplots_font+8),
+         axis.title = element_text(size = plot_font_size+8),
+        legend.text = element_text(size = plot_font_size+8),
         legend.position = 'top',
         legend.spacing.x = unit(1.0, 'cm')
        )
@@ -363,9 +341,443 @@ Many important risk factors for farmers; such as pest and diseases, weeds; are o
 
 #### Materials and Methods
 
+
+```{r case study 3 methods, include = FALSE, echo = FALSE, cache = FALSE}
+
+##Farming constraints partial  ####
+
+# net <- bnlearn::model2network("[Available_soil_nutrients_at_mid_stage][Available_soil_water_at_mid_stage][Previous_crop][Intercropping][Crop_variety][Planting_date][Effectiveness_of_Weeding_at_mid_stage][Weeds_impact_at_development_stage][Crop_type][Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage][Pest_and_desease_impact_at_development_stage][Weeds_impact_at_mid_stage|Effectiveness_of_Weeding_at_mid_stage:Weeds_impact_at_development_stage:Crop_type][Pest_and_desease_impact_at_mid_stage|Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage:Pest_and_desease_impact_at_development_stage:Crop_type][Agricultural_management_efficiency_at_mid_stage|Available_soil_nutrients_at_mid_stage:Pest_and_desease_impact_at_mid_stage:Weeds_impact_at_mid_stage][Water_supply_adequacy_at_mid_stage|Available_soil_water_at_mid_stage:Crop_type][Effectiveness_of_cropping_options|Previous_crop:Intercropping:Crop_variety:Planting_date:Crop_type][Local_constraints_at_mid_stage|Effectiveness_of_cropping_options:Water_supply_adequacy_at_mid_stage:Agricultural_management_efficiency_at_mid_stage]")
+
+net <- bnlearn::model2network("[Available_soil_nutrients_at_mid_stage][Available_soil_water_at_mid_stage][Effectiveness_of_Weeding_at_mid_stage][Weeds_impact_at_development_stage][Crop_type][Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage][Pest_and_desease_impact_at_development_stage][Weeds_impact_at_mid_stage|Effectiveness_of_Weeding_at_mid_stage:Weeds_impact_at_development_stage:Crop_type][Pest_and_desease_impact_at_mid_stage|Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage:Pest_and_desease_impact_at_development_stage:Crop_type][Agricultural_management_efficiency_at_mid_stage|Available_soil_nutrients_at_mid_stage:Pest_and_desease_impact_at_mid_stage:Weeds_impact_at_mid_stage][Water_supply_adequacy_at_mid_stage|Available_soil_water_at_mid_stage:Crop_type][Effectiveness_of_cropping_options|Crop_type][Local_constraints_at_mid_stage|Effectiveness_of_cropping_options:Water_supply_adequacy_at_mid_stage:Agricultural_management_efficiency_at_mid_stage]")
+
+# legende <- bnlearn::nodes(net)
+# 
+# legende = c(AgricManagEff = "Agricultural_management_efficiency_at_mid_stage", 
+#   AvailSoilNut = "Available_soil_nutrients_at_mid_stage", 
+#   AvailSoilWater = "Available_soil_water_at_mid_stage",
+#   CropType = "Crop_type",
+#   CropVariety = "Crop_variety", 
+#   EffCropOptions = "Effectiveness_of_cropping_options", 
+#   EffPestDiseaseReduc = "Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage", 
+#   EffWeeding = "Effectiveness_of_Weeding_at_mid_stage", 
+#   Intercropping = "Intercropping", 
+#   FarmConstraints = "Local_constraints_at_mid_stage", 
+#   PestDeseaseImpactDev = "Pest_and_desease_impact_at_development_stage",
+#   PestDeseaseImpact = "Pest_and_desease_impact_at_mid_stage", 
+#   PlantingDate = "Planting_date", 
+#   PreviousCrop = "Previous_crop", 
+#   AdeqWatSupl = "Water_supply_adequacy_at_mid_stage", 
+#   WeedsImpactDev = "Weeds_impact_at_development_stage", 
+#   WeedsImpact = "Weeds_impact_at_mid_stage"
+# )
+
+legende = c(AgricManagEff = "Agricultural_management_efficiency_at_mid_stage", 
+            AvailSoilNut = "Available_soil_nutrients_at_mid_stage", 
+            AvailSoilWater = "Available_soil_water_at_mid_stage",
+            CropType = "Crop_type",
+            EffCropOptions = "Effectiveness_of_cropping_options", 
+            EffPestDiseaseReduc = "Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage", 
+            EffWeeding = "Effectiveness_of_Weeding_at_mid_stage", 
+            FarmConstraints = "Local_constraints_at_mid_stage", 
+            PestDeseaseImpactDev = "Pest_and_desease_impact_at_development_stage",
+            PestDeseaseImpact = "Pest_and_desease_impact_at_mid_stage", 
+            AdeqWatSupl = "Water_supply_adequacy_at_mid_stage", 
+            WeedsImpactDev = "Weeds_impact_at_development_stage", 
+            WeedsImpact = "Weeds_impact_at_mid_stage"
+)
+net <- decisionSupportExtra::extract_bn(bn = network_bn_fit, string_model = net)
+
+saveRDS(net, paste0("output_files", "/", substring(gsub(" ", "_", gsub('-|:', '', Sys.time())), 3), "_BNs_Case_study_3.rds"))
+
+legende <- mapply(paste, names(legende), sprintf('\u2192'), legende)
+legende <- gsub("_", " ",  legende)
+legende <- gsub(" at mid stage", "",  legende)
+
+png(export_fun(export = "Modelling_FBFS_Farming_Constraints"),
+    res = min_plots_res,
+    units = 'in',
+    # compression = plots_compression,
+    width = max_plots_width_in, 
+    height = max_plots_height_in/2,
+    pointsize = 10.5)
+
+par(font=plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/2, max_plots_width_in), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow", main = NULL,
+                   sub = NULL, target_node="AvailSoilWater")
+
+legend('bottomleft', legend = legende, text.width = 0.59*strwidth(legende[which.max(nchar(legende))]), 
+       cex=0.59, ncol = 1,
+       bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=legend_bg,
+       title = 'Legend', title.col = 'lightgreen', inset=c(0.04, 0.08))
+
+dev.off()
+```
+
+```{r figure_7, echo=FALSE, out.width = '100%', fig.cap="\\label{figures:figure_7}Overview of causality defining the Farming constraints in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+knitr::include_graphics("figures/Modelling_FBFS_Farming_Constraints.png")
+```
+
 To assess the effect of pests, diseases, weeds, the available soil water and crop type on grain yield, a 2x2x2x2 factorial experiment was considered. These 4 treatments were tested in a completely randomized block design (Figure 14. Suppl.) where repetitions are 1000 model runs of the mcSimulation function [@Luedeling_and_Goehring_2018]. The rationale and the technical details on factorial/randomized block design can be found in @Panse_and_Sukhatme_1957 and @Gomez_and_Gomez_1984. For each of the 4 treatments, we selected the 2 extremes states of the corresponding node in BNs to derive a sequence of all possible combinations. These were then used as evidence to query the posterior distribution of the node farming constraint in the BNs. Scenarios were assumed at the mid stage of crop development. The results of the BN queries were used to provide customized estimates of the node farming constraints to the MC model as described in section III.3.2. The simulated grain yield data were then submitted to ANOVA and Tukey HSD post hoc testing using the agricolae package in R [@DeMendiburu_2016; @RCoreTeam_2018].
 
 #### Results
+
+```{r case study 3 results, include = FALSE, echo = FALSE, cache = FALSE}
+## constructing the evidence list ####
+evidence <- c("Pest_and_desease_impact_at_mid_stage", "Weeds_impact_at_mid_stage", "Crop_type", "Available_soil_water_at_mid_stage")
+evidence <- sapply(evidence, function (i){
+  out <- dimnames(network_bn_fit[[i]][['prob']])[[1]]
+  # Consider the extremes only 
+  out[c(1, length(out))]
+}, simplify = FALSE)
+
+evidence <- expand.grid(evidence)
+evidence <- sapply(evidence, as.character)
+
+make_evidence <- function(evidence_matrix){
+  tmp <- 1:nrow(evidence_matrix)
+  names(tmp) <- paste0('Traitment_', tmp)
+  sapply(tmp, function(i){
+    out <- evidence_matrix[i, ]
+    # out <- as.character(out)
+    names(out) <- colnames(evidence_matrix)
+    out
+    
+  }, simplify = FALSE)
+}
+
+evidence_list <- make_evidence(evidence)
+
+## Obversed and potential grain yield for various rainfed crops near kisumu county and tigray region ####
+
+source("data_files/yield.R")
+
+## relative biomass accumulation accross development stages
+stage_ratio = c(initial_stage = 0.27, mid_stage = 0.68, development_stage = 1, late_stage = 0.86)
+
+## proportion of grain yield relative to biomass yield #####
+harvest_index = c(0.2, 0.6)
+
+## A function for making an informed guess of biomass yield at each stage ####
+## This can also be used as checklist for the final prediction
+guess_biomass_yield = function(observed_grain_yield, 
+                               harvest_index = c(0.2, 0.6), 
+                               stage_ratio = c(initial_stage = 0.27, mid_stage = 0.68, development_stage = 1, late_stage = 0.86)){
+  harvest_index <- runif(1000, harvest_index[1], harvest_index[2]) # 
+  actu_bomass <- sapply(harvest_index, function(i){
+    observed_grain_yield/i
+  })
+  
+  actu_bomass <- sapply(stage_ratio, function (i){
+    i * actu_bomass 
+  }, simplify = TRUE, USE.NAMES = TRUE)
+  as.data.frame(na.omit(actu_bomass))
+}
+
+# bn nodes estimates ####
+
+Local_constraints_at_initial_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_initial_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1)) # , state_effects = c(0.9, 0.6, 0.1) # c(0.6, 0.3, 0.1)
+Local_constraints_at_development_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_development_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1))
+# Local_constraints_at_mid_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_mid_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1))
+# Local_constraints_at_late_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_late_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1))
+
+## yield potential estimate #####
+mc_nodes_estimates_biomass_yield_pot <- guess_decisionSupport_estimates (data = list(potential_grain_yield, harvest_index = harvest_index, 
+                                                                                     stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('gamma', 4), 
+                                                                         percentiles = c(0.025, 0.5, 0.975), plot = FALSE, show.output = FALSE)
+rownames(mc_nodes_estimates_biomass_yield_pot$marginal) <- paste0('biomass_Yield_Pot_', rownames(mc_nodes_estimates_biomass_yield_pot$marginal))
+
+## Attainable yield estimates : Median, Lowest and Highest ####
+
+mc_nodes_lower_exploitable_biomass_yield_pot <- data.frame(lower = c(initial_stage = 0.85-0.35, mid_stage = 0.80-0.35, development_stage = 0.75-0.35, late_stage = 0.70-0.35),
+                                                           median = c(initial_stage = 0.89-0.35, mid_stage = 0.87-0.35, development_stage = 0.80-0.35, late_stage = 0.71-0.35),
+                                                           upper = c(initial_stage = 0.90-0.35, mid_stage = 0.90-0.35, development_stage = 0.90-0.35, late_stage = 0.90-0.35),
+                                                           distribution = c(initial_stage = 'unif', mid_stage = 'unif', development_stage = 'unif', late_stage = 'unif'),
+                                                           method = c(initial_stage = 'fit', mid_stage = 'fit', development_stage = 'fit', late_stage = 'fit'),
+                                                           stringsAsFactors = FALSE)
+
+rownames(mc_nodes_lower_exploitable_biomass_yield_pot) <- paste0('lower_exploitable_biomass_yield_pot_', rownames(mc_nodes_lower_exploitable_biomass_yield_pot))
+mc_nodes_lower_exploitable_biomass_yield_pot <- as.estimate(mc_nodes_lower_exploitable_biomass_yield_pot)
+
+mc_nodes_mid_exploitable_biomass_yield_pot <-  data.frame(lower = c(initial_stage = 0.85-0.15, mid_stage = 0.80-0.15, development_stage = 0.75-0.15, late_stage = 0.70-0.15),
+                                                          median = c(initial_stage = 0.89-0.15, mid_stage = 0.87-0.15, development_stage = 0.80-0.15, late_stage = 0.71-0.15),
+                                                          upper = c(initial_stage = 0.90-0.15, mid_stage = 0.90-0.15, development_stage = 0.90-0.15, late_stage = 0.90-0.15),
+                                                          distribution = c(initial_stage = 'unif', mid_stage = 'unif', development_stage = 'unif', late_stage = 'unif'),
+                                                          method = c(initial_stage = 'fit', mid_stage = 'fit', development_stage = 'fit', late_stage = 'fit'),
+                                                          stringsAsFactors = FALSE)
+
+rownames(mc_nodes_mid_exploitable_biomass_yield_pot) <- paste0('mid_exploitable_biomass_yield_pot_', rownames(mc_nodes_mid_exploitable_biomass_yield_pot))
+mc_nodes_mid_exploitable_biomass_yield_pot <- as.estimate(mc_nodes_mid_exploitable_biomass_yield_pot)
+
+
+mc_nodes_upper_exploitable_biomass_yield_pot <- data.frame(lower = c(initial_stage = 0.85, mid_stage = 0.80, development_stage = 0.75, late_stage = 0.70),
+                                                           median = c(initial_stage = 0.89, mid_stage = 0.87, development_stage = 0.80, late_stage = 0.71),
+                                                           upper = c(initial_stage = 0.90, mid_stage = 0.90, development_stage = 0.90, late_stage = 0.90),
+                                                           distribution = c(initial_stage = 'unif', mid_stage = 'unif', development_stage = 'unif', late_stage = 'unif'),
+                                                           method = c(initial_stage = 'fit', mid_stage = 'fit', development_stage = 'fit', late_stage = 'fit'),
+                                                           stringsAsFactors = FALSE)
+rownames(mc_nodes_upper_exploitable_biomass_yield_pot) <- paste0('upper_exploitable_biomass_yield_pot_', rownames(mc_nodes_upper_exploitable_biomass_yield_pot))
+mc_nodes_upper_exploitable_biomass_yield_pot <- as.estimate(mc_nodes_upper_exploitable_biomass_yield_pot)
+
+mc_nodes_exploitable_biomass_yield_pot <- list(mc_nodes_lower_exploitable_biomass_yield_pot, mc_nodes_mid_exploitable_biomass_yield_pot, mc_nodes_upper_exploitable_biomass_yield_pot)
+
+## Average yield estimates: Median, Lowest and Highest ####
+cond <- get_boxplot_range_1d (observed_actual_grain_yield)
+mc_nodes_lower_average_actu_biomass_yield <- observed_actual_grain_yield[observed_actual_grain_yield >= cond[1] & observed_actual_grain_yield < cond[3]]
+mc_nodes_mid_average_actu_biomass_yield <- observed_actual_grain_yield[observed_actual_grain_yield >= cond[3] & observed_actual_grain_yield < cond[5]]
+mc_nodes_upper_average_actu_biomass_yield <- observed_actual_grain_yield[observed_actual_grain_yield >= cond[5] & observed_actual_grain_yield < cond[7]]
+
+mc_nodes_lower_average_actu_biomass_yield <- guess_decisionSupport_estimates (data = list(mc_nodes_lower_average_actu_biomass_yield, harvest_index = harvest_index,
+                                                                                          stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('gamma', 4),
+                                                                              percentiles = c(0.025, 0.5, 0.975), plot = FALSE, show.output = FALSE)
+rownames(mc_nodes_lower_average_actu_biomass_yield$marginal) <- paste0('lower_average_Actual_yield_', rownames(mc_nodes_lower_average_actu_biomass_yield$marginal))
+
+
+mc_nodes_mid_average_actu_biomass_yield <- guess_decisionSupport_estimates (data = list(mc_nodes_mid_average_actu_biomass_yield, harvest_index = harvest_index,
+                                                                                        stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('gamma', 4),
+                                                                            percentiles = c(0.025, 0.5, 0.975), plot = FALSE, show.output = FALSE)
+rownames(mc_nodes_mid_average_actu_biomass_yield$marginal) <- paste0('mid_average_Actual_yield_', rownames(mc_nodes_mid_average_actu_biomass_yield$marginal))
+
+
+mc_nodes_upper_average_actu_biomass_yield <- guess_decisionSupport_estimates (data = list(mc_nodes_upper_average_actu_biomass_yield, harvest_index = harvest_index,
+                                                                                          stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('gamma', 4),
+                                                                              percentiles = c(0.025, 0.5, 0.975), plot = FALSE, show.output = FALSE)
+rownames(mc_nodes_upper_average_actu_biomass_yield$marginal) <- paste0('upper_average_Actual_yield_', rownames(mc_nodes_upper_average_actu_biomass_yield$marginal))
+average_actu_biomass_yield_list <- list(mc_nodes_lower_average_actu_biomass_yield, mc_nodes_mid_average_actu_biomass_yield, mc_nodes_upper_average_actu_biomass_yield)
+
+## Running the MC similation ####
+
+model_function <- function(x){
+  # initial stage 
+  attainable_yield_at_initial_stage <- x[,2] * x[, 6] 
+  exploitable_yield_gap_at_initial_stage <- attainable_yield_at_initial_stage - x[,10]
+  
+  exploitable_yield_gap_loss_due_to_constraints_at_initial_stage <- exploitable_yield_gap_at_initial_stage * x[, 1]
+  actual_exploited_yield_gap_at_initial_stage <- exploitable_yield_gap_at_initial_stage - exploitable_yield_gap_loss_due_to_constraints_at_initial_stage
+  expected_actual_yield_at_initial_stage <- actual_exploited_yield_gap_at_initial_stage + x[, 10]
+  
+  initial_stage = list(
+    # attainable_yield_at_initial_stage = attainable_yield_at_initial_stage,
+    exploitable_yield_gap_at_initial_stage = exploitable_yield_gap_at_initial_stage,
+    exploitable_yield_gap_loss_due_to_constraints_at_initial_stage = exploitable_yield_gap_loss_due_to_constraints_at_initial_stage,
+    actual_exploited_yield_gap_at_initial_stage = actual_exploited_yield_gap_at_initial_stage,
+    expected_actual_yield_at_initial_stage=expected_actual_yield_at_initial_stage)
+  
+  # dev stage
+  exploitable_yield_gap_at_development_stage <- exploitable_yield_gap_at_initial_stage + (exploitable_yield_gap_at_initial_stage * x[,15])
+  exploitable_yield_gap_loss_due_to_constraints_at_development_stage <- exploitable_yield_gap_at_development_stage * x[, 14]
+  actual_exploited_yield_gap_at_development_stage <- exploitable_yield_gap_at_initial_stage - exploitable_yield_gap_loss_due_to_constraints_at_development_stage
+  expected_actual_yield_at_development_stage <- actual_exploited_yield_gap_at_development_stage + (expected_actual_yield_at_initial_stage * x[, 15])
+  
+  dev_stage = list(exploitable_yield_gap_at_development_stage = exploitable_yield_gap_at_development_stage,
+                   exploitable_yield_gap_loss_due_to_constraints_at_development_stage = exploitable_yield_gap_loss_due_to_constraints_at_development_stage,
+                   actual_exploited_yield_gap_at_development_stage = actual_exploited_yield_gap_at_development_stage,
+                   expected_actual_yield_at_development_stage = expected_actual_yield_at_development_stage)
+  
+  # mid stage
+  exploitable_yield_gap_at_mid_stage <- exploitable_yield_gap_at_development_stage + exploitable_yield_gap_at_development_stage * x[,17]
+  exploitable_yield_gap_loss_due_to_constraints_at_mid_stage <- exploitable_yield_gap_at_mid_stage * x[, 16]
+  actual_exploited_yield_gap_at_mid_stage <- exploitable_yield_gap_at_mid_stage - exploitable_yield_gap_loss_due_to_constraints_at_mid_stage
+  expected_actual_yield_at_mid_stage <-  actual_exploited_yield_gap_at_mid_stage + (expected_actual_yield_at_development_stage * x[, 17])
+  
+  mid_stage = list(exploitable_yield_gap_at_mid_stage = exploitable_yield_gap_at_mid_stage,
+                   exploitable_yield_gap_loss_due_to_constraints_at_mid_stage = exploitable_yield_gap_loss_due_to_constraints_at_mid_stage,
+                   actual_exploited_yield_gap_at_mid_stage = actual_exploited_yield_gap_at_mid_stage,
+                   expected_actual_yield_at_mid_stage = expected_actual_yield_at_mid_stage)
+  
+  # late stage
+  exploitable_yield_gap_at_late_stage <- exploitable_yield_gap_at_mid_stage + exploitable_yield_gap_at_mid_stage * x[,19]
+  exploitable_yield_gap_loss_due_to_constraints_at_late_stage <- exploitable_yield_gap_at_late_stage * x[, 18]
+  actual_exploited_yield_gap_at_late_stage <- exploitable_yield_gap_at_late_stage - exploitable_yield_gap_loss_due_to_constraints_at_late_stage
+  expected_actual_yield_at_late_stage <-  actual_exploited_yield_gap_at_late_stage + (expected_actual_yield_at_mid_stage * x[,19])
+  
+  late_stage = list(exploitable_yield_gap_at_late_stage = exploitable_yield_gap_at_late_stage,
+                    exploitable_yield_gap_loss_due_to_constraints_at_late_stage = exploitable_yield_gap_loss_due_to_constraints_at_mid_stage,
+                    actual_exploited_yield_gap_at_late_stage = actual_exploited_yield_gap_at_late_stage,
+                    expected_actual_yield_at_late_stage = expected_actual_yield_at_late_stage)
+  
+  # grain yield
+  actual_exploited_yield_gap = actual_exploited_yield_gap_at_late_stage * x[, 20]
+  exploitable_yield_gap = exploitable_yield_gap_at_late_stage * x[, 20]
+  expected_actual_yield = expected_actual_yield_at_late_stage * x[, 20]
+  exploitable_yield_gap_loss_due_to_constraints = exploitable_yield_gap_loss_due_to_constraints_at_mid_stage * x[, 20]
+  
+  grain_yield = list(exploitable_yield_gap = exploitable_yield_gap, 
+                     exploitable_yield_gap_loss_due_to_constraints = exploitable_yield_gap_loss_due_to_constraints,
+                     actual_exploited_yield_gap = actual_exploited_yield_gap,
+                     expected_actual_yield = expected_actual_yield)
+  
+  
+  ## Outputs
+  # out <- list(initial_stage = initial_stage, dev_stage = dev_stage, mid_stage = mid_stage, 
+  #             late_stage = late_stage, grain_yield = grain_yield)
+  
+  return(grain_yield)
+}
+
+
+begin <- Sys.time()
+rbind.estimate <- function(...){
+  if(
+    any(
+      sapply(
+        list(...), function(i){
+          !is(i, 'estimate')
+        }
+      )
+    )
+  )
+  {
+    stop('all objects should be of class estimates')
+  }
+  estimates_list <- list(...)
+  x <- lapply(
+    estimates_list, function (i){
+      out <- unclass(i)$marginal
+      out_nam <- row.names(out)
+      list (out, out_nam)
+    }
+  )
+  out_nam <- sapply(x, "[[", 2, simplify = FALSE)
+  x <- sapply(x, "[[", 1, simplify = FALSE)
+  x <- do.call(plyr::rbind.fill, x)
+  rownames(x) <- do.call("c", out_nam)
+  x=as.estimate(x)
+  return(x)
+}
+
+ssp <- sapply(evidence_list, function(evid){
+  Local_constraints_at_mid_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_mid_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1), evidence = evid, include_relatives = FALSE)
+  
+  Local_constraints_at_late_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_late_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1), evidence = evid, include_relatives = FALSE)
+  
+  tmp <- 1:length(Local_constraints_at_initial_stage_estimates)
+  names(tmp) <- names(Local_constraints_at_initial_stage_estimates)
+  est_int <- sapply(X=tmp, function(i){
+    rbind (Local_constraints_at_initial_stage_estimates [[i]],
+           mc_nodes_estimates_biomass_yield_pot,
+           mc_nodes_exploitable_biomass_yield_pot[[i]],
+           average_actu_biomass_yield_list[[i]]
+    )
+  }, simplify = FALSE, USE.NAMES = TRUE)
+  
+  ## Biomass yield at dev stage #####
+  
+  mc_nodes_biomass_exp_factor_dev <- estimate(distribution = 'gamma', lower = 0.27, upper = 0.68, variable= 'biomass_exp_factor_dev', method = 'fit')
+  
+  est_dev <- lapply(X=Local_constraints_at_development_stage_estimates, FUN = function(i){
+    lapply(est_int, FUN = rbind,
+           i,
+           mc_nodes_biomass_exp_factor_dev)
+  })
+  
+  ## Biomass yield at mid stage #####
+  
+  mc_nodes_biomass_exp_factor_mid <- estimate(distribution = 'gamma', lower = 0.68, upper = 1, variable= 'biomass_exp_factor_mid', method = 'fit')
+  
+  est_mid <- lapply(X=Local_constraints_at_mid_stage_estimates, FUN = function(i){
+    lapply(est_dev, function(j) {
+      lapply(j, function (k){
+        rbind(k, i, mc_nodes_biomass_exp_factor_mid)
+      })
+    })
+  })
+  
+  ## Biomass yield at late stage #####
+  
+  mc_nodes_biomass_exp_factor_late <- estimate(distribution = 'gamma', lower = 0.86, median = 0.95, upper = 1, variable= 'biomass_exp_factor_late', method = 'fit')
+  mc_nodes_harvest_index <- estimate(distribution = 'unif', lower = 0.2, median=0.4, upper = 0.6, variable= 'harvest_index', method = 'fit')
+  
+  est_late <- lapply(X=Local_constraints_at_late_stage_estimates, FUN = function(i){
+    lapply(est_mid, function(j) {
+      lapply(j, function(k){
+        lapply(k, function (l){
+          rbind(l, i, mc_nodes_biomass_exp_factor_late, mc_nodes_harvest_index)
+        })
+      })
+    })
+  })
+  
+  state_ids = 1:length(est_late)
+  names(state_ids) <- names(est_late)
+  
+  sapply(X=state_ids, function (i) {
+    sapply(est_late[[i]], function (j){
+      sapply(j, function(k){
+        sapply(k, function(l){
+          # mcSimulation(estimate = l, model_function = model_function, state_effects = state_effects [i], numberOfModelRuns=10000, functionSyntax="matrixNames")
+          mcSimulation(estimate = l, model_function = model_function, numberOfModelRuns=1000, functionSyntax="matrixNames")
+          
+        }, simplify = FALSE, USE.NAMES = TRUE)
+      }, simplify = FALSE, USE.NAMES = TRUE)
+    }, simplify = FALSE, USE.NAMES = TRUE)
+  }, simplify = FALSE, USE.NAMES = TRUE)
+  
+}, simplify = FALSE, USE.NAMES = TRUE)
+
+
+end <- Sys.time()
+end - begin
+
+saveRDS(ssp, paste0("output_files", "/", substring(gsub(" ", "_", gsub('-|:', '', Sys.time())), 3), "_model_predictions_Case_study_3.rds"))
+
+# ssp <- readRDS("output_files/190512092837_model_predictions_mid_stage_constraints_based_query.rds")
+
+ssp = sapply(X = 1:length(ssp), FUN = function(i){
+  out <- ggplot_mc_dens(ssp[[i]])$data
+  # out <- out[out$x >= 0, ]
+  out$trt <- rep(paste0('trt_', i), nrow(out))
+  out[, colnames(evidence)] <- matrix(evidence[i, ], nrow = nrow(out), ncol = ncol(evidence), byrow = T)
+  return(out)
+}, simplify = FALSE, USE.NAMES = TRUE)
+
+ssp <- do.call(rbind, ssp)
+head(ssp)
+# ssp <- reshape2::melt(ssp, id.vars = c("x", "y", "color", "color_equiv", "quant", "variable", "value", 
+#                                        "L5", "L4", "L3", "L2", "L1", "trt", "Crop_type"))
+# head(ssp)
+
+ssp <- ssp[(ssp$L5 == 'expected_actual_yield')&
+                         (ssp$L4 == "Local_constraints_at_initial_stage=Low")&
+                         (ssp$L3 == "Local_constraints_at_development_stage=Low")&
+                         (ssp$L2 == "Local_constraints_at_mid_stage=Low")&
+                         (ssp$L1 == "Local_constraints_at_late_stage=Low"), ]
+
+labellers <- labeller(
+                      # Available_soil_water_at_mid_stage = c(`Drought risk` = "Available water = Drought risk",
+                      #                                       `Waterlogging risk` = "Available water = Waterlogging risk"),
+                      Pest_and_desease_impact_at_mid_stage = c(Minor = "Pest and desease impact = Minor",
+                                                           Severe = "Pest and desease impact = Severe"),
+                  Weeds_impact_at_mid_stage = c(Negligible = "Weeds impact = Negligible",
+                                                Consuming = "Weeds impact = Consuming")
+                  
+                  )
+```
+
+
+```{r figure_8,echo=FALSE,fig.width=14.2,fig.height=7.14,dpi=min_plots_res,fig.cap="\\label{figures:figure_6}Effect of the states of soil type manure application and flood water on the available soil water content at initial stage of crop development in Kisumu (Kenya) and Tigray (Ethiopia)."}
+
+ggplot (data = ssp, aes(x, y, color = Crop_type))+
+  geom_smooth(method = 'loess')+
+  facet_grid(Available_soil_water_at_mid_stage ~ Pest_and_desease_impact_at_mid_stage+Weeds_impact_at_mid_stage, 
+                                           space = 'free_x', scales = 'free_x', labeller = labellers)+
+  scale_fill_discrete(labels = function(x) gsub("[.]", " ", x))+
+  labs(x = "Grain yield", y = "Density")+
+  my_theme +
+  # switch the facet strip label to outside 
+  # remove background color
+  theme(
+        axis.title = element_text(size = 18),
+        legend.text = element_text(size = 14),
+        legend.position = 'bottom',
+        legend.spacing.x = unit(1.0, 'cm'),
+        strip.text = element_text(size = 14),
+        axis.title.x = element_text(vjust = -1),
+        axis.title.y = element_text(vjust = -1)
+  )
+```
 
 ##### Main effects of the different treatments on grain yield
 

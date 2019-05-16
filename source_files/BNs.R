@@ -4,12 +4,12 @@
 #------------------------------------------------------------------------------------#
 
 ## Type of water diversion ####
-Type_of_water_diversion <- gRain::cptable(~Type_of_water_diversion, values = c(0.3, 0.4, 0.3),
+Type_of_water_diversion <- cptable(~Type_of_water_diversion, values = c(0.3, 0.4, 0.3),
                                    levels = c('Modern', 'Hybrid', 'Traditional'))
 
 
 ## Sediment_load_at_initial_stage ####
-Sediment_load_at_initial_stage <- gRain::cptable (~Sediment_load_at_initial_stage|Type_of_water_diversion, values =   c(0.1, 0.3, 0.6,
+Sediment_load_at_initial_stage <- cptable (~Sediment_load_at_initial_stage|Type_of_water_diversion, values =   c(0.1, 0.3, 0.6,
                                                                                                                  0.1, 0.6, 0.3,
                                                                                                                  0.7, 0.2, 0.1),
                                            # values = c(0.6, 0.2, 0.1,
@@ -20,13 +20,13 @@ Sediment_load_at_initial_stage <- gRain::cptable (~Sediment_load_at_initial_stag
 
 
 ## Rain_event_occurence_at_initial_stage ####
-Rain_event_occurence_at_initial_stage <- gRain::cptable (~Rain_event_occurence_at_initial_stage, values = c(0.65, 0.35),levels = c('Off-site', 'On-site'))
+Rain_event_occurence_at_initial_stage <- cptable (~Rain_event_occurence_at_initial_stage, values = c(0.65, 0.35),levels = c('Off-site', 'On-site'))
 
 ## Slope ####
-Slope <- gRain::cptable (~Slope, values = c(0.1, 0.2, 0.7),levels = c('Steep', 'Moderate', 'Gentil'))
+Slope <- cptable (~Slope, values = c(0.1, 0.2, 0.7),levels = c('Steep', 'Moderate', 'Gentil'))
 
 ## Socio-institutional arrangements ####
-Social_arrangements <- gRain::cptable (~Social_arrangements, values = c(0.3, 0.7),levels = c('Inadequate', 'Adequate'))
+Social_arrangements <- cptable (~Social_arrangements, values = c(0.3, 0.7),levels = c('Inadequate', 'Adequate'))
 
 ## Main_Canals_Maitnenance_at_initial_stage ####
 Main_Canals_Maitnenance_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(4,3,2),
@@ -46,7 +46,7 @@ Main_Canals_Maitnenance_at_initial_stage_values <- c(0.919293820933165, 0.080706
                                                      0.164948453608247, 0.835051546391752, 
                                                      0.307692307692308, 0.692307692307692)
 Main_Canals_Maitnenance_at_initial_stage_levels <- Main_Canals_Maitnenance_at_initial_stage_tmp$levels
-Main_Canals_Maitnenance_at_initial_stage <- gRain::cptable (~Main_Canals_Maitnenance_at_initial_stage|Type_of_water_diversion:Social_arrangements, values = Main_Canals_Maitnenance_at_initial_stage_values,levels = Main_Canals_Maitnenance_at_initial_stage_levels)
+Main_Canals_Maitnenance_at_initial_stage <- cptable (~Main_Canals_Maitnenance_at_initial_stage|Type_of_water_diversion:Social_arrangements, values = Main_Canals_Maitnenance_at_initial_stage_values,levels = Main_Canals_Maitnenance_at_initial_stage_levels)
 
 
 ## Amount_of_shared_flood_at_initial_stage ####
@@ -65,14 +65,14 @@ Amount_of_shared_flood_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = l
 
 Amount_of_shared_flood_at_initial_stage_values <- Amount_of_shared_flood_at_initial_stage_tmp$values
 Amount_of_shared_flood_at_initial_stage_levels <- Amount_of_shared_flood_at_initial_stage_tmp$levels
-Amount_of_shared_flood_at_initial_stage <- gRain::cptable (~Amount_of_shared_flood_at_initial_stage|
+Amount_of_shared_flood_at_initial_stage <- cptable (~Amount_of_shared_flood_at_initial_stage|
                                                       Rain_event_occurence_at_initial_stage:
                                                       Main_Canals_Maitnenance_at_initial_stage:
                                                       Sediment_load_at_initial_stage:
                                                       Slope, values = Amount_of_shared_flood_at_initial_stage_values,levels = Amount_of_shared_flood_at_initial_stage_levels)
 
 ## Location_of_the_plot ####
-Location_of_the_plot <- gRain::cptable (~Location_of_the_plot, values = c(0.6, 0.3, 0.1),levels = c('Lowlands', 'Midlands', 'Highlands'))
+Location_of_the_plot <- cptable (~Location_of_the_plot, values = c(0.6, 0.3, 0.1),levels = c('Lowlands', 'Midlands', 'Highlands'))
 ## Upstream_abstraction_at_initial_stage ####
 Upstream_abstraction_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2),
                                                                                   c(0,1,2)),
@@ -93,13 +93,13 @@ Upstream_abstraction_at_initial_stage_values <- c(0.999086340794883, 0.000913659
                                                   0.142857142857143, 0.857142857142857, 
                                                   0.00205338809034908, 0.997946611909651)
 Upstream_abstraction_at_initial_stage_levels <- Upstream_abstraction_at_initial_stage_tmp$levels
-Upstream_abstraction_at_initial_stage <- gRain::cptable (~Upstream_abstraction_at_initial_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_initial_stage_values,levels = Upstream_abstraction_at_initial_stage_levels)
+Upstream_abstraction_at_initial_stage <- cptable (~Upstream_abstraction_at_initial_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_initial_stage_values,levels = Upstream_abstraction_at_initial_stage_levels)
 
 ## Field_canal_maintenance_at_initial_stage####
-Field_canal_maintenance_at_initial_stage<- gRain::cptable (~Field_canal_maintenance_at_initial_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
+Field_canal_maintenance_at_initial_stage<- cptable (~Field_canal_maintenance_at_initial_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
 
 ## Presence_of_the_farmer_during_flood_event_at_initial_stage ###
-Presence_of_the_farmer_during_flood_event_at_initial_stage <- gRain::cptable (~Presence_of_the_farmer_during_flood_event_at_initial_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
+Presence_of_the_farmer_during_flood_event_at_initial_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_initial_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
 
 ## Amount_of_flood_reaching_the_plot_at_initial_stage ####
 Amount_of_flood_reaching_the_plot_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2), 
@@ -119,7 +119,7 @@ Amount_of_flood_reaching_the_plot_at_initial_stage_tmp <- make_gRain_CPT(parent_
 
 Amount_of_flood_reaching_the_plot_at_initial_stage_values <- Amount_of_flood_reaching_the_plot_at_initial_stage_tmp$values
 Amount_of_flood_reaching_the_plot_at_initial_stage_levels <- Amount_of_flood_reaching_the_plot_at_initial_stage_tmp$levels
-Amount_of_flood_reaching_the_plot_at_initial_stage <- gRain::cptable (~Amount_of_flood_reaching_the_plot_at_initial_stage|Field_canal_maintenance_at_initial_stage:Presence_of_the_farmer_during_flood_event_at_initial_stage:Amount_of_shared_flood_at_initial_stage:Upstream_abstraction_at_initial_stage, values = Amount_of_flood_reaching_the_plot_at_initial_stage_values,levels = Amount_of_flood_reaching_the_plot_at_initial_stage_levels)
+Amount_of_flood_reaching_the_plot_at_initial_stage <- cptable (~Amount_of_flood_reaching_the_plot_at_initial_stage|Field_canal_maintenance_at_initial_stage:Presence_of_the_farmer_during_flood_event_at_initial_stage:Amount_of_shared_flood_at_initial_stage:Upstream_abstraction_at_initial_stage, values = Amount_of_flood_reaching_the_plot_at_initial_stage_values,levels = Amount_of_flood_reaching_the_plot_at_initial_stage_levels)
 
 
 #------------------------------------------------------------------------------------#
@@ -128,11 +128,11 @@ Amount_of_flood_reaching_the_plot_at_initial_stage <- gRain::cptable (~Amount_of
 
 ## Soil_type ####
 
-Soil_type <- gRain::cptable (~Soil_type, values = c(0.05, 0.55, 0.4),levels = c('Sandy', 'Loamy', 'Clayey'))
+Soil_type <- cptable (~Soil_type, values = c(0.05, 0.55, 0.4),levels = c('Sandy', 'Loamy', 'Clayey'))
 
 ## Manure_application ####
 
-Manure_application <- gRain::cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
 
 ## Soil_water_holding_capacity ####
 
@@ -146,20 +146,20 @@ Soil_water_holding_capacity_tmp <- make_gRain_CPT(parent_effects = list(c(0, 2.5
                                                                        c('FALSE', 'TRUE')))
 Soil_water_holding_capacity_values <- Soil_water_holding_capacity_tmp$values
 Soil_water_holding_capacity_levels <- Soil_water_holding_capacity_tmp$levels
-Soil_water_holding_capacity <- gRain::cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
+Soil_water_holding_capacity <- cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
 
 ## Evapotranspiration_at_initial_stage ####
 
-Evapotranspiration_at_initial_stage <- gRain::cptable (~Evapotranspiration_at_initial_stage, values = c(0.1, 0.2, 0.7),
+Evapotranspiration_at_initial_stage <- cptable (~Evapotranspiration_at_initial_stage, values = c(0.1, 0.2, 0.7),
                                                 levels = c('High', 'Medium', 'Low'))
 
 ## Rainfall_amount_at_initial_stage ####
 
-Rainfall_amount_at_initial_stage <- gRain::cptable (~Rainfall_amount_at_initial_stage, values = c(0.25, 0.6, 0.15),levels = c('< normal', 'Normal', '> normal'))
+Rainfall_amount_at_initial_stage <- cptable (~Rainfall_amount_at_initial_stage, values = c(0.25, 0.6, 0.15),levels = c('< normal', 'Normal', '> normal'))
 
 ## Initial_soil_water_content ####
 
-Initial_soil_water_content <- gRain::cptable (~Initial_soil_water_content, values = c(0.40, 0.30, 0.15, 0.15),levels = c('Very low', 'Low', 'Medium', 'High'))
+Initial_soil_water_content <- cptable (~Initial_soil_water_content, values = c(0.40, 0.30, 0.15, 0.15),levels = c('Very low', 'Low', 'Medium', 'High'))
 
 ## Available_soil_water_at_initial_stage ####
 
@@ -179,7 +179,7 @@ Available_soil_water_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = lis
                                                                                  c('Too little', 'Desired', 'Too much')))
 Available_soil_water_at_initial_stage_values <- Available_soil_water_at_initial_stage_tmp$values
 Available_soil_water_at_initial_stage_levels <- Available_soil_water_at_initial_stage_tmp$levels
-Available_soil_water_at_initial_stage <- gRain::cptable (~Available_soil_water_at_initial_stage|
+Available_soil_water_at_initial_stage <- cptable (~Available_soil_water_at_initial_stage|
                                                     Soil_water_holding_capacity:
                                                     Evapotranspiration_at_initial_stage:
                                                     Rainfall_amount_at_initial_stage:
@@ -193,11 +193,11 @@ Available_soil_water_at_initial_stage <- gRain::cptable (~Available_soil_water_a
 
 ## Relative_wealth_status ####
 
-Relative_wealth_status <- gRain::cptable(~Relative_wealth_status, values = c(0.6, 0.3, 0.1), levels = c('Poor', 'Middle class', 'Rich'))
+Relative_wealth_status <- cptable(~Relative_wealth_status, values = c(0.6, 0.3, 0.1), levels = c('Poor', 'Middle class', 'Rich'))
 
 ## Mutual_aids ####
 
-Mutual_aids <- gRain::cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
 
 ## Access_to_inputs_at_initial_stage ####
 
@@ -211,10 +211,10 @@ Access_to_inputs_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(
                                                                              c('FALSE', 'TRUE')))
 Access_to_inputs_at_initial_stage_values <- Access_to_inputs_at_initial_stage_tmp$values
 Access_to_inputs_at_initial_stage_levels <- Access_to_inputs_at_initial_stage_tmp$levels
-Access_to_inputs_at_initial_stage <- gRain::cptable (~Access_to_inputs_at_initial_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_initial_stage_values,levels = Access_to_inputs_at_initial_stage_levels)
+Access_to_inputs_at_initial_stage <- cptable (~Access_to_inputs_at_initial_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_initial_stage_values,levels = Access_to_inputs_at_initial_stage_levels)
 
 ## Available_paid_labor_at_initial_stage #####
-Available_paid_labor_at_initial_stage <- gRain::cptable(~Available_paid_labor_at_initial_stage, values = c(0.4, 0.6), levels = c('Unavailable', 'Available'))
+Available_paid_labor_at_initial_stage <- cptable(~Available_paid_labor_at_initial_stage, values = c(0.4, 0.6), levels = c('Unavailable', 'Available'))
 ## Available_Labor_force_at_initial_stage #####
 
 Available_Labor_force_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(2, 1.5, 0), 
@@ -244,21 +244,21 @@ Available_Labor_force_at_initial_stage_values <- c(0.35, 0.65,
                                                    0.1, 0.9,
                                                    0.15, 0.85)
 Available_Labor_force_at_initial_stage_levels <- Available_Labor_force_at_initial_stage_tmp$levels
-Available_Labor_force_at_initial_stage <- gRain::cptable (~Available_Labor_force_at_initial_stage|Relative_wealth_status:Mutual_aids:Available_paid_labor_at_initial_stage, values = Available_Labor_force_at_initial_stage_values,levels = Available_Labor_force_at_initial_stage_levels)
+Available_Labor_force_at_initial_stage <- cptable (~Available_Labor_force_at_initial_stage|Relative_wealth_status:Mutual_aids:Available_paid_labor_at_initial_stage, values = Available_Labor_force_at_initial_stage_values,levels = Available_Labor_force_at_initial_stage_levels)
 
 ## skills_of_the_farmer #####
 
-skills_of_the_farmer <- gRain::cptable(~skills_of_the_farmer, values = c(0.3, 0.7), levels = c('Defavorable', 'Favorable'))
+skills_of_the_farmer <- cptable(~skills_of_the_farmer, values = c(0.3, 0.7), levels = c('Defavorable', 'Favorable'))
 
 ## Chemical_application_at_initial_stage ####
-Chemical_application_at_initial_stage <- gRain::cptable (~Chemical_application_at_initial_stage|Access_to_inputs_at_initial_stage, 
+Chemical_application_at_initial_stage <- cptable (~Chemical_application_at_initial_stage|Access_to_inputs_at_initial_stage, 
                                                   values = c(0.8, 0.2,
                                                              0.4, 0.6),
                                                   levels = c('Unufficient', 'Sufficient'))
 
 ### Application_of_traditional_crop_protection_Methods_at_initial_stage #####
 
-Application_of_traditional_crop_protection_Methods_at_initial_stage <- gRain::cptable(~Application_of_traditional_crop_protection_Methods_at_initial_stage, values = c(0.1, 0.9), levels = c('Uncommon', 'Common'))
+Application_of_traditional_crop_protection_Methods_at_initial_stage <- cptable(~Application_of_traditional_crop_protection_Methods_at_initial_stage, values = c(0.1, 0.9), levels = c('Uncommon', 'Common'))
 
 ## Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage ####
 
@@ -278,7 +278,7 @@ Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage_tmp <- ma
 
 Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage_values <- Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage_tmp$values
 Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage_levels <- Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage_tmp$levels
-Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage <- gRain::cptable (~Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage|
+Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage <- cptable (~Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage|
                                                                                      Chemical_application_at_initial_stage:
                                                                                      Application_of_traditional_crop_protection_Methods_at_initial_stage:
                                                                                      Available_Labor_force_at_initial_stage:
@@ -298,19 +298,19 @@ Effectiveness_of_Weeding_at_initial_stage_tmp <- make_gRain_CPT(parent_effects =
 
 Effectiveness_of_Weeding_at_initial_stage_values <- Effectiveness_of_Weeding_at_initial_stage_tmp$values
 Effectiveness_of_Weeding_at_initial_stage_levels <- Effectiveness_of_Weeding_at_initial_stage_tmp$levels
-Effectiveness_of_Weeding_at_initial_stage <- gRain::cptable (~Effectiveness_of_Weeding_at_initial_stage|Available_Labor_force_at_initial_stage:skills_of_the_farmer, values = Effectiveness_of_Weeding_at_initial_stage_values,levels = Effectiveness_of_Weeding_at_initial_stage_levels)
+Effectiveness_of_Weeding_at_initial_stage <- cptable (~Effectiveness_of_Weeding_at_initial_stage|Available_Labor_force_at_initial_stage:skills_of_the_farmer, values = Effectiveness_of_Weeding_at_initial_stage_values,levels = Effectiveness_of_Weeding_at_initial_stage_levels)
 
 
 ## Fertilizers_application_at_initial_stage #####
 
-Fertilizers_application_at_initial_stage <- gRain::cptable (~Fertilizers_application_at_initial_stage|Access_to_inputs_at_initial_stage, 
+Fertilizers_application_at_initial_stage <- cptable (~Fertilizers_application_at_initial_stage|Access_to_inputs_at_initial_stage, 
                                                      values = c(0.9, 0.1,
                                                                 0.3, 0.7),
                                                      levels = c('FALSE', 'TRUE'))
 
 ## Rich_sediments_addition_from_flood_at_initial_stage ####
 
-Rich_sediments_addition_from_flood_at_initial_stage <- gRain::cptable(~Rich_sediments_addition_from_flood_at_initial_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
+Rich_sediments_addition_from_flood_at_initial_stage <- cptable(~Rich_sediments_addition_from_flood_at_initial_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
 
 ## Available_soil_nutrients_at_initial_stage ####
 
@@ -329,14 +329,14 @@ Available_soil_nutrients_at_initial_stage_tmp <- make_gRain_CPT(parent_effects =
 
 Available_soil_nutrients_at_initial_stage_values <- Available_soil_nutrients_at_initial_stage_tmp$values
 Available_soil_nutrients_at_initial_stage_levels <- Available_soil_nutrients_at_initial_stage_tmp$levels
-Available_soil_nutrients_at_initial_stage <- gRain::cptable (~Available_soil_nutrients_at_initial_stage|
+Available_soil_nutrients_at_initial_stage <- cptable (~Available_soil_nutrients_at_initial_stage|
                                                         Manure_application:
                                                         Fertilizers_application_at_initial_stage:
                                                         Rich_sediments_addition_from_flood_at_initial_stage, values = Available_soil_nutrients_at_initial_stage_values,levels = Available_soil_nutrients_at_initial_stage_levels)
 
 ### Pest_and_desease_impact_at_initial_stage ####
 
-# Pest_and_desease_impact_at_initial_stage <- gRain::cptable (~Pest_and_desease_impact_at_initial_stage|Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage, 
+# Pest_and_desease_impact_at_initial_stage <- cptable (~Pest_and_desease_impact_at_initial_stage|Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage, 
 #                                                      values = c(0.6, 0.35, 0.05,
 #                                                                 0.05, 0.35, 0.6),
 #                                                      levels = c('Severe', 'Significant', 'Minor'))
@@ -354,7 +354,7 @@ Pest_and_desease_impact_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = 
 
 Pest_and_desease_impact_at_initial_stage_values <- Pest_and_desease_impact_at_initial_stage_tmp$values
 Pest_and_desease_impact_at_initial_stage_levels <- Pest_and_desease_impact_at_initial_stage_tmp$levels
-Pest_and_desease_impact_at_initial_stage <- gRain::cptable (~Pest_and_desease_impact_at_initial_stage|
+Pest_and_desease_impact_at_initial_stage <- cptable (~Pest_and_desease_impact_at_initial_stage|
                                                        Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage:
                                                        Crop_type,
                                                      values = Pest_and_desease_impact_at_initial_stage_values,levels = Pest_and_desease_impact_at_initial_stage_levels)
@@ -362,7 +362,7 @@ Pest_and_desease_impact_at_initial_stage <- gRain::cptable (~Pest_and_desease_im
 
 ## Weeds_impact_at_initial_stage ####
 
-# Weeds_impact_at_initial_stage <- gRain::cptable (~Weeds_impact_at_initial_stage|Effectiveness_of_Weeding_at_initial_stage, 
+# Weeds_impact_at_initial_stage <- cptable (~Weeds_impact_at_initial_stage|Effectiveness_of_Weeding_at_initial_stage, 
 #                                           values = c(0.6, 0.35, 0.05,
 #                                                      0.05, 0.35, 0.6),
 #                                           levels = c('Consuming', 'Moderate', 'Negligible'))
@@ -380,7 +380,7 @@ Weeds_impact_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,
 
 Weeds_impact_at_initial_stage_values <- Weeds_impact_at_initial_stage_tmp$values
 Weeds_impact_at_initial_stage_levels <- Weeds_impact_at_initial_stage_tmp$levels
-Weeds_impact_at_initial_stage <- gRain::cptable (~Weeds_impact_at_initial_stage|
+Weeds_impact_at_initial_stage <- cptable (~Weeds_impact_at_initial_stage|
                                             Effectiveness_of_Weeding_at_initial_stage:
                                             Crop_type,
                                           values = Weeds_impact_at_initial_stage_values,levels = Weeds_impact_at_initial_stage_levels)
@@ -409,7 +409,7 @@ Agricultural_management_efficiency_at_initial_stage_tmp <- make_gRain_CPT(parent
 
 Agricultural_management_efficiency_at_initial_stage_values <- Agricultural_management_efficiency_at_initial_stage_tmp$values
 Agricultural_management_efficiency_at_initial_stage_levels <- Agricultural_management_efficiency_at_initial_stage_tmp$levels
-Agricultural_management_efficiency_at_initial_stage <- gRain::cptable (~Agricultural_management_efficiency_at_initial_stage|
+Agricultural_management_efficiency_at_initial_stage <- cptable (~Agricultural_management_efficiency_at_initial_stage|
                                                                   Available_soil_nutrients_at_initial_stage:
                                                                   Pest_and_desease_impact_at_initial_stage:
                                                                   Weeds_impact_at_initial_stage,
@@ -417,28 +417,28 @@ Agricultural_management_efficiency_at_initial_stage <- gRain::cptable (~Agricult
 
 ## Crop_type ####
 
-Crop_type <- gRain::cptable(~Crop_type, values = c(0.3, 0.4, 0.1, 0.2), levels = c('Sorghum', 'Maize','Teff', 'Rice'))
+Crop_type <- cptable(~Crop_type, values = c(0.3, 0.4, 0.1, 0.2), levels = c('Sorghum', 'Maize','Teff', 'Rice'))
 
 ## Intercropping ####
 
-Intercropping <- gRain::cptable(~Intercropping, values = c(0.3, 0.1, 0.6), levels = c('Dense', 'Sparse', 'None'))
+Intercropping <- cptable(~Intercropping, values = c(0.3, 0.1, 0.6), levels = c('Dense', 'Sparse', 'None'))
 
 ## Crop_variety #####
 
-Crop_variety <- gRain::cptable(~Crop_variety, values = c(0.6, 0.4), levels = c('Local', 'Improved'))
+Crop_variety <- cptable(~Crop_variety, values = c(0.6, 0.4), levels = c('Local', 'Improved'))
 
 ## Rotation ####
 
-Previous_crop <- gRain::cptable(~Previous_crop, values = c(0.3,0.6, 0.1), levels = c('Same', 'Different', 'Fallow'))
+Previous_crop <- cptable(~Previous_crop, values = c(0.3,0.6, 0.1), levels = c('Same', 'Different', 'Fallow'))
 
 ## Planting date ####
 
-Planting_date <- gRain::cptable(~Planting_date, values = c(0.3, 0.7), levels = c('Late', 'Early'))
+Planting_date <- cptable(~Planting_date, values = c(0.3, 0.7), levels = c('Late', 'Early'))
 
 
-### Effectiveness_of_cropping_systems ####
+### Effectiveness_of_cropping_options ####
 
-Effectiveness_of_cropping_systems_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(1,2,3), c(1,2), c(1,2), c(1, 2, 3, 4)),
+Effectiveness_of_cropping_options_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(1,2,3), c(1,2), c(1,2), c(1, 2, 3, 4)),
                                                         parent_weights = c(2, 1, 4, 3, 0.5),
                                                         b = 1.5,
                                                         child_prior = c(0.5, 0.5),
@@ -451,15 +451,15 @@ Effectiveness_of_cropping_systems_tmp <- make_gRain_CPT(parent_effects = list(c(
 
 
 
-Effectiveness_of_cropping_systems_values <- Effectiveness_of_cropping_systems_tmp$values
-Effectiveness_of_cropping_systems_levels <- Effectiveness_of_cropping_systems_tmp$levels
-Effectiveness_of_cropping_systems <- gRain::cptable (~Effectiveness_of_cropping_systems|
+Effectiveness_of_cropping_options_values <- Effectiveness_of_cropping_options_tmp$values
+Effectiveness_of_cropping_options_levels <- Effectiveness_of_cropping_options_tmp$levels
+Effectiveness_of_cropping_options <- cptable (~Effectiveness_of_cropping_options|
                                                 Previous_crop:
                                                 Intercropping:
                                                 Crop_variety:
                                                 Planting_date:
                                                 Crop_type,
-                                              values = Effectiveness_of_cropping_systems_values,levels = Effectiveness_of_cropping_systems_levels)
+                                              values = Effectiveness_of_cropping_options_values,levels = Effectiveness_of_cropping_options_levels)
 
 
 ### Water_supply_adequacy_at_initial_stage ####
@@ -482,7 +482,7 @@ Water_supply_adequacy_at_initial_stage_values <- c(0.5, 0.5,
                                                    0.1, 0.9)
 
 Water_supply_adequacy_at_initial_stage_levels <- c("Inadequate", "Adequate")
-Water_supply_adequacy_at_initial_stage <- gRain::cptable (~Water_supply_adequacy_at_initial_stage|
+Water_supply_adequacy_at_initial_stage <- cptable (~Water_supply_adequacy_at_initial_stage|
                                                      Available_soil_water_at_initial_stage:
                                                      Crop_type,
                                                    values = Water_supply_adequacy_at_initial_stage_values,levels = Water_supply_adequacy_at_initial_stage_levels)
@@ -502,8 +502,8 @@ Local_constraints_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c
 
 Local_constraints_at_initial_stage_values <- Local_constraints_at_initial_stage_tmp$values
 Local_constraints_at_initial_stage_levels <- Local_constraints_at_initial_stage_tmp$levels
-Local_constraints_at_initial_stage <- gRain::cptable (~Local_constraints_at_initial_stage|
-                                                 Effectiveness_of_cropping_systems:
+Local_constraints_at_initial_stage <- cptable (~Local_constraints_at_initial_stage|
+                                                 Effectiveness_of_cropping_options:
                                                  Water_supply_adequacy_at_initial_stage:
                                                  Agricultural_management_efficiency_at_initial_stage, 
                                                values = Local_constraints_at_initial_stage_values,levels = Local_constraints_at_initial_stage_levels)
@@ -513,12 +513,12 @@ Local_constraints_at_initial_stage <- gRain::cptable (~Local_constraints_at_init
 #------------------------------------------------------------------------------------#
 
 # ## Type of water diversion ####
-# Type_of_water_diversion <- gRain::cptable(~Type_of_water_diversion, values = c(0.3, 0.4, 0.3),
+# Type_of_water_diversion <- cptable(~Type_of_water_diversion, values = c(0.3, 0.4, 0.3),
 #                                    levels = c('Modern', 'Hybrid', 'Traditional'))
 
 
 ## Sediment_load_at_development_stage ####
-Sediment_load_at_development_stage <- gRain::cptable (~Sediment_load_at_development_stage|Type_of_water_diversion, 
+Sediment_load_at_development_stage <- cptable (~Sediment_load_at_development_stage|Type_of_water_diversion, 
                                                values =   c(0.1, 0.4, 0.5,
                                                             0.4, 0.5, 0.1,
                                                             0.799, 0.2, 0.01),
@@ -530,13 +530,13 @@ Sediment_load_at_development_stage <- gRain::cptable (~Sediment_load_at_developm
 
 
 ## Rain_event_occurence_at_development_stage ####
-Rain_event_occurence_at_development_stage <- gRain::cptable (~Rain_event_occurence_at_development_stage, values = c(0.65, 0.35),levels = c('Off-site', 'On-site'))
+Rain_event_occurence_at_development_stage <- cptable (~Rain_event_occurence_at_development_stage, values = c(0.65, 0.35),levels = c('Off-site', 'On-site'))
 
 # ## Slope ####
-# Slope <- gRain::cptable (~Slope, values = c(0.1, 0.2, 0.7),levels = c('Steep', 'Moderate', 'Gentil'))
+# Slope <- cptable (~Slope, values = c(0.1, 0.2, 0.7),levels = c('Steep', 'Moderate', 'Gentil'))
 
 # ## Socio-institutional arrangements ####
-# Social_arrangements <- gRain::cptable (~Social_arrangements, values = c(0.3, 0.7),levels = c('Inadequate', 'Adequate'))
+# Social_arrangements <- cptable (~Social_arrangements, values = c(0.3, 0.7),levels = c('Inadequate', 'Adequate'))
 
 ## Main_Canals_Maitnenance_at_development_stage ####
 Main_Canals_Maitnenance_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(4,3,2),
@@ -556,7 +556,7 @@ Main_Canals_Maitnenance_at_initial_stage_values <- c(0.919293820933165, 0.080706
                                                      0.164948453608247, 0.835051546391752, 
                                                      0.307692307692308, 0.692307692307692)
 Main_Canals_Maitnenance_at_initial_stage_levels <- Main_Canals_Maitnenance_at_initial_stage_tmp$levels
-Main_Canals_Maitnenance_at_initial_stage <- gRain::cptable (~Main_Canals_Maitnenance_at_initial_stage|Type_of_water_diversion:Social_arrangements, values = Main_Canals_Maitnenance_at_initial_stage_values,levels = Main_Canals_Maitnenance_at_initial_stage_levels)
+Main_Canals_Maitnenance_at_initial_stage <- cptable (~Main_Canals_Maitnenance_at_initial_stage|Type_of_water_diversion:Social_arrangements, values = Main_Canals_Maitnenance_at_initial_stage_values,levels = Main_Canals_Maitnenance_at_initial_stage_levels)
 
 Main_Canals_Maitnenance_at_development_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,3,2),
                                                                                          c(0,1)),
@@ -576,7 +576,7 @@ Main_Canals_Maitnenance_at_development_stage_values <- c(0.919293820933165, 0.08
                                                          0.164948453608247, 0.835051546391752,
                                                          0.307692307692308, 0.692307692307692)
 Main_Canals_Maitnenance_at_development_stage_levels <- Main_Canals_Maitnenance_at_development_stage_tmp$levels
-Main_Canals_Maitnenance_at_development_stage <- gRain::cptable (~Main_Canals_Maitnenance_at_development_stage|Type_of_water_diversion:Social_arrangements, values = Main_Canals_Maitnenance_at_development_stage_values,levels = Main_Canals_Maitnenance_at_development_stage_levels)
+Main_Canals_Maitnenance_at_development_stage <- cptable (~Main_Canals_Maitnenance_at_development_stage|Type_of_water_diversion:Social_arrangements, values = Main_Canals_Maitnenance_at_development_stage_values,levels = Main_Canals_Maitnenance_at_development_stage_levels)
 
 
 ## Amount_of_shared_flood_at_development_stage ####
@@ -595,14 +595,14 @@ Amount_of_shared_flood_at_development_stage_tmp <- make_gRain_CPT(parent_effects
 
 Amount_of_shared_flood_at_development_stage_values <- Amount_of_shared_flood_at_development_stage_tmp$values
 Amount_of_shared_flood_at_development_stage_levels <- Amount_of_shared_flood_at_development_stage_tmp$levels
-Amount_of_shared_flood_at_development_stage <- gRain::cptable (~Amount_of_shared_flood_at_development_stage|
+Amount_of_shared_flood_at_development_stage <- cptable (~Amount_of_shared_flood_at_development_stage|
                                                           Rain_event_occurence_at_development_stage:
                                                           Main_Canals_Maitnenance_at_development_stage:
                                                           Sediment_load_at_development_stage:
                                                           Slope, values = Amount_of_shared_flood_at_development_stage_values,levels = Amount_of_shared_flood_at_development_stage_levels)
 
 # ## Location_of_the_plot ####
-# Location_of_the_plot <- gRain::cptable (~Location_of_the_plot, values = c(0.6, 0.3, 0.1),levels = c('Lowlands', 'Midlands', 'Highlands'))
+# Location_of_the_plot <- cptable (~Location_of_the_plot, values = c(0.6, 0.3, 0.1),levels = c('Lowlands', 'Midlands', 'Highlands'))
 ## Upstream_abstraction_at_development_stage ####
 
 Upstream_abstraction_at_development_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2),
@@ -625,13 +625,13 @@ Upstream_abstraction_at_development_stage_values <- c(0.999086340794883, 0.00091
                                                       0.142857142857143, 0.857142857142857, 
                                                       0.00205338809034908, 0.997946611909651)
 Upstream_abstraction_at_development_stage_levels <- Upstream_abstraction_at_development_stage_tmp$levels
-Upstream_abstraction_at_development_stage <- gRain::cptable (~Upstream_abstraction_at_development_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_development_stage_values,levels = Upstream_abstraction_at_development_stage_levels)
+Upstream_abstraction_at_development_stage <- cptable (~Upstream_abstraction_at_development_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_development_stage_values,levels = Upstream_abstraction_at_development_stage_levels)
 
 ## Field_canal_maintenance_at_development_stage####
-Field_canal_maintenance_at_development_stage<- gRain::cptable (~Field_canal_maintenance_at_development_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
+Field_canal_maintenance_at_development_stage<- cptable (~Field_canal_maintenance_at_development_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
 
 ## Presence_of_the_farmer_during_flood_event_at_development_stage ###
-Presence_of_the_farmer_during_flood_event_at_development_stage <- gRain::cptable (~Presence_of_the_farmer_during_flood_event_at_development_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
+Presence_of_the_farmer_during_flood_event_at_development_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_development_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
 
 ## Amount_of_flood_reaching_the_plot_at_development_stage ####
 Amount_of_flood_reaching_the_plot_at_development_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2), 
@@ -651,7 +651,7 @@ Amount_of_flood_reaching_the_plot_at_development_stage_tmp <- make_gRain_CPT(par
 
 Amount_of_flood_reaching_the_plot_at_development_stage_values <- Amount_of_flood_reaching_the_plot_at_development_stage_tmp$values
 Amount_of_flood_reaching_the_plot_at_development_stage_levels <- Amount_of_flood_reaching_the_plot_at_development_stage_tmp$levels
-Amount_of_flood_reaching_the_plot_at_development_stage <- gRain::cptable (~Amount_of_flood_reaching_the_plot_at_development_stage|Field_canal_maintenance_at_development_stage:Presence_of_the_farmer_during_flood_event_at_development_stage:Amount_of_shared_flood_at_development_stage:Upstream_abstraction_at_development_stage, values = Amount_of_flood_reaching_the_plot_at_development_stage_values,levels = Amount_of_flood_reaching_the_plot_at_development_stage_levels)
+Amount_of_flood_reaching_the_plot_at_development_stage <- cptable (~Amount_of_flood_reaching_the_plot_at_development_stage|Field_canal_maintenance_at_development_stage:Presence_of_the_farmer_during_flood_event_at_development_stage:Amount_of_shared_flood_at_development_stage:Upstream_abstraction_at_development_stage, values = Amount_of_flood_reaching_the_plot_at_development_stage_values,levels = Amount_of_flood_reaching_the_plot_at_development_stage_levels)
 
 
 #------------------------------------------------------------------------------------#
@@ -660,11 +660,11 @@ Amount_of_flood_reaching_the_plot_at_development_stage <- gRain::cptable (~Amoun
 
 # ## Soil_type ####
 # 
-# Soil_type <- gRain::cptable (~Soil_type, values = c(0.05, 0.55, 0.4),levels = c('Sandy', 'Loamy', 'Clayey'))
+# Soil_type <- cptable (~Soil_type, values = c(0.05, 0.55, 0.4),levels = c('Sandy', 'Loamy', 'Clayey'))
 
 # ## Manure_application ####
 # 
-# Manure_application <- gRain::cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
 
 # ## Soil_water_holding_capacity ####
 # 
@@ -678,20 +678,20 @@ Amount_of_flood_reaching_the_plot_at_development_stage <- gRain::cptable (~Amoun
 #                                                                        c('FALSE', 'TRUE')))
 # Soil_water_holding_capacity_values <- Soil_water_holding_capacity_tmp$values
 # Soil_water_holding_capacity_levels <- Soil_water_holding_capacity_tmp$levels
-# Soil_water_holding_capacity <- gRain::cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
+# Soil_water_holding_capacity <- cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
 
 ## Evapotranspiration_at_development_stage ####
 
-Evapotranspiration_at_development_stage <- gRain::cptable (~Evapotranspiration_at_development_stage, values = c(0.05, 0.9, 0.05), # c(0.1, 0.2, 0.7),
+Evapotranspiration_at_development_stage <- cptable (~Evapotranspiration_at_development_stage, values = c(0.05, 0.9, 0.05), # c(0.1, 0.2, 0.7),
                                                     levels = c('High', 'Medium', 'Low'))
 
 ## Rainfall_amount_at_development_stage ####
 
-Rainfall_amount_at_development_stage <- gRain::cptable (~Rainfall_amount_at_development_stage, values = c(0.25, 0.6, 0.15),levels = c('< normal', 'Normal', '> normal'))
+Rainfall_amount_at_development_stage <- cptable (~Rainfall_amount_at_development_stage, values = c(0.25, 0.6, 0.15),levels = c('< normal', 'Normal', '> normal'))
 
 # ## Initial_soil_water_content ####
 # 
-# Initial_soil_water_content <- gRain::cptable (~Initial_soil_water_content, values = c(0.40, 0.30, 0.15, 0.15),levels = c('Very low', 'Low', 'Medium', 'High'))
+# Initial_soil_water_content <- cptable (~Initial_soil_water_content, values = c(0.40, 0.30, 0.15, 0.15),levels = c('Very low', 'Low', 'Medium', 'High'))
 
 ## Available_soil_water_at_development_stage ####
 
@@ -714,7 +714,7 @@ Available_soil_water_at_development_stage_tmp <- make_gRain_CPT(parent_effects =
                                                                                      c('Too little', 'Normal', 'Too much')))
 Available_soil_water_at_development_stage_values <- Available_soil_water_at_development_stage_tmp$values
 Available_soil_water_at_development_stage_levels <- Available_soil_water_at_development_stage_tmp$levels
-Available_soil_water_at_development_stage <- gRain::cptable (~Available_soil_water_at_development_stage|
+Available_soil_water_at_development_stage <- cptable (~Available_soil_water_at_development_stage|
                                                         Soil_water_holding_capacity:
                                                         Evapotranspiration_at_development_stage:
                                                         Rainfall_amount_at_development_stage:
@@ -729,11 +729,11 @@ Available_soil_water_at_development_stage <- gRain::cptable (~Available_soil_wat
 # 
 # ## Relative_wealth_status ####
 # 
-# Relative_wealth_status <- gRain::cptable(~Relative_wealth_status, values = c(0.6, 0.3, 0.1), levels = c('Poor', 'Middle class', 'Rich'))
+# Relative_wealth_status <- cptable(~Relative_wealth_status, values = c(0.6, 0.3, 0.1), levels = c('Poor', 'Middle class', 'Rich'))
 
 # ## Mutual_aids ####
 # 
-# Mutual_aids <- gRain::cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
 
 ## Access_to_inputs_at_development_stage ####
 
@@ -747,10 +747,10 @@ Access_to_inputs_at_development_stage_tmp <- make_gRain_CPT(parent_effects = lis
                                                                                  c('FALSE', 'TRUE')))
 Access_to_inputs_at_development_stage_values <- Access_to_inputs_at_development_stage_tmp$values
 Access_to_inputs_at_development_stage_levels <- Access_to_inputs_at_development_stage_tmp$levels
-Access_to_inputs_at_development_stage <- gRain::cptable (~Access_to_inputs_at_development_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_development_stage_values,levels = Access_to_inputs_at_development_stage_levels)
+Access_to_inputs_at_development_stage <- cptable (~Access_to_inputs_at_development_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_development_stage_values,levels = Access_to_inputs_at_development_stage_levels)
 
 ## Available_paid_labor_at_development_stage #####
-Available_paid_labor_at_development_stage <- gRain::cptable(~Available_paid_labor_at_development_stage, values = c(0.4, 0.6), levels = c('Unavailable', 'Available'))
+Available_paid_labor_at_development_stage <- cptable(~Available_paid_labor_at_development_stage, values = c(0.4, 0.6), levels = c('Unavailable', 'Available'))
 ## Available_Labor_force_at_development_stage #####
 
 Available_Labor_force_at_development_stage_tmp <- make_gRain_CPT(parent_effects = list(c(2, 1.5, 0), 
@@ -780,21 +780,21 @@ Available_Labor_force_at_development_stage_values <- c(0.35, 0.65,
                                                        0.1, 0.9,
                                                        0.15, 0.85)
 Available_Labor_force_at_development_stage_levels <- Available_Labor_force_at_development_stage_tmp$levels
-Available_Labor_force_at_development_stage <- gRain::cptable (~Available_Labor_force_at_development_stage|Relative_wealth_status:Mutual_aids:Available_paid_labor_at_development_stage, values = Available_Labor_force_at_development_stage_values,levels = Available_Labor_force_at_development_stage_levels)
+Available_Labor_force_at_development_stage <- cptable (~Available_Labor_force_at_development_stage|Relative_wealth_status:Mutual_aids:Available_paid_labor_at_development_stage, values = Available_Labor_force_at_development_stage_values,levels = Available_Labor_force_at_development_stage_levels)
 
 # ## skills_of_the_farmer #####
 # 
-# skills_of_the_farmer <- gRain::cptable(~skills_of_the_farmer, values = c(0.3, 0.7), levels = c('Defavorable', 'Favorable'))
+# skills_of_the_farmer <- cptable(~skills_of_the_farmer, values = c(0.3, 0.7), levels = c('Defavorable', 'Favorable'))
 
 ## Chemical_application_at_development_stage ####
-Chemical_application_at_development_stage <- gRain::cptable (~Chemical_application_at_development_stage|Access_to_inputs_at_development_stage, 
+Chemical_application_at_development_stage <- cptable (~Chemical_application_at_development_stage|Access_to_inputs_at_development_stage, 
                                                       values = c(0.8, 0.2,
                                                                  0.4, 0.6),
                                                       levels = c('Unufficient', 'Sufficient'))
 
 ### Application_of_traditional_crop_protection_Methods_at_development_stage #####
 
-Application_of_traditional_crop_protection_Methods_at_development_stage <- gRain::cptable(~Application_of_traditional_crop_protection_Methods_at_development_stage, values = c(0.1, 0.9), levels = c('Uncommon', 'Common'))
+Application_of_traditional_crop_protection_Methods_at_development_stage <- cptable(~Application_of_traditional_crop_protection_Methods_at_development_stage, values = c(0.1, 0.9), levels = c('Uncommon', 'Common'))
 
 ## Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage ####
 
@@ -814,7 +814,7 @@ Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage_tmp <
 
 Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage_values <- Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage_tmp$values
 Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage_levels <- Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage_tmp$levels
-Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage <- gRain::cptable (~Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage|
+Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage <- cptable (~Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage|
                                                                                          Chemical_application_at_development_stage:
                                                                                          Application_of_traditional_crop_protection_Methods_at_development_stage:
                                                                                          Available_Labor_force_at_development_stage:
@@ -835,19 +835,19 @@ Effectiveness_of_Weeding_at_development_stage_tmp <- make_gRain_CPT(parent_effec
 
 Effectiveness_of_Weeding_at_development_stage_values <- Effectiveness_of_Weeding_at_development_stage_tmp$values
 Effectiveness_of_Weeding_at_development_stage_levels <- Effectiveness_of_Weeding_at_development_stage_tmp$levels
-Effectiveness_of_Weeding_at_development_stage <- gRain::cptable (~Effectiveness_of_Weeding_at_development_stage|Available_Labor_force_at_development_stage:skills_of_the_farmer, values = Effectiveness_of_Weeding_at_development_stage_values,levels = Effectiveness_of_Weeding_at_development_stage_levels)
+Effectiveness_of_Weeding_at_development_stage <- cptable (~Effectiveness_of_Weeding_at_development_stage|Available_Labor_force_at_development_stage:skills_of_the_farmer, values = Effectiveness_of_Weeding_at_development_stage_values,levels = Effectiveness_of_Weeding_at_development_stage_levels)
 
 
 ## Fertilizers_application_at_development_stage #####
 
-Fertilizers_application_at_development_stage <- gRain::cptable (~Fertilizers_application_at_development_stage|Access_to_inputs_at_development_stage, 
+Fertilizers_application_at_development_stage <- cptable (~Fertilizers_application_at_development_stage|Access_to_inputs_at_development_stage, 
                                                          values = c(0.9, 0.1,
                                                                     0.3, 0.7),
                                                          levels = c('FALSE', 'TRUE'))
 
 ## Rich_sediments_addition_from_flood_at_development_stage ####
 
-Rich_sediments_addition_from_flood_at_development_stage <- gRain::cptable(~Rich_sediments_addition_from_flood_at_development_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
+Rich_sediments_addition_from_flood_at_development_stage <- cptable(~Rich_sediments_addition_from_flood_at_development_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
 
 ## Available_soil_nutrients_at_development_stage ####
 
@@ -872,7 +872,7 @@ Available_soil_nutrients_at_development_stage_tmp <- make_gRain_CPT(parent_effec
 
 Available_soil_nutrients_at_development_stage_values <- Available_soil_nutrients_at_development_stage_tmp$values
 Available_soil_nutrients_at_development_stage_levels <- Available_soil_nutrients_at_development_stage_tmp$levels
-Available_soil_nutrients_at_development_stage <- gRain::cptable (~Available_soil_nutrients_at_development_stage|
+Available_soil_nutrients_at_development_stage <- cptable (~Available_soil_nutrients_at_development_stage|
                                                             #Manure_application:
                                                             Fertilizers_application_at_development_stage:
                                                             Rich_sediments_addition_from_flood_at_development_stage:
@@ -880,7 +880,7 @@ Available_soil_nutrients_at_development_stage <- gRain::cptable (~Available_soil
 
 ### Pest_and_desease_impact_at_development_stage ####
 
-# Pest_and_desease_impact_at_development_stage <- gRain::cptable (~Pest_and_desease_impact_at_development_stage|
+# Pest_and_desease_impact_at_development_stage <- cptable (~Pest_and_desease_impact_at_development_stage|
 #                                                    Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage,
 #                                                     values = c(0.5, 0.3, 0.2,
 #                                                                0.15, 0.25, 0.6),
@@ -896,7 +896,7 @@ Pest_and_desease_impact_at_development_stage_tmp <- make_gRain_CPT(parent_effect
                                                                                         c('Sorghum', 'Maize','Teff', 'Rice')))
 Pest_and_desease_impact_at_development_stage_values <- Pest_and_desease_impact_at_development_stage_tmp$values
 Pest_and_desease_impact_at_development_stage_levels <- Pest_and_desease_impact_at_development_stage_tmp$levels
-Pest_and_desease_impact_at_development_stage <- gRain::cptable (~Pest_and_desease_impact_at_development_stage|
+Pest_and_desease_impact_at_development_stage <- cptable (~Pest_and_desease_impact_at_development_stage|
                                                            Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage:
                                                            Pest_and_desease_impact_at_initial_stage:
                                                            Crop_type, 
@@ -904,7 +904,7 @@ Pest_and_desease_impact_at_development_stage <- gRain::cptable (~Pest_and_deseas
 
 ## Weeds_impact_at_development_stage ####
 
-# Weeds_impact_at_development_stage <- gRain::cptable (~Weeds_impact_at_development_stage|Effectiveness_of_Weeding_at_development_stage, 
+# Weeds_impact_at_development_stage <- cptable (~Weeds_impact_at_development_stage|Effectiveness_of_Weeding_at_development_stage, 
 #                                          values = c(0.5, 0.3, 0.2,
 #                                                     0.15, 0.25, 0.6),
 #                                          levels = c('Consuming', 'Moderate', 'Negligible'))
@@ -919,7 +919,7 @@ Weeds_impact_at_development_stage_tmp <- make_gRain_CPT(parent_effects = list(c(
                                                                              c('Sorghum', 'Maize','Teff', 'Rice')))
 Weeds_impact_at_development_stage_values <- Weeds_impact_at_development_stage_tmp$values
 Weeds_impact_at_development_stage_levels <- Weeds_impact_at_development_stage_tmp$levels
-Weeds_impact_at_development_stage <- gRain::cptable (~Weeds_impact_at_development_stage|
+Weeds_impact_at_development_stage <- cptable (~Weeds_impact_at_development_stage|
                                                 Effectiveness_of_Weeding_at_development_stage:
                                                 Weeds_impact_at_initial_stage:
                                                 Crop_type, 
@@ -949,7 +949,7 @@ Agricultural_management_efficiency_at_development_stage_tmp <- make_gRain_CPT(pa
 
 Agricultural_management_efficiency_at_development_stage_values <- Agricultural_management_efficiency_at_development_stage_tmp$values
 Agricultural_management_efficiency_at_development_stage_levels <- Agricultural_management_efficiency_at_development_stage_tmp$levels
-Agricultural_management_efficiency_at_development_stage <- gRain::cptable (~Agricultural_management_efficiency_at_development_stage|
+Agricultural_management_efficiency_at_development_stage <- cptable (~Agricultural_management_efficiency_at_development_stage|
                                                                       Available_soil_nutrients_at_development_stage:
                                                                       Pest_and_desease_impact_at_development_stage:
                                                                       Weeds_impact_at_development_stage,
@@ -975,7 +975,7 @@ Water_supply_adequacy_at_development_stage_values <- c(0.5, 0.5,
                                                        0.5, 0.5,
                                                        0.1, 0.9)
 Water_supply_adequacy_at_development_stage_levels <- c("Inadequate", "Adequate")
-Water_supply_adequacy_at_development_stage <- gRain::cptable (~Water_supply_adequacy_at_development_stage|
+Water_supply_adequacy_at_development_stage <- cptable (~Water_supply_adequacy_at_development_stage|
                                                          Available_soil_water_at_development_stage:
                                                          Crop_type,
                                                        values = Water_supply_adequacy_at_development_stage_values,levels = Water_supply_adequacy_at_development_stage_levels)
@@ -999,8 +999,8 @@ Local_constraints_at_development_stage_tmp <- make_gRain_CPT(parent_effects = li
 
 Local_constraints_at_development_stage_values <- Local_constraints_at_development_stage_tmp$values
 Local_constraints_at_development_stage_levels <- Local_constraints_at_development_stage_tmp$levels
-Local_constraints_at_development_stage <- gRain::cptable (~Local_constraints_at_development_stage|
-                                                     Effectiveness_of_cropping_systems:
+Local_constraints_at_development_stage <- cptable (~Local_constraints_at_development_stage|
+                                                     Effectiveness_of_cropping_options:
                                                      Water_supply_adequacy_at_development_stage:
                                                      Agricultural_management_efficiency_at_development_stage, 
                                                    values = Local_constraints_at_development_stage_values,levels = Local_constraints_at_development_stage_levels)
@@ -1012,25 +1012,25 @@ Local_constraints_at_development_stage <- gRain::cptable (~Local_constraints_at_
 #------------------------------------------------------------------------------------#
 
 # ## Type of water diversion ####
-# Type_of_water_diversion <- gRain::cptable(~Type_of_water_diversion, values = c(0.3, 0.4, 0.3),
+# Type_of_water_diversion <- cptable(~Type_of_water_diversion, values = c(0.3, 0.4, 0.3),
 #                                    levels = c('Modern', 'Hybrid', 'Traditional'))
 
 
 ## Sediment_load_at_mid_stage ####
-Sediment_load_at_mid_stage <- gRain::cptable (~Sediment_load_at_mid_stage|Type_of_water_diversion, values =   c(0.3, 0.6, 0.1,
+Sediment_load_at_mid_stage <- cptable (~Sediment_load_at_mid_stage|Type_of_water_diversion, values =   c(0.3, 0.6, 0.1,
                                                                                                          0.5, 0.4, 0.1,
                                                                                                          0.85, 0.14, 0.01),
                                        levels = c("High", 'Medium', 'Low'))
 
 
 ## Rain_event_occurence_at_mid_stage ####
-Rain_event_occurence_at_mid_stage <- gRain::cptable (~Rain_event_occurence_at_mid_stage, values = c(0.65, 0.35),levels = c('Off-site', 'On-site'))
+Rain_event_occurence_at_mid_stage <- cptable (~Rain_event_occurence_at_mid_stage, values = c(0.65, 0.35),levels = c('Off-site', 'On-site'))
 
 # ## Slope ####
-# Slope <- gRain::cptable (~Slope, values = c(0.1, 0.2, 0.7),levels = c('Steep', 'Moderate', 'Gentil'))
+# Slope <- cptable (~Slope, values = c(0.1, 0.2, 0.7),levels = c('Steep', 'Moderate', 'Gentil'))
 
 # ## Socio-institutional arrangements ####
-# Social_arrangements <- gRain::cptable (~Social_arrangements, values = c(0.3, 0.7),levels = c('Inadequate', 'Adequate'))
+# Social_arrangements <- cptable (~Social_arrangements, values = c(0.3, 0.7),levels = c('Inadequate', 'Adequate'))
 
 ## Main_Canals_Maitnenance_at_mid_stage ####
 Main_Canals_Maitnenance_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,3,2),
@@ -1052,7 +1052,7 @@ Main_Canals_Maitnenance_at_mid_stage_values <- c(0.919293820933165, 0.0807061790
                                                  0.164948453608247, 0.835051546391752,
                                                  0.307692307692308, 0.692307692307692)
 Main_Canals_Maitnenance_at_mid_stage_levels <- Main_Canals_Maitnenance_at_mid_stage_tmp$levels
-Main_Canals_Maitnenance_at_mid_stage <- gRain::cptable (~Main_Canals_Maitnenance_at_mid_stage|Type_of_water_diversion:Social_arrangements, values = Main_Canals_Maitnenance_at_mid_stage_values,levels = Main_Canals_Maitnenance_at_mid_stage_levels)
+Main_Canals_Maitnenance_at_mid_stage <- cptable (~Main_Canals_Maitnenance_at_mid_stage|Type_of_water_diversion:Social_arrangements, values = Main_Canals_Maitnenance_at_mid_stage_values,levels = Main_Canals_Maitnenance_at_mid_stage_levels)
 
 
 ## Amount_of_shared_flood_at_mid_stage ####
@@ -1071,14 +1071,14 @@ Amount_of_shared_flood_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(
 
 Amount_of_shared_flood_at_mid_stage_values <- Amount_of_shared_flood_at_mid_stage_tmp$values
 Amount_of_shared_flood_at_mid_stage_levels <- Amount_of_shared_flood_at_mid_stage_tmp$levels
-Amount_of_shared_flood_at_mid_stage <- gRain::cptable (~Amount_of_shared_flood_at_mid_stage|
+Amount_of_shared_flood_at_mid_stage <- cptable (~Amount_of_shared_flood_at_mid_stage|
                                                   Rain_event_occurence_at_mid_stage:
                                                   Main_Canals_Maitnenance_at_mid_stage:
                                                   Sediment_load_at_mid_stage:
                                                   Slope, values = Amount_of_shared_flood_at_mid_stage_values,levels = Amount_of_shared_flood_at_mid_stage_levels)
 
 # ## Location_of_the_plot ####
-# Location_of_the_plot <- gRain::cptable (~Location_of_the_plot, values = c(0.6, 0.3, 0.1),levels = c('Lowlands', 'Midlands', 'Highlands'))
+# Location_of_the_plot <- cptable (~Location_of_the_plot, values = c(0.6, 0.3, 0.1),levels = c('Lowlands', 'Midlands', 'Highlands'))
 ## Upstream_abstraction_at_mid_stage ####
 Upstream_abstraction_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2),
                                                                               c(0,1,2)),
@@ -1101,13 +1101,13 @@ Upstream_abstraction_at_mid_stage_values <- c(0.999086340794883, 0.0009136592051
                                               0.142857142857143, 0.857142857142857, 
                                               0.00205338809034908, 0.997946611909651)
 Upstream_abstraction_at_mid_stage_levels <- Upstream_abstraction_at_mid_stage_tmp$levels
-Upstream_abstraction_at_mid_stage <- gRain::cptable (~Upstream_abstraction_at_mid_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_mid_stage_values,levels = Upstream_abstraction_at_mid_stage_levels)
+Upstream_abstraction_at_mid_stage <- cptable (~Upstream_abstraction_at_mid_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_mid_stage_values,levels = Upstream_abstraction_at_mid_stage_levels)
 
 ## Field_canal_maintenance_at_mid_stage####
-Field_canal_maintenance_at_mid_stage<- gRain::cptable (~Field_canal_maintenance_at_mid_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
+Field_canal_maintenance_at_mid_stage<- cptable (~Field_canal_maintenance_at_mid_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
 
 ## Presence_of_the_farmer_during_flood_event_at_mid_stage ###
-Presence_of_the_farmer_during_flood_event_at_mid_stage <- gRain::cptable (~Presence_of_the_farmer_during_flood_event_at_mid_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
+Presence_of_the_farmer_during_flood_event_at_mid_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_mid_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
 
 ## Amount_of_flood_reaching_the_plot_at_mid_stage ####
 Amount_of_flood_reaching_the_plot_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2), 
@@ -1127,7 +1127,7 @@ Amount_of_flood_reaching_the_plot_at_mid_stage_tmp <- make_gRain_CPT(parent_effe
 
 Amount_of_flood_reaching_the_plot_at_mid_stage_values <- Amount_of_flood_reaching_the_plot_at_mid_stage_tmp$values
 Amount_of_flood_reaching_the_plot_at_mid_stage_levels <- Amount_of_flood_reaching_the_plot_at_mid_stage_tmp$levels
-Amount_of_flood_reaching_the_plot_at_mid_stage <- gRain::cptable (~Amount_of_flood_reaching_the_plot_at_mid_stage|Field_canal_maintenance_at_mid_stage:Presence_of_the_farmer_during_flood_event_at_mid_stage:Amount_of_shared_flood_at_mid_stage:Upstream_abstraction_at_mid_stage, values = Amount_of_flood_reaching_the_plot_at_mid_stage_values,levels = Amount_of_flood_reaching_the_plot_at_mid_stage_levels)
+Amount_of_flood_reaching_the_plot_at_mid_stage <- cptable (~Amount_of_flood_reaching_the_plot_at_mid_stage|Field_canal_maintenance_at_mid_stage:Presence_of_the_farmer_during_flood_event_at_mid_stage:Amount_of_shared_flood_at_mid_stage:Upstream_abstraction_at_mid_stage, values = Amount_of_flood_reaching_the_plot_at_mid_stage_values,levels = Amount_of_flood_reaching_the_plot_at_mid_stage_levels)
 
 
 #------------------------------------------------------------------------------------#
@@ -1136,11 +1136,11 @@ Amount_of_flood_reaching_the_plot_at_mid_stage <- gRain::cptable (~Amount_of_flo
 
 # ## Soil_type ####
 # 
-# Soil_type <- gRain::cptable (~Soil_type, values = c(0.05, 0.55, 0.4),levels = c('Sandy', 'Loamy', 'Clayey'))
+# Soil_type <- cptable (~Soil_type, values = c(0.05, 0.55, 0.4),levels = c('Sandy', 'Loamy', 'Clayey'))
 
 # ## Manure_application ####
 # 
-# Manure_application <- gRain::cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
 
 # ## Soil_water_holding_capacity ####
 # 
@@ -1154,20 +1154,20 @@ Amount_of_flood_reaching_the_plot_at_mid_stage <- gRain::cptable (~Amount_of_flo
 #                                                                        c('FALSE', 'TRUE')))
 # Soil_water_holding_capacity_values <- Soil_water_holding_capacity_tmp$values
 # Soil_water_holding_capacity_levels <- Soil_water_holding_capacity_tmp$levels
-# Soil_water_holding_capacity <- gRain::cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
+# Soil_water_holding_capacity <- cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
 
 ## Evapotranspiration_at_mid_stage ####
 
-Evapotranspiration_at_mid_stage <- gRain::cptable (~Evapotranspiration_at_mid_stage, values = c(0.9, 0.05, 0.05), # c(0.05, 0.9, 0.05), # c(0.1, 0.2, 0.7),
+Evapotranspiration_at_mid_stage <- cptable (~Evapotranspiration_at_mid_stage, values = c(0.9, 0.05, 0.05), # c(0.05, 0.9, 0.05), # c(0.1, 0.2, 0.7),
                                             levels = c('High', 'Medium', 'Low'))
 
 ## Rainfall_amount_at_mid_stage ####
 
-Rainfall_amount_at_mid_stage <- gRain::cptable (~Rainfall_amount_at_mid_stage, values = c(0.25, 0.6, 0.15),levels = c('< normal', 'Normal', '> normal'))
+Rainfall_amount_at_mid_stage <- cptable (~Rainfall_amount_at_mid_stage, values = c(0.25, 0.6, 0.15),levels = c('< normal', 'Normal', '> normal'))
 
 # ## Initial_soil_water_content ####
 # 
-# Initial_soil_water_content <- gRain::cptable (~Initial_soil_water_content, values = c(0.40, 0.30, 0.15, 0.15),levels = c('Very low', 'Low', 'Medium', 'High'))
+# Initial_soil_water_content <- cptable (~Initial_soil_water_content, values = c(0.40, 0.30, 0.15, 0.15),levels = c('Very low', 'Low', 'Medium', 'High'))
 
 ## Available_soil_water_at_mid_stage ####
 
@@ -1190,7 +1190,7 @@ Available_soil_water_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(
                                                                              c('Too little', 'Normal', 'Too much')))
 Available_soil_water_at_mid_stage_values <- Available_soil_water_at_mid_stage_tmp$values
 Available_soil_water_at_mid_stage_levels <- Available_soil_water_at_mid_stage_tmp$levels
-Available_soil_water_at_mid_stage <- gRain::cptable (~Available_soil_water_at_mid_stage|
+Available_soil_water_at_mid_stage <- cptable (~Available_soil_water_at_mid_stage|
                                                 Soil_water_holding_capacity:
                                                 Evapotranspiration_at_mid_stage:
                                                 Rainfall_amount_at_mid_stage:
@@ -1205,11 +1205,11 @@ Available_soil_water_at_mid_stage <- gRain::cptable (~Available_soil_water_at_mi
 # 
 # ## Relative_wealth_status ####
 # 
-# Relative_wealth_status <- gRain::cptable(~Relative_wealth_status, values = c(0.6, 0.3, 0.1), levels = c('Poor', 'Middle class', 'Rich'))
+# Relative_wealth_status <- cptable(~Relative_wealth_status, values = c(0.6, 0.3, 0.1), levels = c('Poor', 'Middle class', 'Rich'))
 
 # ## Mutual_aids ####
 # 
-# Mutual_aids <- gRain::cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
 
 ## Access_to_inputs_at_mid_stage ####
 
@@ -1223,10 +1223,10 @@ Access_to_inputs_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2,
                                                                          c('FALSE', 'TRUE')))
 Access_to_inputs_at_mid_stage_values <- Access_to_inputs_at_mid_stage_tmp$values
 Access_to_inputs_at_mid_stage_levels <- Access_to_inputs_at_mid_stage_tmp$levels
-Access_to_inputs_at_mid_stage <- gRain::cptable (~Access_to_inputs_at_mid_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_mid_stage_values,levels = Access_to_inputs_at_mid_stage_levels)
+Access_to_inputs_at_mid_stage <- cptable (~Access_to_inputs_at_mid_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_mid_stage_values,levels = Access_to_inputs_at_mid_stage_levels)
 
 ## Available_paid_labor_at_mid_stage #####
-Available_paid_labor_at_mid_stage <- gRain::cptable(~Available_paid_labor_at_mid_stage, values = c(0.4, 0.6), levels = c('Unavailable', 'Available'))
+Available_paid_labor_at_mid_stage <- cptable(~Available_paid_labor_at_mid_stage, values = c(0.4, 0.6), levels = c('Unavailable', 'Available'))
 ## Available_Labor_force_at_mid_stage #####
 
 Available_Labor_force_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(2, 1.5, 0), 
@@ -1256,21 +1256,21 @@ Available_Labor_force_at_mid_stage_values <- c(0.35, 0.65,
                                                0.1, 0.9,
                                                0.15, 0.85)
 Available_Labor_force_at_mid_stage_levels <- Available_Labor_force_at_mid_stage_tmp$levels
-Available_Labor_force_at_mid_stage <- gRain::cptable (~Available_Labor_force_at_mid_stage|Relative_wealth_status:Mutual_aids:Available_paid_labor_at_mid_stage, values = Available_Labor_force_at_mid_stage_values,levels = Available_Labor_force_at_mid_stage_levels)
+Available_Labor_force_at_mid_stage <- cptable (~Available_Labor_force_at_mid_stage|Relative_wealth_status:Mutual_aids:Available_paid_labor_at_mid_stage, values = Available_Labor_force_at_mid_stage_values,levels = Available_Labor_force_at_mid_stage_levels)
 
 # ## skills_of_the_farmer #####
 # 
-# skills_of_the_farmer <- gRain::cptable(~skills_of_the_farmer, values = c(0.3, 0.7), levels = c('Defavorable', 'Favorable'))
+# skills_of_the_farmer <- cptable(~skills_of_the_farmer, values = c(0.3, 0.7), levels = c('Defavorable', 'Favorable'))
 
 ## Chemical_application_at_mid_stage ####
-Chemical_application_at_mid_stage <- gRain::cptable (~Chemical_application_at_mid_stage|Access_to_inputs_at_mid_stage, 
+Chemical_application_at_mid_stage <- cptable (~Chemical_application_at_mid_stage|Access_to_inputs_at_mid_stage, 
                                               values = c(0.8, 0.2,
                                                          0.4, 0.6),
                                               levels = c('Unufficient', 'Sufficient'))
 
 ### Application_of_traditional_crop_protection_Methods_at_mid_stage #####
 
-Application_of_traditional_crop_protection_Methods_at_mid_stage <- gRain::cptable(~Application_of_traditional_crop_protection_Methods_at_mid_stage, values = c(0.1, 0.9), levels = c('Uncommon', 'Common'))
+Application_of_traditional_crop_protection_Methods_at_mid_stage <- cptable(~Application_of_traditional_crop_protection_Methods_at_mid_stage, values = c(0.1, 0.9), levels = c('Uncommon', 'Common'))
 
 ## Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage ####
 
@@ -1290,7 +1290,7 @@ Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage_tmp <- make_g
 
 Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage_values <- Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage_tmp$values
 Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage_levels <- Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage_tmp$levels
-Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage <- gRain::cptable (~Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage|
+Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage <- cptable (~Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage|
                                                                                  Chemical_application_at_mid_stage:
                                                                                  Application_of_traditional_crop_protection_Methods_at_mid_stage:
                                                                                  Available_Labor_force_at_mid_stage:
@@ -1311,19 +1311,19 @@ Effectiveness_of_Weeding_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = lis
 
 Effectiveness_of_Weeding_at_mid_stage_values <- Effectiveness_of_Weeding_at_mid_stage_tmp$values
 Effectiveness_of_Weeding_at_mid_stage_levels <- Effectiveness_of_Weeding_at_mid_stage_tmp$levels
-Effectiveness_of_Weeding_at_mid_stage <- gRain::cptable (~Effectiveness_of_Weeding_at_mid_stage|Available_Labor_force_at_mid_stage:skills_of_the_farmer, values = Effectiveness_of_Weeding_at_mid_stage_values,levels = Effectiveness_of_Weeding_at_mid_stage_levels)
+Effectiveness_of_Weeding_at_mid_stage <- cptable (~Effectiveness_of_Weeding_at_mid_stage|Available_Labor_force_at_mid_stage:skills_of_the_farmer, values = Effectiveness_of_Weeding_at_mid_stage_values,levels = Effectiveness_of_Weeding_at_mid_stage_levels)
 
 
 ## Fertilizers_application_at_mid_stage #####
 
-Fertilizers_application_at_mid_stage <- gRain::cptable (~Fertilizers_application_at_mid_stage|Access_to_inputs_at_mid_stage, 
+Fertilizers_application_at_mid_stage <- cptable (~Fertilizers_application_at_mid_stage|Access_to_inputs_at_mid_stage, 
                                                  values = c(0.9, 0.1,
                                                             0.3, 0.7),
                                                  levels = c('FALSE', 'TRUE'))
 
 ## Rich_sediments_addition_from_flood_at_mid_stage ####
 
-Rich_sediments_addition_from_flood_at_mid_stage <- gRain::cptable(~Rich_sediments_addition_from_flood_at_mid_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
+Rich_sediments_addition_from_flood_at_mid_stage <- cptable(~Rich_sediments_addition_from_flood_at_mid_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
 
 ## Available_soil_nutrients_at_mid_stage ####
 
@@ -1348,7 +1348,7 @@ Available_soil_nutrients_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = lis
 
 Available_soil_nutrients_at_mid_stage_values <- Available_soil_nutrients_at_mid_stage_tmp$values
 Available_soil_nutrients_at_mid_stage_levels <- Available_soil_nutrients_at_mid_stage_tmp$levels
-Available_soil_nutrients_at_mid_stage <- gRain::cptable (~Available_soil_nutrients_at_mid_stage|
+Available_soil_nutrients_at_mid_stage <- cptable (~Available_soil_nutrients_at_mid_stage|
                                                     #Manure_application:
                                                     Fertilizers_application_at_mid_stage:
                                                     Rich_sediments_addition_from_flood_at_mid_stage:
@@ -1356,7 +1356,7 @@ Available_soil_nutrients_at_mid_stage <- gRain::cptable (~Available_soil_nutrien
 
 ### Pest_and_desease_impact_at_mid_stage ####
 
-# Pest_and_desease_impact_at_mid_stage <- gRain::cptable (~Pest_and_desease_impact_at_mid_stage|
+# Pest_and_desease_impact_at_mid_stage <- cptable (~Pest_and_desease_impact_at_mid_stage|
 #                                                    Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage,
 #                                                     values = c(0.5, 0.3, 0.2,
 #                                                                0.15, 0.25, 0.6),
@@ -1373,7 +1373,7 @@ Pest_and_desease_impact_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list
                                                                                 c('Sorghum', 'Maize','Teff', 'Rice')))
 Pest_and_desease_impact_at_mid_stage_values <- Pest_and_desease_impact_at_mid_stage_tmp$values
 Pest_and_desease_impact_at_mid_stage_levels <- Pest_and_desease_impact_at_mid_stage_tmp$levels
-Pest_and_desease_impact_at_mid_stage <- gRain::cptable (~Pest_and_desease_impact_at_mid_stage|
+Pest_and_desease_impact_at_mid_stage <- cptable (~Pest_and_desease_impact_at_mid_stage|
                                                    Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage:
                                                    Pest_and_desease_impact_at_development_stage:
                                                    Crop_type, 
@@ -1381,7 +1381,7 @@ Pest_and_desease_impact_at_mid_stage <- gRain::cptable (~Pest_and_desease_impact
 
 ## Weeds_impact_at_mid_stage ####
 
-# Weeds_impact_at_mid_stage <- gRain::cptable (~Weeds_impact_at_mid_stage|Effectiveness_of_Weeding_at_mid_stage, 
+# Weeds_impact_at_mid_stage <- cptable (~Weeds_impact_at_mid_stage|Effectiveness_of_Weeding_at_mid_stage, 
 #                                          values = c(0.5, 0.3, 0.2,
 #                                                     0.15, 0.25, 0.6),
 #                                          levels = c('Consuming', 'Moderate', 'Negligible'))
@@ -1396,7 +1396,7 @@ Weeds_impact_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), 
                                                                      c('Sorghum', 'Maize','Teff', 'Rice')))
 Weeds_impact_at_mid_stage_values <- Weeds_impact_at_mid_stage_tmp$values
 Weeds_impact_at_mid_stage_levels <- Weeds_impact_at_mid_stage_tmp$levels
-Weeds_impact_at_mid_stage <- gRain::cptable (~Weeds_impact_at_mid_stage|
+Weeds_impact_at_mid_stage <- cptable (~Weeds_impact_at_mid_stage|
                                         Effectiveness_of_Weeding_at_mid_stage:
                                         Weeds_impact_at_development_stage:
                                         Crop_type, 
@@ -1424,7 +1424,7 @@ Agricultural_management_efficiency_at_mid_stage_tmp <- make_gRain_CPT(parent_eff
 
 Agricultural_management_efficiency_at_mid_stage_values <- Agricultural_management_efficiency_at_mid_stage_tmp$values
 Agricultural_management_efficiency_at_mid_stage_levels <- Agricultural_management_efficiency_at_mid_stage_tmp$levels
-Agricultural_management_efficiency_at_mid_stage <- gRain::cptable (~Agricultural_management_efficiency_at_mid_stage|
+Agricultural_management_efficiency_at_mid_stage <- cptable (~Agricultural_management_efficiency_at_mid_stage|
                                                               Available_soil_nutrients_at_mid_stage:
                                                               Pest_and_desease_impact_at_mid_stage:
                                                               Weeds_impact_at_mid_stage,
@@ -1449,7 +1449,7 @@ Water_supply_adequacy_at_mid_stage_values <- c(0.5, 0.5,
                                                0.5, 0.5,
                                                0.1, 0.9)
 Water_supply_adequacy_at_mid_stage_levels <- c("Inadequate", "Adequate")
-Water_supply_adequacy_at_mid_stage <- gRain::cptable (~Water_supply_adequacy_at_mid_stage|
+Water_supply_adequacy_at_mid_stage <- cptable (~Water_supply_adequacy_at_mid_stage|
                                                  Available_soil_water_at_mid_stage:
                                                  Crop_type,
                                                values = Water_supply_adequacy_at_mid_stage_values,levels = Water_supply_adequacy_at_mid_stage_levels)
@@ -1471,8 +1471,8 @@ Local_constraints_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2
 
 Local_constraints_at_mid_stage_values <- Local_constraints_at_mid_stage_tmp$values
 Local_constraints_at_mid_stage_levels <- Local_constraints_at_mid_stage_tmp$levels
-Local_constraints_at_mid_stage <- gRain::cptable (~Local_constraints_at_mid_stage|
-                                             Effectiveness_of_cropping_systems:
+Local_constraints_at_mid_stage <- cptable (~Local_constraints_at_mid_stage|
+                                             Effectiveness_of_cropping_options:
                                              Water_supply_adequacy_at_mid_stage:
                                              Agricultural_management_efficiency_at_mid_stage, 
                                            values = Local_constraints_at_mid_stage_values,levels = Local_constraints_at_mid_stage_levels)
@@ -1484,12 +1484,12 @@ Local_constraints_at_mid_stage <- gRain::cptable (~Local_constraints_at_mid_stag
 #------------------------------------------------------------------------------------#
 
 # ## Type of water diversion ####
-# Type_of_water_diversion <- gRain::cptable(~Type_of_water_diversion, values = c(0.3, 0.4, 0.3),
+# Type_of_water_diversion <- cptable(~Type_of_water_diversion, values = c(0.3, 0.4, 0.3),
 #                                    levels = c('Modern', 'Hybrid', 'Traditional'))
 
 
 ## Sediment_load_at_late_stage ####
-Sediment_load_at_late_stage <- gRain::cptable (~Sediment_load_at_late_stage|Type_of_water_diversion, values =   c(0.45, 0.45, 0.01,
+Sediment_load_at_late_stage <- cptable (~Sediment_load_at_late_stage|Type_of_water_diversion, values =   c(0.45, 0.45, 0.01,
                                                                                                            0.6, 0.3, 0.1,
                                                                                                            0.95, 0.09, 0.01),
                                         
@@ -1513,13 +1513,13 @@ Sediment_load_at_late_stage <- gRain::cptable (~Sediment_load_at_late_stage|Type
 
 
 ## Rain_event_occurence_at_late_stage ####
-Rain_event_occurence_at_late_stage <- gRain::cptable (~Rain_event_occurence_at_late_stage, values = c(0.65, 0.35),levels = c('Off-site', 'On-site'))
+Rain_event_occurence_at_late_stage <- cptable (~Rain_event_occurence_at_late_stage, values = c(0.65, 0.35),levels = c('Off-site', 'On-site'))
 
 # ## Slope ####
-# Slope <- gRain::cptable (~Slope, values = c(0.1, 0.2, 0.7),levels = c('Steep', 'Moderate', 'Gentil'))
+# Slope <- cptable (~Slope, values = c(0.1, 0.2, 0.7),levels = c('Steep', 'Moderate', 'Gentil'))
 
 # ## Socio-institutional arrangements ####
-# Social_arrangements <- gRain::cptable (~Social_arrangements, values = c(0.3, 0.7),levels = c('Inadequate', 'Adequate'))
+# Social_arrangements <- cptable (~Social_arrangements, values = c(0.3, 0.7),levels = c('Inadequate', 'Adequate'))
 
 ## Main_Canals_Maitnenance_at_late_stage ####
 Main_Canals_Maitnenance_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,3,2),
@@ -1542,7 +1542,7 @@ Main_Canals_Maitnenance_at_late_stage_values <- c(0.919293820933165, 0.080706179
                                                   0.164948453608247, 0.835051546391752,
                                                   0.307692307692308, 0.692307692307692)
 Main_Canals_Maitnenance_at_late_stage_levels <- Main_Canals_Maitnenance_at_late_stage_tmp$levels
-Main_Canals_Maitnenance_at_late_stage <- gRain::cptable (~Main_Canals_Maitnenance_at_late_stage|Type_of_water_diversion:Social_arrangements, values = Main_Canals_Maitnenance_at_late_stage_values,levels = Main_Canals_Maitnenance_at_late_stage_levels)
+Main_Canals_Maitnenance_at_late_stage <- cptable (~Main_Canals_Maitnenance_at_late_stage|Type_of_water_diversion:Social_arrangements, values = Main_Canals_Maitnenance_at_late_stage_values,levels = Main_Canals_Maitnenance_at_late_stage_levels)
 
 
 ## Amount_of_shared_flood_at_late_stage ####
@@ -1561,14 +1561,14 @@ Amount_of_shared_flood_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list
 
 Amount_of_shared_flood_at_late_stage_values <- Amount_of_shared_flood_at_late_stage_tmp$values
 Amount_of_shared_flood_at_late_stage_levels <- Amount_of_shared_flood_at_late_stage_tmp$levels
-Amount_of_shared_flood_at_late_stage <- gRain::cptable (~Amount_of_shared_flood_at_late_stage|
+Amount_of_shared_flood_at_late_stage <- cptable (~Amount_of_shared_flood_at_late_stage|
                                                    Rain_event_occurence_at_late_stage:
                                                    Main_Canals_Maitnenance_at_late_stage:
                                                    Sediment_load_at_late_stage:
                                                    Slope, values = Amount_of_shared_flood_at_late_stage_values,levels = Amount_of_shared_flood_at_late_stage_levels)
 
 # ## Location_of_the_plot ####
-# Location_of_the_plot <- gRain::cptable (~Location_of_the_plot, values = c(0.6, 0.3, 0.1),levels = c('Lowlands', 'Midlands', 'Highlands'))
+# Location_of_the_plot <- cptable (~Location_of_the_plot, values = c(0.6, 0.3, 0.1),levels = c('Lowlands', 'Midlands', 'Highlands'))
 ## Upstream_abstraction_at_late_stage ####
 Upstream_abstraction_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2),
                                                                                c(0,1,2)),
@@ -1592,13 +1592,13 @@ Upstream_abstraction_at_late_stage_values <- c(0.999086340794883, 0.000913659205
                                                0.142857142857143, 0.857142857142857, 
                                                0.00205338809034908, 0.997946611909651)
 Upstream_abstraction_at_late_stage_levels <- Upstream_abstraction_at_late_stage_tmp$levels
-Upstream_abstraction_at_late_stage <- gRain::cptable (~Upstream_abstraction_at_late_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_late_stage_values,levels = Upstream_abstraction_at_late_stage_levels)
+Upstream_abstraction_at_late_stage <- cptable (~Upstream_abstraction_at_late_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_late_stage_values,levels = Upstream_abstraction_at_late_stage_levels)
 
 ## Field_canal_maintenance_at_late_stage####
-Field_canal_maintenance_at_late_stage<- gRain::cptable (~Field_canal_maintenance_at_late_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
+Field_canal_maintenance_at_late_stage<- cptable (~Field_canal_maintenance_at_late_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
 
 ## Presence_of_the_farmer_during_flood_event_at_late_stage ###
-Presence_of_the_farmer_during_flood_event_at_late_stage <- gRain::cptable (~Presence_of_the_farmer_during_flood_event_at_late_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
+Presence_of_the_farmer_during_flood_event_at_late_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_late_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
 
 ## Amount_of_flood_reaching_the_plot_at_late_stage ####
 Amount_of_flood_reaching_the_plot_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2), 
@@ -1618,7 +1618,7 @@ Amount_of_flood_reaching_the_plot_at_late_stage_tmp <- make_gRain_CPT(parent_eff
 
 Amount_of_flood_reaching_the_plot_at_late_stage_values <- Amount_of_flood_reaching_the_plot_at_late_stage_tmp$values
 Amount_of_flood_reaching_the_plot_at_late_stage_levels <- Amount_of_flood_reaching_the_plot_at_late_stage_tmp$levels
-Amount_of_flood_reaching_the_plot_at_late_stage <- gRain::cptable (~Amount_of_flood_reaching_the_plot_at_late_stage|Field_canal_maintenance_at_late_stage:Presence_of_the_farmer_during_flood_event_at_late_stage:Amount_of_shared_flood_at_late_stage:Upstream_abstraction_at_late_stage, values = Amount_of_flood_reaching_the_plot_at_late_stage_values,levels = Amount_of_flood_reaching_the_plot_at_late_stage_levels)
+Amount_of_flood_reaching_the_plot_at_late_stage <- cptable (~Amount_of_flood_reaching_the_plot_at_late_stage|Field_canal_maintenance_at_late_stage:Presence_of_the_farmer_during_flood_event_at_late_stage:Amount_of_shared_flood_at_late_stage:Upstream_abstraction_at_late_stage, values = Amount_of_flood_reaching_the_plot_at_late_stage_values,levels = Amount_of_flood_reaching_the_plot_at_late_stage_levels)
 
 
 #------------------------------------------------------------------------------------#
@@ -1627,11 +1627,11 @@ Amount_of_flood_reaching_the_plot_at_late_stage <- gRain::cptable (~Amount_of_fl
 
 # ## Soil_type ####
 # 
-# Soil_type <- gRain::cptable (~Soil_type, values = c(0.05, 0.55, 0.4),levels = c('Sandy', 'Loamy', 'Clayey'))
+# Soil_type <- cptable (~Soil_type, values = c(0.05, 0.55, 0.4),levels = c('Sandy', 'Loamy', 'Clayey'))
 
 # ## Manure_application ####
 # 
-# Manure_application <- gRain::cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
 
 # ## Soil_water_holding_capacity ####
 # 
@@ -1645,20 +1645,20 @@ Amount_of_flood_reaching_the_plot_at_late_stage <- gRain::cptable (~Amount_of_fl
 #                                                                        c('FALSE', 'TRUE')))
 # Soil_water_holding_capacity_values <- Soil_water_holding_capacity_tmp$values
 # Soil_water_holding_capacity_levels <- Soil_water_holding_capacity_tmp$levels
-# Soil_water_holding_capacity <- gRain::cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
+# Soil_water_holding_capacity <- cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
 
 ## Evapotranspiration_at_late_stage ####
 
-Evapotranspiration_at_late_stage <- gRain::cptable (~Evapotranspiration_at_late_stage, values = c(0.1, 0.8, 0.1), # c(0.9, 0.05, 0.05), # c(0.05, 0.9, 0.05), # c(0.1, 0.2, 0.7),
+Evapotranspiration_at_late_stage <- cptable (~Evapotranspiration_at_late_stage, values = c(0.1, 0.8, 0.1), # c(0.9, 0.05, 0.05), # c(0.05, 0.9, 0.05), # c(0.1, 0.2, 0.7),
                                              levels = c('High', 'Medium', 'Low'))
 
 ## Rainfall_amount_at_late_stage ####
 
-Rainfall_amount_at_late_stage <- gRain::cptable (~Rainfall_amount_at_late_stage, values = c(0.25, 0.6, 0.15),levels = c('< normal', 'Normal', '> normal'))
+Rainfall_amount_at_late_stage <- cptable (~Rainfall_amount_at_late_stage, values = c(0.25, 0.6, 0.15),levels = c('< normal', 'Normal', '> normal'))
 
 # ## Initial_soil_water_content ####
 # 
-# Initial_soil_water_content <- gRain::cptable (~Initial_soil_water_content, values = c(0.40, 0.30, 0.15, 0.15),levels = c('Very low', 'Low', 'Medium', 'High'))
+# Initial_soil_water_content <- cptable (~Initial_soil_water_content, values = c(0.40, 0.30, 0.15, 0.15),levels = c('Very low', 'Low', 'Medium', 'High'))
 
 ## Available_soil_water_at_late_stage ####
 
@@ -1681,7 +1681,7 @@ Available_soil_water_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c
                                                                               c('Too little', 'Normal', 'Too much')))
 Available_soil_water_at_late_stage_values <- Available_soil_water_at_late_stage_tmp$values
 Available_soil_water_at_late_stage_levels <- Available_soil_water_at_late_stage_tmp$levels
-Available_soil_water_at_late_stage <- gRain::cptable (~Available_soil_water_at_late_stage|
+Available_soil_water_at_late_stage <- cptable (~Available_soil_water_at_late_stage|
                                                  Soil_water_holding_capacity:
                                                  Evapotranspiration_at_late_stage:
                                                  Rainfall_amount_at_late_stage:
@@ -1696,11 +1696,11 @@ Available_soil_water_at_late_stage <- gRain::cptable (~Available_soil_water_at_l
 # 
 # ## Relative_wealth_status ####
 # 
-# Relative_wealth_status <- gRain::cptable(~Relative_wealth_status, values = c(0.6, 0.3, 0.1), levels = c('Poor', 'Middle class', 'Rich'))
+# Relative_wealth_status <- cptable(~Relative_wealth_status, values = c(0.6, 0.3, 0.1), levels = c('Poor', 'Middle class', 'Rich'))
 
 # ## Mutual_aids ####
 # 
-# Mutual_aids <- gRain::cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
 
 ## Access_to_inputs_at_late_stage ####
 
@@ -1714,10 +1714,10 @@ Access_to_inputs_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2
                                                                           c('FALSE', 'TRUE')))
 Access_to_inputs_at_late_stage_values <- Access_to_inputs_at_late_stage_tmp$values
 Access_to_inputs_at_late_stage_levels <- Access_to_inputs_at_late_stage_tmp$levels
-Access_to_inputs_at_late_stage <- gRain::cptable (~Access_to_inputs_at_late_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_late_stage_values,levels = Access_to_inputs_at_late_stage_levels)
+Access_to_inputs_at_late_stage <- cptable (~Access_to_inputs_at_late_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_late_stage_values,levels = Access_to_inputs_at_late_stage_levels)
 
 ## Available_paid_labor_at_late_stage #####
-Available_paid_labor_at_late_stage <- gRain::cptable(~Available_paid_labor_at_late_stage, values = c(0.4, 0.6), levels = c('Unavailable', 'Available'))
+Available_paid_labor_at_late_stage <- cptable(~Available_paid_labor_at_late_stage, values = c(0.4, 0.6), levels = c('Unavailable', 'Available'))
 ## Available_Labor_force_at_late_stage #####
 
 Available_Labor_force_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(2, 1.5, 0), 
@@ -1747,21 +1747,21 @@ Available_Labor_force_at_late_stage_values <- c(0.35, 0.65,
                                                 0.1, 0.9,
                                                 0.15, 0.85)
 Available_Labor_force_at_late_stage_levels <- Available_Labor_force_at_late_stage_tmp$levels
-Available_Labor_force_at_late_stage <- gRain::cptable (~Available_Labor_force_at_late_stage|Relative_wealth_status:Mutual_aids:Available_paid_labor_at_late_stage, values = Available_Labor_force_at_late_stage_values,levels = Available_Labor_force_at_late_stage_levels)
+Available_Labor_force_at_late_stage <- cptable (~Available_Labor_force_at_late_stage|Relative_wealth_status:Mutual_aids:Available_paid_labor_at_late_stage, values = Available_Labor_force_at_late_stage_values,levels = Available_Labor_force_at_late_stage_levels)
 
 # ## skills_of_the_farmer #####
 # 
-# skills_of_the_farmer <- gRain::cptable(~skills_of_the_farmer, values = c(0.3, 0.7), levels = c('Defavorable', 'Favorable'))
+# skills_of_the_farmer <- cptable(~skills_of_the_farmer, values = c(0.3, 0.7), levels = c('Defavorable', 'Favorable'))
 
 ## Chemical_application_at_late_stage ####
-Chemical_application_at_late_stage <- gRain::cptable (~Chemical_application_at_late_stage|Access_to_inputs_at_late_stage, 
+Chemical_application_at_late_stage <- cptable (~Chemical_application_at_late_stage|Access_to_inputs_at_late_stage, 
                                                values = c(0.8, 0.2,
                                                           0.4, 0.6),
                                                levels = c('Unufficient', 'Sufficient'))
 
 ### Application_of_traditional_crop_protection_Methods_at_late_stage #####
 
-Application_of_traditional_crop_protection_Methods_at_late_stage <- gRain::cptable(~Application_of_traditional_crop_protection_Methods_at_late_stage, values = c(0.1, 0.9), levels = c('Uncommon', 'Common'))
+Application_of_traditional_crop_protection_Methods_at_late_stage <- cptable(~Application_of_traditional_crop_protection_Methods_at_late_stage, values = c(0.1, 0.9), levels = c('Uncommon', 'Common'))
 
 ## Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage ####
 
@@ -1781,7 +1781,7 @@ Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage_tmp <- make_
 
 Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage_values <- Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage_tmp$values
 Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage_levels <- Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage_tmp$levels
-Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage <- gRain::cptable (~Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage|
+Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage <- cptable (~Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage|
                                                                                   Chemical_application_at_late_stage:
                                                                                   Application_of_traditional_crop_protection_Methods_at_late_stage:
                                                                                   Available_Labor_force_at_late_stage:
@@ -1802,19 +1802,19 @@ Effectiveness_of_Weeding_at_late_stage_tmp <- make_gRain_CPT(parent_effects = li
 
 Effectiveness_of_Weeding_at_late_stage_values <- Effectiveness_of_Weeding_at_late_stage_tmp$values
 Effectiveness_of_Weeding_at_late_stage_levels <- Effectiveness_of_Weeding_at_late_stage_tmp$levels
-Effectiveness_of_Weeding_at_late_stage <- gRain::cptable (~Effectiveness_of_Weeding_at_late_stage|Available_Labor_force_at_late_stage:skills_of_the_farmer, values = Effectiveness_of_Weeding_at_late_stage_values,levels = Effectiveness_of_Weeding_at_late_stage_levels)
+Effectiveness_of_Weeding_at_late_stage <- cptable (~Effectiveness_of_Weeding_at_late_stage|Available_Labor_force_at_late_stage:skills_of_the_farmer, values = Effectiveness_of_Weeding_at_late_stage_values,levels = Effectiveness_of_Weeding_at_late_stage_levels)
 
 
 ## Fertilizers_application_at_late_stage #####
 
-Fertilizers_application_at_late_stage <- gRain::cptable (~Fertilizers_application_at_late_stage|Access_to_inputs_at_late_stage, 
+Fertilizers_application_at_late_stage <- cptable (~Fertilizers_application_at_late_stage|Access_to_inputs_at_late_stage, 
                                                   values = c(0.9, 0.1,
                                                              0.3, 0.7),
                                                   levels = c('FALSE', 'TRUE'))
 
 ## Rich_sediments_addition_from_flood_at_late_stage ####
 
-Rich_sediments_addition_from_flood_at_late_stage <- gRain::cptable(~Rich_sediments_addition_from_flood_at_late_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
+Rich_sediments_addition_from_flood_at_late_stage <- cptable(~Rich_sediments_addition_from_flood_at_late_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
 
 ## Available_soil_nutrients_at_late_stage ####
 
@@ -1839,7 +1839,7 @@ Available_soil_nutrients_at_late_stage_tmp <- make_gRain_CPT(parent_effects = li
 
 Available_soil_nutrients_at_late_stage_values <- Available_soil_nutrients_at_late_stage_tmp$values
 Available_soil_nutrients_at_late_stage_levels <- Available_soil_nutrients_at_late_stage_tmp$levels
-Available_soil_nutrients_at_late_stage <- gRain::cptable (~Available_soil_nutrients_at_late_stage|
+Available_soil_nutrients_at_late_stage <- cptable (~Available_soil_nutrients_at_late_stage|
                                                      #Manure_application:
                                                      Fertilizers_application_at_late_stage:
                                                      Rich_sediments_addition_from_flood_at_late_stage:
@@ -1847,7 +1847,7 @@ Available_soil_nutrients_at_late_stage <- gRain::cptable (~Available_soil_nutrie
 
 ### Pest_and_desease_impact_at_late_stage ####
 
-# Pest_and_desease_impact_at_late_stage <- gRain::cptable (~Pest_and_desease_impact_at_late_stage|
+# Pest_and_desease_impact_at_late_stage <- cptable (~Pest_and_desease_impact_at_late_stage|
 #                                                    Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage,
 #                                                     values = c(0.5, 0.3, 0.2,
 #                                                                0.15, 0.25, 0.6),
@@ -1866,7 +1866,7 @@ Pest_and_desease_impact_at_late_stage_tmp <- make_gRain_CPT(parent_effects = lis
                                                                                  c('Sorghum', 'Maize','Teff', 'Rice')))
 Pest_and_desease_impact_at_late_stage_values <- Pest_and_desease_impact_at_late_stage_tmp$values
 Pest_and_desease_impact_at_late_stage_levels <- Pest_and_desease_impact_at_late_stage_tmp$levels
-Pest_and_desease_impact_at_late_stage <- gRain::cptable (~Pest_and_desease_impact_at_late_stage|
+Pest_and_desease_impact_at_late_stage <- cptable (~Pest_and_desease_impact_at_late_stage|
                                                     Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage:
                                                     Pest_and_desease_impact_at_mid_stage:
                                                     Crop_type, 
@@ -1874,7 +1874,7 @@ Pest_and_desease_impact_at_late_stage <- gRain::cptable (~Pest_and_desease_impac
 
 ## Weeds_impact_at_late_stage ####
 
-# Weeds_impact_at_late_stage <- gRain::cptable (~Weeds_impact_at_late_stage|Effectiveness_of_Weeding_at_late_stage, 
+# Weeds_impact_at_late_stage <- cptable (~Weeds_impact_at_late_stage|Effectiveness_of_Weeding_at_late_stage, 
 #                                          values = c(0.5, 0.3, 0.2,
 #                                                     0.15, 0.25, 0.6),
 #                                          levels = c('Consuming', 'Moderate', 'Negligible'))
@@ -1890,7 +1890,7 @@ Weeds_impact_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,2),
                                                                       c('Sorghum', 'Maize','Teff', 'Rice')))
 Weeds_impact_at_late_stage_values <- Weeds_impact_at_late_stage_tmp$values
 Weeds_impact_at_late_stage_levels <- Weeds_impact_at_late_stage_tmp$levels
-Weeds_impact_at_late_stage <- gRain::cptable (~Weeds_impact_at_late_stage|
+Weeds_impact_at_late_stage <- cptable (~Weeds_impact_at_late_stage|
                                          Effectiveness_of_Weeding_at_late_stage:
                                          Weeds_impact_at_mid_stage:
                                          Crop_type, 
@@ -1921,7 +1921,7 @@ Agricultural_management_efficiency_at_late_stage_tmp <- make_gRain_CPT(parent_ef
 
 Agricultural_management_efficiency_at_late_stage_values <- Agricultural_management_efficiency_at_late_stage_tmp$values
 Agricultural_management_efficiency_at_late_stage_levels <- Agricultural_management_efficiency_at_late_stage_tmp$levels
-Agricultural_management_efficiency_at_late_stage <- gRain::cptable (~Agricultural_management_efficiency_at_late_stage|
+Agricultural_management_efficiency_at_late_stage <- cptable (~Agricultural_management_efficiency_at_late_stage|
                                                                Available_soil_nutrients_at_late_stage:
                                                                Pest_and_desease_impact_at_late_stage:
                                                                Weeds_impact_at_late_stage,
@@ -1949,7 +1949,7 @@ Water_supply_adequacy_at_late_stage_values <- c(0.5, 0.5,
 
 
 Water_supply_adequacy_at_late_stage_levels <- c("Inadequate", "Adequate")
-Water_supply_adequacy_at_late_stage <- gRain::cptable (~Water_supply_adequacy_at_late_stage|
+Water_supply_adequacy_at_late_stage <- cptable (~Water_supply_adequacy_at_late_stage|
                                                   Available_soil_water_at_late_stage:
                                                   Crop_type,
                                                 values = Water_supply_adequacy_at_late_stage_values,levels = Water_supply_adequacy_at_late_stage_levels)
@@ -1973,8 +1973,8 @@ Local_constraints_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,
 
 Local_constraints_at_late_stage_values <- Local_constraints_at_late_stage_tmp$values
 Local_constraints_at_late_stage_levels <- Local_constraints_at_late_stage_tmp$levels
-Local_constraints_at_late_stage <- gRain::cptable (~Local_constraints_at_late_stage|
-                                              Effectiveness_of_cropping_systems:
+Local_constraints_at_late_stage <- cptable (~Local_constraints_at_late_stage|
+                                              Effectiveness_of_cropping_options:
                                               Water_supply_adequacy_at_late_stage:
                                               Agricultural_management_efficiency_at_late_stage, 
                                             values = Local_constraints_at_late_stage_values,levels = Local_constraints_at_late_stage_levels)
@@ -1983,7 +1983,7 @@ Local_constraints_at_late_stage <- gRain::cptable (~Local_constraints_at_late_st
 
 ## 1) Compile conditional probability tables / cliques potentials ####
 
-net <- gRain::compileCPT(list(
+net <- compileCPT(list(
   
   # At the initial stage
   
@@ -2027,7 +2027,7 @@ net <- gRain::compileCPT(list(
   Intercropping,
   Crop_variety,
   Planting_date,
-  Effectiveness_of_cropping_systems,
+  Effectiveness_of_cropping_options,
   Previous_crop,
   # Effectiveness_of_agricultural_management_at_initial_stage,
   Water_supply_adequacy_at_initial_stage, 
@@ -2079,7 +2079,7 @@ net <- gRain::compileCPT(list(
   #Crop_type,
   #Intercropping,
   #Crop_variety,
-  #Effectiveness_of_cropping_systems,
+  #Effectiveness_of_cropping_options,
   #Available_soil_water_at_initial_stage,
   #Available_soil_nutrients_at_initial_stage,
   #Pest_and_desease_impact_at_initial_stage,
@@ -2131,7 +2131,7 @@ net <- gRain::compileCPT(list(
   #Crop_type,
   #Intercropping,
   #Crop_variety,
-  #Effectiveness_of_cropping_systems,
+  #Effectiveness_of_cropping_options,
   #Available_soil_water_at_initial_stage,
   #Available_soil_nutrients_at_initial_stage,
   #Pest_and_desease_impact_at_initial_stage,
@@ -2177,11 +2177,21 @@ net <- gRain::compileCPT(list(
   Weeds_impact_at_late_stage,
   Agricultural_management_efficiency_at_late_stage,
   Local_constraints_at_late_stage,
+  # Effectiveness_of_agricultural_management_at_late_stage, 
   Water_supply_adequacy_at_late_stage 
+  # Cropping_systems_efficiency_at_late_stage 
+  #Crop_type,
+  #Intercropping,
+  #Crop_variety,
+  #Effectiveness_of_cropping_options,
+  #Available_soil_water_at_initial_stage,
+  #Available_soil_nutrients_at_initial_stage,
+  #Pest_and_desease_impact_at_initial_stage,
+  #Weeds_impact_at_initial_stage
 ))
 
 ## 2) Graphical Independence Network ####
-network <- gRain::grain(net)
+network <- grain(net)
 
 ## 3) Coarse it to bnlearn object ####
-network_bn_fit <- bnlearn::as.bn.fit(network)
+network_bn_fit <- as.bn.fit(network)
