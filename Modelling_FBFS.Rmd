@@ -387,6 +387,8 @@ legende = c(AgricManagEff = "Agricultural_management_efficiency_at_mid_stage",
 )
 net <- decisionSupportExtra::extract_bn(bn = network_bn_fit, string_model = net)
 
+bnlearn::nodes(net) <- names(legende)
+
 saveRDS(net, paste0("output_files", "/", substring(gsub(" ", "_", gsub('-|:', '', Sys.time())), 3), "_BNs_Case_study_3.rds"))
 
 legende <- mapply(paste, names(legende), sprintf('\u2192'), legende)
@@ -769,11 +771,11 @@ ggplot (data = ssp, aes(x, y, color = Crop_type))+
   # switch the facet strip label to outside 
   # remove background color
   theme(
-        axis.title = element_text(size = 18),
-        legend.text = element_text(size = 14),
+        axis.title = element_text(size = plot_font_size + 6),
+        legend.text = element_text(size = plot_font_size + 2),
         legend.position = 'bottom',
         legend.spacing.x = unit(1.0, 'cm'),
-        strip.text = element_text(size = 14),
+        strip.text = element_text(size = plot_font_size + 2),
         axis.title.x = element_text(vjust = -1),
         axis.title.y = element_text(vjust = -1)
   )
