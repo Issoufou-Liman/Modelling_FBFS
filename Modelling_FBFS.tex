@@ -78,7 +78,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{May 20, 2019}
+    \date{May 22, 2019}
 
 % \documentclass{article} https://tex.stackexchange.com/questions/60209/how-to-add-an-extra-level-of-sections-with-headings-below-subsubsection
 \usepackage{hyperref}
@@ -293,6 +293,15 @@ Apart from their substantial contribution to food security, FBFS also provide ex
 
 We used the model as described in section \ref{III3} to simulate the biomass yield at both the initial and late stage of crop development. In this lumped assessment, all possible scenarios across the different nodes specified in the BNs were considered. With the 3 states for each of the 4 nodes describing the farming constraints at different development stages (section \ref{III1}), and the 4 metrics considered (i.e.~exploitable yield gap, exploitable yield gap loss due to constraints, actual exploited yield gap, and expected actual yield), the model simulation produced 324 (324 = 3\emph{3}3*4) results corresponding to the space of possibilities. Only a few of these results are presented here to showcase the model. We selected the initial and the late stages of crop development along with the worst, the medium, and best cases scenario to respectively show the biomass accumulation over time, and the effect of varying farming constraints.
 
+\begin{figure}[!htbp]
+
+{\centering \includegraphics[width=1\linewidth,]{figures/Modelling_FBFS_Monte_carlo_model} 
+
+}
+
+\caption{MC model describing important variables as part of a mixed model describing the expected crop yield at different stages of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig7}
+\end{figure}
+
 \hypertarget{IV223}{%
 \paragraph{Results and Discussions}\label{IV223}}
 
@@ -302,20 +311,20 @@ Based on the 90\% confidence intervals, the exploitable yield gap, the actual ex
 
 \begin{figure}[!htbp]
 
-{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig7-1} 
-
-}
-
-\caption{Expected biomass yield and other important yield-related metrics at initial stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig7}
-\end{figure}
-
-\begin{figure}[!htbp]
-
 {\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig8-1} 
 
 }
 
-\caption{Expected biomass yield and other important yield-related metrics at late stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig8}
+\caption{Expected biomass yield and other important yield-related metrics at initial stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig8}
+\end{figure}
+
+\begin{figure}[!htbp]
+
+{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig9-1} 
+
+}
+
+\caption{Expected biomass yield and other important yield-related metrics at late stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig9}
 \end{figure}
 
 \hypertarget{IV23}{%
@@ -335,7 +344,7 @@ Many important risk factors for farmers; such as pest and diseases, weeds; are o
 
 }
 
-\caption{Overview of causality defining the Farming constraints in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig9}
+\caption{Overview of causality defining the Farming constraints in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig10}
 \end{figure}
 
 To assess the effect of pests, diseases, weeds, the available soil water and crop type on grain yield, a 2x2x2x2 factorial experiment was considered. These 4 treatments were tested in a completely randomized block design (Figure 14. Suppl.) where repetitions are 1000 model runs of the mcSimulation function.\textsuperscript{\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{30}} The rationale and the technical details on factorial/randomized block design can be found in \protect\hyperlink{ref-Panse_and_Sukhatme_1957}{38} and \protect\hyperlink{ref-Gomez_and_Gomez_1984}{37}. For each of the 4 treatments, we selected the 2 extremes states of the corresponding node in BNs to derive a sequence of all possible combinations. These were then used as evidence to query the posterior distribution of the node farming constraint in the BNs. Scenarios were assumed at the mid stage of crop development. The results of the BN queries were used to provide customized estimates of the node farming constraints to the MC model as described in section \ref{III32}. The simulated grain yield data were then submitted to ANOVA and Tukey HSD post hoc testing using the agricolae package in R.\textsuperscript{\protect\hyperlink{ref-DeMendiburu_2016}{39},\protect\hyperlink{ref-RCoreTeam_2018}{40}}
@@ -345,11 +354,11 @@ To assess the effect of pests, diseases, weeds, the available soil water and cro
 
 \begin{figure}[!htbp]
 
-{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig10-1} 
+{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig11-1} 
 
 }
 
-\caption{Joint effect of varying water supply and crop ennemies on grain yield of Sorghum and Rice in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig10}
+\caption{Joint effect of varying water supply and crop ennemies on grain yield of Sorghum and Rice in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig11}
 \end{figure}
 
 \hypertarget{IV2331}{%

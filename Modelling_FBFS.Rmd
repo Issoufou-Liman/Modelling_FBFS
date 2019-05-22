@@ -46,7 +46,7 @@ output:
     toc_float:
       collapsed: yes
       smooth_scroll: yes
-  word_document:
+  bookdown::word_document2:
     fig_caption: yes
     pandoc_args:
     - --lua-filter=./formating_files/scholarly-metadata.lua
@@ -106,6 +106,10 @@ urlcolor: blue
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,out.extra = '',fig.align='center',fig.pos='!htbp',cache=TRUE)
+```
+
+```{r Message, include = FALSE, echo = FALSE, cache = FALSE}
+warning("Heavy computation may be disabled. Please check the chunks!")
 ```
 
 # Introduction {#I}
@@ -388,6 +392,9 @@ gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"),
 g <- gTree(children = gList(ga, gb))
 grid.draw(g)
 
+ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_factor_of_soil_water.png", width = 14.2, 
+       height =7.14, units = "in", dpi = min_plots_res
+)
 ```
 
 An ANOVA was conducted to test the effects of soil type, manure application and the amount of harvested flood water on the available soil water for crops at the initial stage of crop development using a split-split plot experimental design. It appears that all treatments and their interactions are statistically significant (p < 0.05; Table 1; Suppl.) for the 3 states of the target node expect the interaction between the treatments Amount of flood reaching the plot and Manure application when the target is set to waterlogging (p > 0.05; Table 1; Suppl.). Blocks effect are not statistically significant (p < 0.05) owing to their negligible contribution in the experiment.
@@ -403,6 +410,54 @@ Apart from their substantial contribution to food security, FBFS also provide ex
 #### Materials and Method {#IV222}
 
 We used the model as described in section \@ref(III3) to simulate the biomass yield at both the initial and late stage of crop development. In this lumped assessment, all possible scenarios across the different nodes specified in the BNs were considered. With the 3 states for each of the 4 nodes describing the farming constraints at different development stages (section \@ref(III1)), and the 4 metrics considered (i.e. exploitable yield gap, exploitable yield gap loss due to constraints, actual exploited yield gap, and expected actual yield), the model simulation produced 324 (324 = 3*3*3*4) results corresponding to the space of possibilities. Only a few of these results are presented here to showcase the model. We selected the initial and the late stages of crop development along with the worst, the medium, and best cases scenario to respectively show the biomass accumulation over time, and the effect of varying farming constraints.
+
+```{r case study 2 methods plots, eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
+
+## Monte Carlo model #####
+
+net <- model2network("[Exploitable_yield_potential_at_initial_stage][Yield_potential_at_initial_stage][Farming_constraints_at_initial_stage][Average_actual_yield_at_initial_stage][Biomass_expansion_factor_at_development_stage][Farming_constraints_at_development_stage][Attainable_yield_potential_at_initial_stage|Exploitable_yield_potential_at_initial_stage:Yield_potential_at_initial_stage][Exploitable_yield_gap_at_initial_stage|Attainable_yield_potential_at_initial_stage:Average_actual_yield_at_initial_stage][Exploitable_yield_gap_loss_due_to_Farming_constraints_at_initial_stage|Exploitable_yield_gap_at_initial_stage:Farming_constraints_at_initial_stage][Actual_exploited_yield_gap_at_initial_stage|Exploitable_yield_gap_at_initial_stage:Exploitable_yield_gap_loss_due_to_Farming_constraints_at_initial_stage][Expected_actual_yield_at_initial_stage|Average_actual_yield_at_initial_stage:Actual_exploited_yield_gap_at_initial_stage][Exploitable_yield_gap_at_development_stage|Biomass_expansion_factor_at_development_stage:Exploitable_yield_gap_at_initial_stage][Exploitable_yield_gap_loss_due_to_Farming_constraints_at_development_stage|Farming_constraints_at_development_stage][Actual_exploited_yield_gap_at_development_stage|Exploitable_yield_gap_at_initial_stage:Exploitable_yield_gap_loss_due_to_Farming_constraints_at_development_stage][Expected_actual_yield_at_development_stage|Actual_exploited_yield_gap_at_development_stage:Expected_actual_yield_at_initial_stage]")
+
+node_n <- gsub('_at_', "_   \n      (at_", nodes(net))
+node_n <- gsub('_loss_', "_loss_   \n", node_n)
+
+node_n <- paste("      ", node_n, ")      ")
+nodes(net) <- node_n
+
+## Highliting the nodes of interest ####
+
+highlit_some_nodes <-   grepl(" Farming_constraints_|Expected|Actual|Exploitable_yield_gap|Exploited_yield" , nodes(net))
+highlit_some_nodes <- nodes(net)[highlit_some_nodes]
+highlit_some_nodes <- gsub("_", " ", highlit_some_nodes)
+
+highlit_some_FC_nodes_col <- rep("yellow3", 2) #rep("lightgoldenrodyellow", 2) # rep(adjustcolor( "yellow", alpha.f = 0.2), 2)
+highlit_some_MC_nodes_col <- rep("darkgreen", 8)  # rep("forestgreen", 8) # rep(adjustcolor( "forestgreen", alpha.f = 0.2), 8)
+highlit_some_nodes_col <- c(highlit_some_MC_nodes_col, highlit_some_FC_nodes_col)
+
+png(export_fun(export = "Modelling_FBFS_Monte_carlo_model"),
+     res = min_plots_res,
+     units = 'in',
+     # compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/2.75,
+     pointsize = 10.5)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_plot_net(net, shape="ellipse", layout = "dot", cex = 0.5, 
+                  plot_bg = "white", # "#DFE3EE",
+                  highlit_some_nodes = highlit_some_nodes,
+                  highlit_some_nodes_col = highlit_some_nodes_col,
+                  abbreviate = FALSE, 
+                  node_col = "black", # "white", 
+                  edge_col = "black", # "white", 
+                  node_lwd = 0.75, edge_lwd = 1,
+                  textCol = "black", split_labels_accross_lines = FALSE)
+dev.off()
+```
+
+```{r fig7, echo=FALSE, out.width = '100%', fig.cap="MC model describing important variables as part of a mixed model describing the expected crop yield at different stages of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+knitr::include_graphics("figures/Modelling_FBFS_Monte_carlo_model.png")
+```
 
 #### Results and Discussions {#IV223}
 
@@ -785,9 +840,12 @@ gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"),
 g <- gTree(children = gList(ga, gb))
 ```
 
-```{r fig7,echo=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/1.5,dpi=min_plots_res,fig.cap="Expected biomass yield and other important yield-related metrics at initial stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+```{r fig8,echo=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/1.5,dpi=min_plots_res,fig.cap="Expected biomass yield and other important yield-related metrics at initial stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
 
 grid.draw(g)
+ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_initial_stage.png", width = 14.2, 
+       height =7.14, units = "in", dpi = min_plots_res
+)
 ```
 
 ```{r case study 2 Results:Biomass yield at Late stage, include = FALSE, echo = FALSE, cache = FALSE}
@@ -856,9 +914,12 @@ gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"),
 g <- gTree(children = gList(ga, gb))
 ```
 
-```{r fig8,echo=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/1.5,dpi=min_plots_res,fig.cap="Expected biomass yield and other important yield-related metrics at late stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+```{r fig9,echo=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/1.5,dpi=min_plots_res,fig.cap="Expected biomass yield and other important yield-related metrics at late stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
 
 grid.draw(g)
+ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_late_stage.png", width = 14.2, 
+       height =7.14, units = "in", dpi = min_plots_res
+)
 ```
 
 
@@ -960,7 +1021,7 @@ legend('bottomleft', legend = legende, text.width = 0.59*strwidth(legende[which.
 dev.off()
 ```
 
-```{r fig9, echo=FALSE, out.width = '100%', fig.cap="Overview of causality defining the Farming constraints in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+```{r fig10, echo=FALSE, out.width = '100%', fig.cap="Overview of causality defining the Farming constraints in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
 knitr::include_graphics("figures/Modelling_FBFS_Farming_Constraints.png")
 ```
 
@@ -1262,7 +1323,7 @@ labellers <- labeller(
                   )
 ```
 
-```{r fig10,echo=FALSE,fig.width=14.2,fig.height=7.14,dpi=min_plots_res,fig.cap="Joint effect of varying water supply and crop ennemies on grain yield of Sorghum and Rice in Kisumu (Kenya) and Tigray (Ethiopia)."}
+```{r fig11,echo=FALSE,fig.width=14.2,fig.height=7.14,dpi=min_plots_res,fig.cap="Joint effect of varying water supply and crop ennemies on grain yield of Sorghum and Rice in Kisumu (Kenya) and Tigray (Ethiopia)."}
 
 p1 <- ggplot (data = ssp, aes(x, y, color = Crop_type))+
   # geom_smooth(method = 'loess', aes(fill = Crop_type))+
@@ -1298,6 +1359,9 @@ gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"),
                gp=gpar(lwd=1, fill=NA, col="grey"))
 g <- gTree(children = gList(ga, gb))
 grid.draw(g)
+ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_grain_yield.png", width = 14.2, 
+       height =7.14, units = "in", dpi = min_plots_res
+)
 ```
 
 ##### Main effects of the different treatments on grain yield {#IV2331}
