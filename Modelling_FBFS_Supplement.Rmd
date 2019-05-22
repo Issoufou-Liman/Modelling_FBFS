@@ -1,0 +1,644 @@
+---
+title: "Supplementary Material"
+subtitle: "Modelling Risk and Uncertainty in Flood-based farming systems."
+author:
+- Issoufou Liman:
+    correspondence: yes
+    email: issoufoul@gmail.com
+    institute:
+    - ICRAF
+    - KU
+- institute:
+  - ICRAF
+  - ZEF
+  name: Cory Whitney
+- institute: KU
+  name: James Kungu
+- institute:
+  - ICRAF
+  - ZEF
+  - INRES
+  name: Eike Luedeling
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  bookdown::pdf_document2:
+    fig_caption: yes
+    includes:
+      in_header: ./formating_files/inheader_2.tex
+    keep_tex: yes
+    latex_engine: xelatex
+    number_sections: yes
+    pandoc_args:
+    - --lua-filter=./formating_files/scholarly-metadata.lua
+    - --lua-filter=./formating_files/author-info-blocks.lua
+    toc: yes
+    toc_depth: 5
+  bookdown::html_document2:
+    df_print: paged
+    fig_caption: yes
+    keep_tex: yes
+    latex_engine: xelatex
+    number_sections: yes
+    pandoc_args:
+    - --lua-filter=./formating_files/scholarly-metadata.lua
+    - --lua-filter=./formating_files/author-info-blocks.lua
+    toc: yes
+    toc_depth: 5
+    toc_float:
+      collapsed: yes
+      smooth_scroll: yes
+  bookdown::word_document2:
+    fig_caption: yes
+    pandoc_args:
+    - --lua-filter=./formating_files/scholarly-metadata.lua
+    - --lua-filter=./formating_files/author-info-blocks.lua
+    toc: no
+    toc_depth: 5
+citecolor: red
+classoption: oneside
+csl: ./referencing_files/scientific-reports.csl
+abstract: Modelling the performance of crops grown under specific conditions is an
+  important tool for decision support. Towards this end, many crop models are being
+  used to inform agricultural policies. However, many of these models are applied
+  beyond a reasonable scope of application, mainly because they are either designed
+  for other settings, they fail to capture system complexity, or because some of their
+  data requirements are not within reach. In this paper, we demonstrate an approach
+  to overcome the above-mentioned problems using a probabilistic crop model based
+  on the Decision Theory methods. Using the innovative method, we transparently use
+  all available sources of information and consider various sources of uncertainty
+  using participatory analysis. The transdisciplinary process provides a model where
+  all important variables and their interactions, as determined by local experts and
+  relevant literature, are used to simulate the plausible ranges of expected grain
+  and biomass yield at various stages of crop development. System components are described
+  using individual Bayesian networks in which expert knowledge is employed to specify
+  causality among important variables along with their probability distributions.
+  These Bayesian networks, along with other quantitative variables, are used as input
+  for a Monte Carlo model to simulate the plausible performance of crops. Our objective
+  is to develop a customizable solution-oriented approach for crop modelling in settings
+  where data and resources are limited. We describe how such a model can be developed
+  and provide three case study applications focusing on flood-based farming systems.
+  The case studies illustrate the extensible scope of such a model by assessing the
+  performance of a cropping system, individual crops, or other factors of high agricultural
+  importance across the Tigray region of Ethiopia and Kisumu County of Kenya. The
+  probabilistic tools and transdisciplinary approaches of Decision Theory allow experts
+  and analysts to address the system complexity and data uncertainties in crop modelling.
+documentclass: article
+fontfamily: mathpazo
+fontsize: 12pt
+geometry: margin=1in
+institute:
+- ICRAF: World Agroforestry Centre (ICRAF), United Nations Avenue, Gigiri, P. O. Box
+    30677-00100, Nairobi, Kenya
+- KU: Kenyatta University, Department of Environmental Sciences
+- ZEF: Center for Development research (ZEF), University of Bonn, Genscherallee 3,
+    D-53113, Bonn, Germany
+- INRES: University of Bonn, Department of Horticultural Sciences, Auf dem Hügel 6,
+    D-53121, Bonn, Germany
+link-citations: yes
+linkcolor: blue
+note: Replication files are available on the author's Github account (http://github.com/Issoufou-Liman).
+bibliography: ./referencing_files/bibliographie.bib
+spacing: double
+subparagraph: yes
+Keywords: Flood-based farming systems, crop modelling, customized decision support
+  tools, uncertainty, Bayesian Networks, MC Simulation.
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,out.extra = '',fig.align='center',fig.pos='!htbp',cache=TRUE)
+```
+
+```{r Message, include = FALSE, echo = FALSE, cache = FALSE}
+warning("Heavy computation may be disabled. Please check the chunks!")
+```
+
+# Introduction {#I}
+
+A complex crop model was developed for Flood-based Farming Systems across the Kisumu County in Kenya and Tigray region in Ethiopia. This document provides supplementary materials supporting some of the claims made in the result section of the main paper.
+
+# Result {#II}
+```{r Setting the Scene, include = FALSE, echo = FALSE, cache = FALSE}
+
+set.seed(123)
+
+### Installing devtools package to get decisionSupportExtra from github ####
+if (!require("devtools")) {
+  install.packages("devtools")
+}
+
+## Installing decisionSupportExtra package from github ####
+if (!require("decisionSupportExtra")) {
+  devtools::install_github("Issoufou-Liman/decisionSupportExtra", build = TRUE, force = TRUE,
+                           upgrade = "always", build_opts = c("--no-resave-data", "--no-manual"))
+
+}
+
+## loading required packages ####
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(gRain,
+               bnlearn,
+               Rgraphviz,
+               ggplot2,
+               grid,
+               gridExtra,
+               decisionSupport,
+               fitdistrplus,
+               rriskDistributions,
+               scales
+)
+
+## Loading decisionSupportExtra package ####
+library(decisionSupportExtra)
+
+## Loading the Bayesian network ####
+source("source_files/BNs.R")
+
+## removing objects that are no longer needed ####
+# rm(list=setdiff(ls(), "network_bn_fit"))
+
+## A function responsable plotting the locol BNs
+source("source_files/graphviz_chart_bn.R")
+
+## some common plots specifications
+legend_bg <- adjustcolor( "yellow", alpha.f = 0.15)
+plots_lwd <- 0.5
+min_plots_width_in <- 2.63
+max_plots_width_in <- 7.5
+max_plots_height_in <- 8.75
+min_plots_res <- 300
+plots_compression <- "lzw"
+plots_font_family <- 'serif' # 'sans'
+plots_font <- 1 # 2
+plot_font_size <- 10
+
+## exporting the plot to file.####
+export_fun <- function(export, output_dir = "figures"){
+  paste0(output_dir, '/', export, ".png")
+}
+
+my_theme <- theme_bw(base_size = plot_font_size, 
+                     base_family = plots_font_family) +
+  theme(panel.grid.minor = element_blank(),
+        # strip.background = element_blank(),
+        legend.title = element_blank(),
+        # remove facet spacing on x-direction
+        panel.spacing = unit(0,"line"),
+        
+        panel.border = element_rect(color = "black", fill = NA, size = 0.25),
+        axis.ticks = element_line(colour = 'black', size = 0.05),
+        legend.position="top",
+        legend.justification = 'right',
+        strip.background = element_rect(fill='lightgoldenrodyellow', color = "gray", size = 0.075),
+        strip.text = element_text(colour = 'black'),
+        plot.subtitle=element_text(size=9.5, face="italic", color="blue"))
+```
+
+# Bayesian Networks Models {# II1}
+
+## Farming Constraints at farming plot level {#II11}
+
+A BN describing the farming constraints in presented in Figure 1. The most important limiting factors describing the farming constraints in the study areas the adequacy of water supply to crops (AdeqWatSupl), the effectiveness of cropping systems (EffCropSystems), and the quality of farming practices (AgricManagEff) resulting from farmers’ managements options (Figure 2 to Figure 6).  These will be described in more details in sections I.1.2 to I.1.4.
+
+```{r Farming constraints BNs,eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
+
+## Farming constraints BNs ####
+
+# net <- model2network ("[AgricManagEff][EffCropOptions][AdeqWatSupl][FarmConstraints|EffCropOptions:AdeqWatSupl:AgricManagEff]")
+
+abbr_node_names <- c("AgricManagEff",
+                     "EffCropOptions",
+                     "FarmConstraints",
+                     "AdeqWatSupl")
+
+net <- model2network ("[Agricultural_management_efficiency_at_initial_stage][Effectiveness_of_cropping_options][Water_supply_adequacy_at_initial_stage][Local_constraints_at_initial_stage|Effectiveness_of_cropping_options:Water_supply_adequacy_at_initial_stage:Agricultural_management_efficiency_at_initial_stage]")
+
+legende <- bnlearn::nodes(net)
+```
+
+```{r Farming constraints BNs writing, eval=FALSE,include=FALSE,echo=FALSE, cache = FALSE}
+net <- decisionSupportExtra::extract_bn(bn = network_bn_fit, string_model = net)
+saveRDS(net,  "output_files/Modelling_FBFS_Suppl_Farming_Constraints_BNs_data.rds")
+```
+
+```{r Farming constraints BNs reading, eval=TRUE,include=FALSE,echo=FALSE, cache = FALSE}
+net <- readRDS("output_files/Modelling_FBFS_Suppl_Farming_Constraints_BNs_data.rds")
+```
+
+```{r Farming constraints BNs plot, eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
+
+bnlearn::nodes(net) <- abbr_node_names
+
+legende <- mapply(paste, abbr_node_names, sprintf('\u2192'), legende)
+legende <- gsub("_", " ",  legende)
+legende <- gsub(" at initial stage", "",  legende)
+legende <- gsub("Local constraints", "Farming constraints",  legende)
+
+
+leg_breaks <- list(3:length(legende), 1:2)
+legende <- lapply(leg_breaks, function(i) legende[i])
+legend_pos <- c('bottomleft', 'bottomright')
+legend_title <- c("Legend (1 of 2)", "Legend (2 of 2)")
+
+inset <- list(c(0.035, 0.15), c(0.035, 0.15))
+text_width_ext <- c(0.55*1, 0.55)
+
+
+png(export_fun(export = "Modelling_FBFS_Suppl_Farming_Constraints_BNs_plot"),
+     res = min_plots_res,
+     units = 'in',
+     # compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/3,
+     pointsize = 12)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/3.5, max_plots_width_in), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
+
+lapply(1:length(legende), function(i) {
+  legend(legend_pos[i], legend = legende[[i]], text.width = text_width_ext[i]*strwidth(legende[[i]][which.max(nchar(legende[[i]]))]), 
+         cex=0.5, ncol = 1,
+         bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=legend_bg,
+         title = legend_title[i], title.col = 'lightgreen', inset=inset[[i]])
+})
+dev.off()
+```
+
+```{r fig1, echo=FALSE, out.width = '100%', fig.cap="BNs describing important variables as part of a mixed model describing the farming constraints in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+knitr::include_graphics("figures/Modelling_FBFS_Suppl_Farming_Constraints_BNs_plot.png")
+```
+
+## Water Supply Adequacy {# I12}
+
+A BN describing the processes leading to the amount of flood reaching the plot (FloodReachsPlot) is presented in Figure 2. The amount of flood reaching the farming plot was assessed separately since it is an important variable with regards to the overall available water for crop development under FBFS setting.
+```{r Water Supply Adequacy local BNs,eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
+
+local_net <- compileCPT(list(Type_of_water_diversion, 
+                        Sediment_load_at_initial_stage, 
+                        Rainfall_amount_at_initial_stage,
+                        
+                        Soil_type,
+                        Evapotranspiration_at_initial_stage,
+                        Initial_soil_water_content,
+                        Soil_water_holding_capacity,
+                        Available_soil_water_at_initial_stage,
+                        Water_supply_adequacy_at_initial_stage,
+                        Crop_type,
+                        Manure_application,
+                        
+                        Slope, 
+                        Social_arrangements,
+                        Rain_event_occurence_at_initial_stage,
+                        Main_Canals_Maitnenance_at_initial_stage, 
+                        Amount_of_shared_flood_at_initial_stage, 
+                        Upstream_abstraction_at_initial_stage,
+                        Location_of_the_plot, 
+                        Field_canal_maintenance_at_initial_stage, 
+                        Presence_of_the_farmer_during_flood_event_at_initial_stage,
+                        Amount_of_flood_reaching_the_plot_at_initial_stage))
+local_net <- grain(local_net)
+local_net <- as.bn.fit(local_net)
+```
+```{r Flood reaching plot BNs,eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
+
+## Flood reaching plot BNs ####
+
+# net <- model2network("[DiversionType][Slope][SocialArrang][RainOccur][PlotLocat][FieldCanalMaint][Pznt4Flood][SedimentLoad|DiversionType][MainCanalMaint|DiversionType:SocialArrang][UpsAbstract|SocialArrang:PlotLocat][SharedFlood|RainOccur:MainCanalMaint:SedimentLoad:Slope][FloodReachsPlot|FieldCanalMaint:Pznt4Flood:SharedFlood:UpsAbstract]")
+
+abbr_node_names <- c("FloodReachsPlot",
+                     "SharedFlood",
+                     "FieldCanalMaint",
+                     "PlotLocat",
+                     "MainCanalMaint", 
+                     "Pznt4Flood", 
+                     "RainOccur",
+                     "SedimentLoad",
+                     "Slope",
+                     "SocialArrang",
+                     "DiversionType",
+                     "UpsAbstract")
+
+net <- model2network("[Type_of_water_diversion][Slope][Social_arrangements][Rain_event_occurence_at_initial_stage][Location_of_the_plot][Field_canal_maintenance_at_initial_stage][Presence_of_the_farmer_during_flood_event_at_initial_stage][Sediment_load_at_initial_stage|Type_of_water_diversion][Main_Canals_Maitnenance_at_initial_stage|Type_of_water_diversion:Social_arrangements][Upstream_abstraction_at_initial_stage|Social_arrangements:Location_of_the_plot][Amount_of_shared_flood_at_initial_stage|Rain_event_occurence_at_initial_stage:Main_Canals_Maitnenance_at_initial_stage:Sediment_load_at_initial_stage:Slope][Amount_of_flood_reaching_the_plot_at_initial_stage|Field_canal_maintenance_at_initial_stage:Presence_of_the_farmer_during_flood_event_at_initial_stage:Amount_of_shared_flood_at_initial_stage:Upstream_abstraction_at_initial_stage]")
+
+legende <- bnlearn::nodes(net)
+```
+
+```{r Flood reaching plot BNs writing, eval=TRUE,include=FALSE,echo=FALSE, cache = FALSE}
+net <- decisionSupportExtra::extract_bn(bn = local_net, string_model = net)
+saveRDS(net,  "output_files/Modelling_FBFS_Suppl_Flood_reaching_plot_BNs_data.rds")
+```
+
+```{r Flood reaching plot BNs reading, eval=TRUE,include=FALSE,echo=FALSE, cache = FALSE}
+net <- readRDS("output_files/Modelling_FBFS_Suppl_Flood_reaching_plot_BNs_data.rds")
+```
+
+```{r Flood reaching plot BNs plot, eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
+
+bnlearn::nodes(net) <- abbr_node_names
+
+legende <- mapply(paste, abbr_node_names, sprintf('\u2192'), legende)
+legende <- gsub("_", " ",  legende)
+legende <- gsub(" at initial stage", "",  legende)
+
+png(export_fun(export = "Modelling_FBFS_Suppl_flood_reaching_plot_BNs_plot"),
+     res = min_plots_res,
+     units = 'in',
+     # compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/2.5,
+     pointsize = 11)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/3, max_plots_width_in), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
+
+legend('bottomleft', legend = legende, text.width = 0.49*strwidth(legende[which.max(nchar(legende))]), 
+       cex=0.49, ncol = 2,
+       bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=legend_bg,
+       title = 'Legend', title.col = 'lightgreen', inset=c(0.02, 0.05))
+dev.off()
+```
+
+```{r fig2, echo=FALSE, out.width = '100%', fig.cap="BNs describing important variables as part of a mixed model describing the amount of flood at the farming plot level in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+knitr::include_graphics("figures/Modelling_FBFS_Suppl_flood_reaching_plot_BNs_plot.png")
+```
+
+At the root of the amount of flood reaching the plot BNs are the nodes describing water diversion type (DiversionType), the social arrangement for water acquisition and sharing (SocialArrang), and the location of the farming plot (PlotLocat). The water diversion type is important since it determines the overall water delivery (SharedFlood) and ultimately the overall expected flood amount at the plot level (FloodReachsPlot) via the way in which farmers are committed as a group (SocialArrang) to maintain their main water distribution networks (MainCanalMaint) and its efficiency with regards to sediment budget (SedimentLoad). If the social organisation (SocialArrang) is not adequate along a topographic gradient (Slope), it may lead to unfair upstream abstraction (UpsAbstract), hence penalising water users downstream (FloodReachsPlot). Flood water is trapped in FBFS using earthen bunds (Figure 1; Main) which need to be close/open at the right time either for irrigation if need or water release if too much. Individual farmers, therefore, need to make sure this happens by being present at the right time and making sure the water is diverted from the main canal to their respective secondary and tertiary sub-water distribution system. Given the adequacy of the above-mentioned aspects, farmers presence in the field during floods (Pznt4Flood) and the quality of their maintenance of the canals (FieldCanalMaint) can still strongly affect the amount of flood reaching their plot (FloodReachsPlot), and ultimately the overall soil water budget. These may have minor importance when there is rainfall on the field (RainOccur = On-site) and major importance in the case of spontaneous flood event from upstream (RainOccur = Off-site).
+
+```{r Water Supply Adequacy BNs,eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
+
+## Water Supply Adequacy BNs ####
+
+# net <- model2network("[CropType][SoilType][ManureApp][SoilHoldWater|SoilType:ManureApp][EvapoTranspirat][InitWaterCont][RainAmount][FloodReachsPlot][AvailSoilWater|SoilHoldWater:EvapoTranspirat:RainAmount:InitWaterCont:FloodReachsPlot][AdeqWatSupl|AvailSoilWater:CropType]")
+
+abbr_node_names <- c("FloodReachsPlot",
+                     "AvailSoilWater",
+                     "CropType",
+                      "EvapoTranspirat", 
+                     "InitWaterCont",
+                     "ManureApp", 
+                     "RainAmount", 
+                     "SoilType",
+                     "SoilHoldWater", 
+                     "AdeqWatSupl")
+
+net <- model2network("[Crop_type][Soil_type][Manure_application][Soil_water_holding_capacity|Soil_type:Manure_application][Evapotranspiration_at_initial_stage][Initial_soil_water_content][Rainfall_amount_at_initial_stage][Amount_of_flood_reaching_the_plot_at_initial_stage][Available_soil_water_at_initial_stage|Soil_water_holding_capacity:Evapotranspiration_at_initial_stage:Rainfall_amount_at_initial_stage:Initial_soil_water_content:Amount_of_flood_reaching_the_plot_at_initial_stage][Water_supply_adequacy_at_initial_stage|Available_soil_water_at_initial_stage:Crop_type]")
+
+legende <- bnlearn::nodes(net)
+```
+
+```{r Water Supply Adequacy BNs writing, eval=TRUE,include=FALSE,echo=FALSE, cache = FALSE}
+net <- decisionSupportExtra::extract_bn(bn = local_net, string_model = net)
+saveRDS(net,  "output_files/Modelling_FBFS_Suppl_Water_supply_adequacy_BNs_data.rds")
+```
+
+```{r Water Supply Adequacy BNs reading, eval=TRUE,include=FALSE,echo=FALSE, cache = FALSE}
+net <- readRDS("output_files/Modelling_FBFS_Suppl_Water_supply_adequacy_BNs_data.rds")
+```
+
+```{r Water Supply Adequacy BNs plot, eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
+
+bnlearn::nodes(net) <- abbr_node_names
+
+legende <- mapply(paste, abbr_node_names, sprintf('\u2192'), legende)
+legende <- gsub("_", " ",  legende)
+legende <- gsub(" at initial stage", "",  legende)
+
+png(export_fun(export = "Modelling_FBFS_Suppl_Water_Supply_Adequacy_BNs_plot"),
+     res = min_plots_res,
+     units = 'in',
+     # compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/2,
+     pointsize = 10.5)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/2, max_plots_width_in), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
+
+legend('topleft', legend = legende, text.width = 0.8*strwidth(legende[which.max(nchar(legende))]), 
+       cex=0.65, ncol = 2,
+       bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=legend_bg,
+       title = 'Legend', title.col = 'lightgreen', inset=c(0.04, 0.05))
+
+dev.off()
+```
+
+```{r fig3, echo=FALSE, out.width = '100%', fig.cap="BNs describing important variables as part of a mixed model describing the water supply adequacy in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+knitr::include_graphics("figures/Modelling_FBFS_Suppl_Water_Supply_Adequacy_BNs_plot.png")
+```
+
+ 
+Figure 3. BNs describing important variables as part of a mixed model describing the available soil water content in FBFS in Kenya and Ethiopia.
+The soil water profile of a given farming plot includes important biophysical aspects related to soils and climate. The available water for crops is determined by the soil water holding capacity (SoilHoldWater), the total amount and temporal distribution of rainfall (RainAmount) along with residual soil moisture (InitWaterCont), which can be significant under certain FBFS such as flood recession agriculture. Soil water holding capacity (SoilHoldWater) can vary greatly depending on the soil type (SoilType), and the soil management strategies employed by the farmer (e.g. manure application (ManureApp). 
+I.1.3.	Agricultural management efficiency
+A BN describing the process that can lead to farming inefficiency (FarmingIneff) is presented using two graphs, one (Figure 4) describing the available soil nutrient (AvailSoilNut), and the other (Figure 5) describing the overall agricultural management efficiency. The amount of available soil nutrients is defined by the fertilizer applications either in the form of organic (ManureApp) or mineral addition (FertiApp) by the farmer, and on the other hand by the sediment naturally brought by the flood water. Here, it is important to distinguish between coarse sediments (SedimentLoad) described under the rubric Available soil water which are likely to have negative impact and the fine rich sediments (AddSediments) which have positive impact on crops. Fertilizer application can only be expected when the desired fertilizer by the farmer is available on the market at the time when the farmers can afford it (Access2Inputs). This depends on the purchasing power of farmers and their willingness to acquire the fertilizers (RelativeWealth) in the one hand and the mutual aids (MutualAids) among peer farmers.
+ 
+Figure 4. BNs describing important variables as part of a mixed model describing the available nutrients in FBFS in Kenya and Ethiopia.
+The factors that of agricultural management efficiency include the available soil nutrients (AvailSoilNut), crops exposure/sensitivity to pest and diseases (PestDiseaseImpact) and the severity of weeds (WeedsImpact). The magnitude and recurrence of damage to crops due to pests & diseases and yield losses due to weeds can be related to the skills of the farmers (FarmerSkills) in crop protection, the farmers’ ability to acquire chemicals, and other aspects such as the available labour force, which may influence the effectiveness of crop protection. 
+ 
+Figure 5. BNs describing important variables as part of a mixed model describing the effectiveness of agricultural management in FBFS in Kenya and Ethiopia.
+I.1.4.	Effectiveness of cropping options
+The effectiveness of cropping options (EffCropsOptions) BN describes the various factors shaping the cropping system at the very early stages of crops growth. Crops are defined by their type (CropType [rice, maize, sorghum, teff]), their variety (CropVariety) and the farmers’ decision regarding which crops to grow and how to grow them (Intercropping). The decision of the farmer to grow a given type of crop and variety have strong implication on yield. 
+ 
+Figure 6. BNs describing important variables as part of a mixed model describing the effectiveness of cropping options in FBFS in Kenya and Ethiopia.
+I.1.5.	BNs structures and nodes sensitivity in relation to crop development
+In the MC, the whole BNs were replicated with some changes in the CPTs and the causal relations when necessary. for example, the impact of weeds may be different depending on the crop development stages. Our model assumes that crop sensitivity to biotic and abiotic factors depends on the period when these factors are considered. Therefore, these stage-specific BNs or rather the concepts embedded in their nodes, their causal relationships, and their CPTs were made accordingly based on the available source of information. BNs were developed to estimate the farming constraint at plot level and at each phenological stage of crop development. The BN nodes (shown in Figures 5 to 9 are internally represented in four different crop development stages of the model (e.g. amount of shared flood at initial stage, amount of shared flood at development stage, amount of shared flood at mid stage amount of shared flood at late stage). Few of them that are expected to remain constant over a relatively short period of time (e.g. the type of water diversion (DiversionType), the slope etc.), however, were represented only once in the model and transported through the various crop development stages. For example, BN nodes soil type and location of the farming plot are considered as static variables as they are unlikely to change, at least not within few years, contrary to other nodes such as the impact of weeds and diseases which differ between consecutive phenological stages. We focus on processes at the initial stage in the description, but the target is assessed quantitively at each of the four stages to feed the MC model.
+I.1.6.	Quantitative assessment of Farming Constraints
+The best fit for candidate distributions of the target node (farming constraints) derived from the sampling of the posterior probabilities of the BNs are shown in Figure 7. These were fitted to a beta distribution seems owing to the nature of the data (ratio), and the values of the bootstrapped samples lying within reasonable bounds for skewness and kurtosis characterising a reasonable beta function for all the three farming constraints states (low, medium, high). A graphical assessment of the fit including the quantile and probability plots along with the theoretical and empirical density and cumulative distribution functions are presented in Figure 8. 
+ 
+Figure 7. Cullen and Frey graph showing the fit of candidate distributions for the joint distribution of the BNs to be used in MC simulation as part of a mixed model describing farming constraints in FBFS in Kenya and Ethiopia (example for initial stage of crop development).
+ 
+Figure 8. Graphical assessment of the fit including the quantile and probability plots along with the theoretical and empirical density and cumulative distribution functions for beta distribution fit assessment as part of a mixed model describing the farming constraints in FBFS in Kenya and Ethiopia (example for initial stage of crop development).
+I.2.	Model Carlo model
+As stated earlier, several MC nodes were considered to quantitatively describe crop yield following the 4 development stages considered. Figure 9 presents the graphical model including the initial and development stages. Note that the mid and the late stages were described using the same concept as in the development stage. where a biomass expansion factor (Biomass expansion factor, instead of Average actual yield at initial stage) measuring crop growth potential at a stage (e.g. Exploitable yield gap (at mid-stage)) and the exploitable yield gap at previous stage (e.g. Exploitable yield gap (at development stage)) determines the exploitable yield gap at that stage. Potential yield, average actual yield and biomass expansion factor were modelled using gamma distribution, whereas the exploitable yield potential and the harvest index were modelled using uniform distribution.
+ 
+Figure 9. MC model describing important variables as part of a mixed model describing the expected crop yield at different stages of crop development in FBFS in Kenya and Ethiopia.
+We modelled biomass accumulation following the crop development which was ultimately converted into grain yield using a realistic range of harvest index.  The maximum attainable biomass yield (Attainable yield potential) depends on the crop potential yield (Yield potential) and its achievable limit (Exploitable yield potential) because it is impossible for farmers to eliminate the farming constraints required for yield potential. The exploitable yield gap (Exploitable yield gap), then, should be estimated by subtracting the long-term average yield (Average actual yield) from the attainable one. Yield opportunity losses (Exploitable yield gap), therefore, is proportional to the difference in inputs allocation among farmers (Farming constraints) relative to the exploitable yield gap.  Therefore, additional yield opportunity for a given farmer (Actual exploited yield gap) can be estimated by subtracting the yield opportunity loss from the exploitable yield gap. Finally, farm yield (Expected actual yield) can be obtained by adding the yield opportunity to the average yield.
+I.3.	Case studies
+I.3.1.	Qualitative Soil water Assessment under different Management Decisions at initial stage of crop development in Flood-based livelihood systems.
+ 
+Figure 10. Layout of a 3 x 3 x 2 Split Split-plot experiment with 3 levels of soil type as main plot, 3 different amounts of diverted flood as subplot, and 2 levels of manure application as sub-subplot for studying the available soil water content at initial stage of crop development in FBFS in Kenya and Ethiopia.
+Table 1. ANOVA of a Split Split-plot experiment with 3 levels of soil type as main plot, 3 different amounts of diverted flood as subplot, and 2 levels of manure application as sub-subplot for studying the available soil water content at initial stage.
+	Drought risk
+	
+		Df	Sum Sq	Mean Sq	F value	Pr(> F)
+	
+1	Block	9.00	0.01	0.00	1.04	0.45
+2	Soil type	2.00	1.29	0.64	873.66	0.00
+3	Manure application	1.00	0.13	0.13	205.41	0.00
+4	Soil type:Manure application	2.00	0.04	0.02	27.72	0.00
+5	Amount of flood reaching the plot	2.00	1.53	0.77	1972.98	0.00
+6	Amount of flood reaching the plot:Soil type	4.00	0.77	0.19	496.27	0.00
+7	Amount of flood reaching the plot:Manure application	2.00	0.09	0.05	121.63	0.00
+8	Amount of flood reaching the plot:Soil type:Manure application	4.00	0.02	0.01	15.54	0.00
+	
+	Normal
+	
+		Df	Sum Sq	Mean Sq	F value	Pr(> F)
+	
+9	Block	9.00	0.01	0.00	0.91	0.54
+10	Soil type	2.00	1.39	0.69	641.72	0.00
+11	Manure application	1.00	0.20	0.20	161.05	0.00
+12	Soil type:Manure application	2.00	0.01	0.01	4.14	0.03
+13	Amount of flood reaching the plot	2.00	1.48	0.74	899.38	0.00
+14	Amount of flood reaching the plot:Soil type	4.00	1.04	0.26	316.91	0.00
+15	Amount of flood reaching the plot:Manure application	2.00	0.09	0.05	56.92	0.00
+16	Amount of flood reaching the plot:Soil type:Manure application	4.00	0.08	0.02	24.14	0.00
+	
+	Waterlogging risk
+	
+		Df	Sum Sq	Mean Sq	F value	Pr(> F)
+	
+17	Block	9.00	0.01	0.00	0.76	0.65
+18	Soil type	2.00	5.35	2.67	3657.86	0.00
+19	Manure application	1.00	0.67	0.67	1365.83	0.00
+20	Soil type:Manure application	2.00	0.08	0.04	83.66	0.00
+21	Amount of flood reaching the plot	2.00	6.01	3.01	4211.24	0.00
+22	Amount of flood reaching the plot:Soil type	4.00	0.02	0.01	7.60	0.00
+23	Amount of flood reaching the plot:Manure application	2.00	0.00	0.00	0.14	0.87
+	Amount of flood reaching the plot:Soil type:Manure application	4.00	0.02	0.00	5.69	0.00
+	
+ 
+Figure 11. Tukey's HSD test of a Split Split-plot experiment with 3 levels of soil type as main plot, 3 different amounts of diverted flood as subplot, and 2 levels of manure application as sub-subplot for studying the available soil water content at initial stage.
+Note: Treatments with the same letter are not significantly different.
+I.3.2.	Probabilistic Assessment of Biomass Accumulation in Major Crops grown under FBFS in Kisumu, Kenya and Tigray, Ethiopia.
+Figure 12. Expected biomass yield and other important yield-related metrics at initial stage of crop development in FBFS in Kenya and Ethiopia.
+
+ 
+
+Figure 13. Expected biomass yield and other important yield-related metrics at late stage of crop development in FBFS in Kenya and Ethiopia.
+I.3.3.	Case Studies 3: Quantitative grain yield variability and relative performance of Rice and Sorghum under different scenario for water and crop enemies at mid-stage of crop development in flood-based Agriculture.
+ 
+Figure 14. Layout of a 2 x 2 x 2 x 2 factorial experiment for studying the effects of different level of weeds, pest and diseases and available soil water at mid stage of crop development on grain yield of Sorghum and Rice in FBFS in Kenya and Ethiopia.
+Table 2. Effect of different treatments on grain yield of Rice and Sorghum in FBFS in Kenya and Ethiopia.
+
+	term	df	sumsq	meansq	statistic	p.value
+
+1	Pest & desease	1.00	296634.86	296634.86	41.28	0.00
+2	Weeds	1.00	87160.67	87160.67	12.13	0.00
+3	Crop type	1.00	93671.65	93671.65	13.04	0.00
+4	Available soil water	1.00	1952.71	1952.71	0.27	0.60
+5	Pest & desease:Weeds	1.00	805674.19	805674.19	112.13	0.00
+6	Pest & desease:Crop type	1.00	701930.06	701930.06	97.69	0.00
+7	Weeds:Crop type	1.00	99283.33	99283.33	13.82	0.00
+8	Pest & desease:Available soil water	1.00	419006.23	419006.23	58.31	0.00
+9	Weeds:Available soil water	1.00	113946.99	113946.99	15.86	0.00
+10	Crop type:Available soil water	1.00	612311.35	612311.35	85.22	0.00
+11	Pest & desease:Weeds:Crop type	1.00	863545.62	863545.62	120.18	0.00
+12	Pest & desease:Weeds:Available soil water	1.00	557823.83	557823.83	77.63	0.00
+13	Pest & desease:Crop type:Available soil water	1.00	28012.42	28012.42	3.90	0.05
+14	Weeds:Crop type:Available soil water	1.00	34563.49	34563.49	4.81	0.03
+15	Pest & desease:Weeds:Crop type:Available soil water	1.00	516561.41	516561.41	71.89	0.00
+16	Residuals	8176.00	58748194.45	7185.44	-	-
+
+Note: Available soil water is abbreviated to Soil water. Pest & disease impact is abbreviated to Pest & disease.
+Table 3. Effect of different treatments levels on grain yield of Rice and Sorghum in FBFS in Kenya and Ethiopia.
+
+	Treatments	diff	lwr	upr	p.adj
+
+1	Minor:Negligible:Sorghum:Waterlogging-Minor:Negligible:Rice:Drought	-92.02	-110.17	-73.86	0.00
+2	Severe:Consuming:Sorghum:Waterlogging-Minor:Negligible:Rice:Drought	-55.53	-73.69	-37.37	0.00
+3	Minor:Consuming:Sorghum:Waterlogging-Minor:Negligible:Rice:Drought	-46.92	-65.08	-28.77	0.00
+4	Severe:Negligible:Rice:Waterlogging-Minor:Negligible:Sorghum:Drought	-46.16	-64.32	-28.00	0.00
+5	Minor:Consuming:Rice:Waterlogging-Minor:Negligible:Sorghum:Drought	-36.35	-54.51	-18.19	0.00
+6	Severe:Negligible:Sorghum:Waterlogging-Minor:Negligible:Rice:Drought	-34.45	-52.61	-16.29	0.00
+7	Minor:Negligible:Sorghum:Waterlogging-Minor:Consuming:Rice:Drought	-34.19	-52.34	-16.03	0.00
+8	Minor:Negligible:Sorghum:Waterlogging-Severe:Consuming:Rice:Drought	-34.03	-52.18	-15.87	0.00
+9	Consuming:Rice:Waterlogging-Negligible:Rice:Drought	-31.75	-43.11	-20.40	0.00
+10	Severe:Negligible:Rice-Severe:Consuming:Rice	-26.88	-38.24	-15.52	0.00
+11	Severe:Negligible:Rice-Severe:Negligible:Sorghum	-25.32	-36.68	-13.96	0.00
+12	Severe:Negligible:Rice-Severe:Consuming:Sorghum	-25.06	-36.42	-13.70	0.00
+13	Minor:Consuming:Rice:Waterlogging-Minor:Consuming:Rice:Drought	-24.9	-43.06	-6.74	0.00
+14	Severe:Negligible:Rice:Drought-Minor:Consuming:Rice:Drought	-24.32	-42.47	-6.16	0.00
+15	Severe:Negligible:Rice:Drought-Severe:Consuming:Rice:Drought	-24.15	-42.31	-6.00	0.00
+16	Severe:Negligible:Rice:Waterlogging-Severe:Consuming:Sorghum:Drought	-23.51	-41.66	-5.35	0.00
+17	Negligible:Sorghum:Waterlogging-Negligible:Rice:Drought	-22.16	-33.52	-10.80	0.00
+18	Negligible:Rice:Waterlogging-Negligible:Rice:Drought	-21.62	-32.98	-10.26	0.00
+19	Consuming:Rice:Waterlogging-Consuming:Sorghum:Waterlogging	-21.6	-32.96	-10.24	0.00
+20	Severe:Negligible:Sorghum:Drought-Severe:Consuming:Sorghum:Drought	-20.56	-38.71	-2.40	0.01
+21	Minor:Consuming:Sorghum:Drought-Severe:Consuming:Sorghum:Drought	-20.16	-38.32	-2.01	0.01
+22	Severe:Negligible:Rice-Minor:Consuming:Sorghum	-19.28	-30.64	-7.93	0.00
+23	Severe:Negligible:Rice-Minor:Negligible:Sorghum	-18.14	-29.50	-6.79	0.00
+24	Severe:Negligible:Rice-Minor:Consuming:Rice	-17.06	-28.42	-5.70	0.00
+25	Minor:Waterlogging-Minor:Drought	-15.28	-22.09	-8.47	0.00
+26	Consuming:Rice:Waterlogging-Consuming:Rice:Drought	-14.92	-26.27	-3.56	0.00
+27	Severe:Waterlogging-Minor:Drought	-13.01	-19.82	-6.20	0.00
+28	Negligible:Sorghum:Waterlogging-Consuming:Sorghum:Waterlogging	-12.01	-23.36	-0.65	0.03
+29	Negligible:Rice:Waterlogging-Consuming:Sorghum:Waterlogging	-11.46	-22.82	-0.11	0.05
+30	Negligible:Waterlogging-Negligible:Drought	-8.44	-15.24	-1.63	0.01
+31	Consuming:Waterlogging-Negligible:Drought	-7.5	-14.31	-0.69	0.02
+32	Negligible-Consuming	6.52	2.85	10.20	0.00
+33	Rice-Sorghum	6.76	3.09	10.43	0.00
+34	Minor:Waterlogging-Severe:Drought	11.06	4.25	17.87	0.00
+35	Negligible:Rice-Consuming:Sorghum	13.29	6.48	20.09	0.00
+36	Severe:Waterlogging-Severe:Drought	13.33	6.52	20.13	0.00
+37	Negligible:Rice-Consuming:Rice	13.49	6.68	20.29	0.00
+38	Negligible:Rice-Negligible:Sorghum	13.73	6.92	20.53	0.00
+39	Negligible:Drought-Consuming:Drought	13.98	7.18	20.79	0.00
+40	Negligible:Sorghum:Waterlogging-Consuming:Sorghum:Drought	15.88	4.52	27.23	0.00
+41	Negligible:Rice:Waterlogging-Consuming:Sorghum:Drought	16.42	5.06	27.78	0.00
+42	Consuming:Sorghum:Waterlogging-Negligible:Sorghum:Drought	16.75	5.40	28.11	0.00
+43	Negligible:Rice:Drought-Consuming:Rice:Drought	16.84	5.48	28.19	0.00
+44	Consuming:Rice:Drought-Consuming:Sorghum:Drought	21.2	9.84	32.56	0.00
+45	Minor:Negligible:Sorghum:Drought-Severe:Consuming:Sorghum:Drought	22.65	4.50	40.81	0.00
+46	Severe:Negligible:Sorghum:Waterlogging-Minor:Consuming:Rice:Drought	23.38	5.22	41.53	0.00
+47	Severe:Negligible:Sorghum:Waterlogging-Severe:Consuming:Rice:Drought	23.54	5.38	41.70	0.00
+48	Severe:Consuming:Rice:Waterlogging-Minor:Consuming:Sorghum:Drought	26.27	8.11	44.42	0.00
+49	Minor:Drought-Severe:Drought	26.34	19.53	33.15	0.00
+50	Severe:Consuming:Sorghum:Waterlogging-Severe:Negligible:Rice:Drought	26.61	8.46	44.77	0.00
+51	Severe:Consuming:Rice:Waterlogging-Severe:Negligible:Sorghum:Drought	26.66	8.50	44.82	0.00
+52	Negligible:Rice:Drought-Negligible:Sorghum:Drought	26.91	15.55	38.27	0.00
+53	Consuming:Sorghum:Waterlogging-Consuming:Sorghum:Drought	27.88	16.52	39.24	0.00
+54	Minor:Consuming:Sorghum:Waterlogging-Severe:Negligible:Rice:Drought	35.22	17.06	53.38	0.00
+55	Minor:Negligible:Rice:Waterlogging-Severe:Consuming:Sorghum:Drought	36.18	18.03	54.34	0.00
+56	Negligible:Rice:Drought-Consuming:Sorghum:Drought	38.04	26.68	49.39	0.00
+57	Minor:Negligible:Sorghum:Drought-Minor:Consuming:Sorghum:Drought	42.81	24.66	60.97	0.00
+58	Minor:Negligible:Sorghum:Drought-Severe:Negligible:Sorghum:Drought	43.21	25.05	61.37	0.00
+59	Minor:Negligible:Rice-Severe:Consuming:Rice	44.03	32.68	55.39	0.00
+60	Minor:Negligible:Rice-Severe:Negligible:Sorghum	45.59	34.24	56.95	0.00
+61	Minor:Negligible:Rice-Severe:Consuming:Sorghum	45.86	34.50	57.21	0.00
+62	Severe:Negligible:Sorghum:Waterlogging-Severe:Negligible:Rice:Drought	47.69	29.54	65.85	0.00
+63	Minor:Negligible:Rice-Minor:Consuming:Sorghum	51.63	40.28	62.99	0.00
+64	Minor:Negligible:Rice-Minor:Negligible:Sorghum	52.77	41.42	64.13	0.00
+65	Minor:Negligible:Rice-Minor:Consuming:Rice	53.85	42.50	65.21	0.00
+66	Minor:Negligible:Rice:Waterlogging-Minor:Consuming:Sorghum:Drought	56.34	38.19	74.50	0.00
+67	Minor:Negligible:Rice:Waterlogging-Severe:Negligible:Sorghum:Drought	56.74	38.58	74.90	0.00
+68	Minor:Negligible:Rice:Drought-Minor:Consuming:Rice:Drought	57.83	39.67	75.98	0.00
+69	Minor:Negligible:Rice:Drought-Severe:Consuming:Rice:Drought	57.99	39.83	76.15	0.00
+70	Minor:Negligible:Rice-Severe:Negligible:Rice	70.92	59.56	82.27	0.00
+71	Minor:Negligible:Rice:Drought-Severe:Negligible:Rice:Drought	82.14	63.99	100.30	0.00
+
+
+Table 4. Comparative analysis of joint effects of different treatments levels on grain yield of Rice and Sorghum in FBFS in Kenya and Ethiopia.
+	
+		Grain yield	groups
+	
+1	Minor:Negligible:Rice:Drought risk	166.0966	a
+2	Minor:Negligible:Rice:Waterlogging risk	133.2508	b
+3	Severe:Negligible:Sorghum:Waterlogging risk	131.6462	b
+4	Minor:Negligible:Sorghum:Drought risk	119.7207	bc
+5	Minor:Consuming:Sorghum:Waterlogging risk	119.1722	bc
+6	Severe:Consuming:Sorghum:Waterlogging risk	110.5669	cd
+7	Minor:Consuming:Rice:Drought risk	108.2687	cd
+8	Severe:Consuming:Rice:Drought risk	108.1058	cd
+9	Severe:Consuming:Rice:Waterlogging risk	103.1724	cd
+10	Severe:Consuming:Sorghum:Drought risk	97.06859	de
+11	Severe:Negligible:Rice:Drought risk	83.95261	ef
+12	Minor:Consuming:Rice:Waterlogging risk	83.3691	ef
+13	Minor:Consuming:Sorghum:Drought risk	76.90688	f
+14	Severe:Negligible:Sorghum:Drought risk	76.51145	f
+15	Minor:Negligible:Sorghum:Waterlogging risk	74.0806	f
+16	Severe:Negligible:Rice:Waterlogging risk	73.56149	f
+	
+Note: treatments with the same letters are not statistically significantly different. Colon (:) between levels of the different treatments denote interactions. Minus (-) between interacting levels of different traitment denonte 
+
+
+# reference {#VI}

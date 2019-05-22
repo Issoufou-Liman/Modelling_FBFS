@@ -27,7 +27,8 @@
 graphviz_chart_bn <- function(x, type = "barchart", layout = "dot", draw.levels = TRUE,
                               grid = FALSE, scale = c(0.75, 1.1), col = "black", bg = "transparent",
                               text.col = "black", bar.col = "black", strip.bg = bg, main = NULL,
-                              sub = NULL, plt= c(0.7, 0.95, 0, 0.95-0.7), target_node, target_states_cols, 
+                              sub = NULL, plt= c(0.7, 0.95, 0, 0.95-0.7), # target_node, 
+                              target_states_cols, 
                               op = "proba", abbreviate=FALSE, leg_w=strwidth("1,000,000"),
                               leg_pos="bottomleft", leg_ncol=2, leg_cex=0.75, leg_bg="lightgrey", 
                               leg_box.col="white", leg_title.col = "white", target_node_plot_bg = "lightgray", 
@@ -47,7 +48,7 @@ graphviz_chart_bn <- function(x, type = "barchart", layout = "dot", draw.levels 
       substring(x, 2) <- tolower(substring(x, 2))
       x
     }
-    target_node <- firstup(from_first_lo(target_node))
+    # target_node <- firstup(from_first_lo(target_node))
     nam1 <- firstup(from_first_lo(nam1))
     leg <- nam1
     nam1 <- abbreviate(nam1)
@@ -72,9 +73,9 @@ graphviz_chart_bn <- function(x, type = "barchart", layout = "dot", draw.levels 
            title = "Legend", title.col = leg_title.col)
   }
   
-  if(is.null(target_node_leg_title)){
-    target_node_leg_title <- gsub(target_node,pattern = "_", replacement = " ")
-  }
+  # if(is.null(target_node_leg_title)){
+  #   target_node_leg_title <- gsub(target_node,pattern = "_", replacement = " ")
+  # }
   # par("plt" = plt, bg = "lightgray")
   # par(new = TRUE)
   # plot_target_states (yy, cols = target_states_cols, bg = target_node_plot_bg, 
