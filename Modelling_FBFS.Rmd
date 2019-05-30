@@ -30,7 +30,7 @@ output:
     pandoc_args:
     - --lua-filter=./formating_files/scholarly-metadata.lua
     - --lua-filter=./formating_files/author-info-blocks.lua
-    toc: yes
+    toc: true
     toc_depth: 5
   bookdown::html_document2:
     df_print: paged
@@ -41,7 +41,7 @@ output:
     pandoc_args:
     - --lua-filter=./formating_files/scholarly-metadata.lua
     - --lua-filter=./formating_files/author-info-blocks.lua
-    toc: yes
+    toc: true
     toc_depth: 5
     toc_float:
       collapsed: yes
@@ -51,7 +51,7 @@ output:
     pandoc_args:
     - --lua-filter=./formating_files/scholarly-metadata.lua
     - --lua-filter=./formating_files/author-info-blocks.lua
-    toc: no
+    toc: true
     toc_depth: 5
 citecolor: red
 classoption: oneside
@@ -145,11 +145,12 @@ knitr::include_graphics("figures/Modelling_FBFS_conceptual_framework.png")
 ```
 
 A Monte Carlo simulation is an intensive computation, where each unknown variable is estimated using mathematically valid rules, resulting in different scenario depending on the probabilities of the input data. These redundant calculations are repeated thousands of time to generate the scenario to portray the range of possible outcomes along with their probabilities. The inputs for MC models are continuous variables provided as probability distributions bounded by realistic value ranges to represent the associated uncertainty. BNs are probabilistic graphical model representing logical connections (directed edges) between a set of variables (nodes) where dependencies are represented by arrows (arcs) encoding the direction, and nature (i.e. direct or indirect relationship) of the causality [@Pearl_1988]. A Node describes the states a variable (node states) whereas a variable at the arrow head (child node) is influenced by the variable at the arrow tail (parent node). The strength of the influence is portrayed by the conditional probabilities [@Fenton_and_Neil_2013; @Jensen_1996; @Pearl_1988]. 
+
 The properties described above make the MC models suitable for quantitative assessment [@Hubbard_2014], BNs suitable for predicting the extent to which specific effects are produced by certain causes [@Fenton_and_Neil_2013; @Jensen_1996; @Pearl_1988; @Scutari_and_Denis_2015], and both MC models and BNs suitable for imperfect information, expert knowledge, and explicit uncertainty. While MC models provide a means for quasi-exhaustive enumeration across the space of possibilities for quantitative risk assessment under uncertainty [@Rosenstock_et_al_2014], BNs are suitable for building discrete models describing different scenarios for qualitative variables [@Jensen_1996; @Pearl_1988]. We represent discrete nodes as instances of a finite set of mutually exclusive states (node states) along with their occurrence probabilities [@Jensen_1996] as conditional probability tables (CPTs; see also section \@ref(III31)) where the states of a parent node determines that of the child node [@Fenton_and_Neil_2013; @Jensen_and_Nielsen_2007; @Scutari_and_Denis_2015]. The MC model, in turn, was used for approximating probability distributions of unknown variables using probabilistic sampling by generating multiple random realisations of numerical equations aiming at quantitative biomass and grain yield assessment [@Hubbard_2014; @Luedeling_et_al_2015]. 
 
 ### Methodological Specifications {#III12}
 
-We use an MC model to specify deterministic relationships targeting several unknown (dependent) variables (Figure \@ref(fig:fig2)) and estimate them based on random values of the known (independent) ones used as inputs for deterministic relationship linking the dependent to the independent variables [@Luedeling_et_al_2015; @Rosenstock_et_al_2014]. The BNs were used as multivariate models specifying the probabilities of the states of unknown variables conditional on the probabilities of the states of the known ones (Figure \@ref(fig:fig2)) as specified in a causal relationships between these discrete variables [@Jensen_1996; @Pearl_1988]. The MC model was based on the ‘yield gap’ concept where yield is crop-specific, primarily determined by the genetic potential of the variety, the cultivar, and the farming constraints. We assume the yield potential to be the highest possible theoretical yield that is never achieved due to some prevailing constraints that are context-specific[@VanIttersum_et_al_2013]. Since these constraints vary at various spatial scales (e.g. at watershed level due to natural variability, at farmland scale due to management variability), losses in yield potential will also vary. Such losses can be estimated via the probability of the states of these local constraints. Then, the actual yield at a given plot is proportional to the probability of the state of local constraints at that plot. Four crops (rice, maize, sorghum and teff) were chosen based on their importance in the study areas. A high-level overview of the model is provided in section \@ref(IV1) and a more detailed description in the supplementary materials. Crop development stages were defined from the onset to 10% ground cover as initial stage, from 10% ground cover to effective full cover as the development stage, from effective full cover to the start of maturity as the mid stage, and from the start of maturity to harvest or full senescence as the late stage [@Allen_et_al_1998]. At each of these 4 stages, local BNs were used to describe the farming plot and assess the probability of farming constraints which is assumed to inform the quality of management practices employed by the farmer. The farming constraints variable, in turns, is assumed to drive several yield metrics tracing the temporal biomass accumulation and potential opportunity losses with regards to yield improvement. The yield metrics include the yield potential defined as the cultivar yield without farming constraints (i.e. limitations in water, nutrient, and stress), the exploitable yield potential defined as the fraction of yield potential (70 – 80%) achievable by the farmers, the attainable yield potential defined as the maximum achievable yield given the farmers’ realities, the average actual yield defined as the realistic yield actually achieved by the farmer, the exploitable yield gap defined as the yield improvement opportunities for the farmer, the exploitable yield gap loss due to farming constraints defined as the yield improvement opportunity loss, the actual exploited yield gap defined as the real yield improvement actually achieved by the farmer, and the expected actual yield defined as yield expectation given the farmer’s management conditions [@VanIttersum_et_al_2013]. Note, some of these metrics at the next crop development stage depend on those at the previous stage whereas a biomass expansion factor, measuring the growth rate of the crop, was considered to control the crop growth at each of these stages. This way, crops would not arbitrary grow beyond the actual yield expectations. This cross-stage interdependencies holds also for some of the variables in BNs to account for residual effects of certain variables.
+We use an MC model to specify deterministic relationships targeting several unknown (dependent) variables (Figure \@ref(fig:fig2)) and estimate them based on random values of the known (independent) ones used as inputs for deterministic relationship linking the dependent to the independent variables [@Luedeling_et_al_2015; @Rosenstock_et_al_2014]. The BNs were used as multivariate models specifying the probabilities of the states of unknown variables conditional on the probabilities of the states of the known ones (Figure \@ref(fig:fig2)) as specified in a causal relationships between these discrete variables [@Jensen_1996; @Pearl_1988]. The MC model was based on the ‘yield gap’ concept where yield is crop-specific, primarily determined by the genetic potential of the variety, the cultivar, and the farming constraints. Yield was assumed to follow a negatively skewed gamma distribution [@Gallagher_1987; @Ramirez_et_al_2003], meaning that there are high frequency of low yield coupled with a relatively low chance of high yield values in general. The estimates for the MC model were derived relative to rainfed agriculture based the global yield gap database [@VanIttersum_et_al_2013]. We assume the yield potential to be the highest possible theoretical yield that is never achieved due to some prevailing constraints that are context-specific [@VanIttersum_et_al_2013]. Since these constraints vary at various spatial scales (e.g. at watershed level due to natural variability, at farmland scale due to management variability), losses in yield potential will also vary. Such losses can be estimated via the probability of the states of these local constraints. Then, the actual yield at a given plot is proportional to the probability of the state of local constraints at that plot. Four crops (rice, maize, sorghum and teff) were chosen based on their importance in the study areas. A high-level overview of the model is provided in section \@ref(IV1) and a more detailed description in the supplementary materials. Crop development stages were defined from the onset to 10% ground cover as initial stage, from 10% ground cover to effective full cover as the development stage, from effective full cover to the start of maturity as the mid stage, and from the start of maturity to harvest or full senescence as the late stage [@Allen_et_al_1998]. At each of these 4 stages, local BNs were used to describe the farming plot and assess the probability of farming constraints which is assumed to inform the quality of management practices employed by the farmer. The farming constraints variable, in turns, is assumed to drive several yield metrics tracing the temporal biomass accumulation and potential opportunity losses with regards to yield improvement. The yield metrics include the yield potential defined as the cultivar yield without farming constraints (i.e. limitations in water, nutrient, and stress), the exploitable yield potential defined as the fraction of yield potential (70 – 80%) achievable by the farmers, the attainable yield potential defined as the maximum achievable yield given the farmers’ realities, the average actual yield defined as the realistic yield actually achieved by the farmer, the exploitable yield gap defined as the yield improvement opportunities for the farmer, the exploitable yield gap loss due to farming constraints defined as the yield improvement opportunity loss, the actual exploited yield gap defined as the real yield improvement actually achieved by the farmer, and the expected actual yield defined as yield expectation given the farmer’s management conditions [@VanIttersum_et_al_2013]. Note, some of these metrics at the next crop development stage depend on those at the previous stage whereas a biomass expansion factor, measuring the growth rate of the crop, was considered to control the crop growth at each of these stages. This way, crops would not arbitrary grow beyond the actual yield expectations. This cross-stage interdependencies holds also for some of the variables in BNs to account for residual effects of certain variables.
 
 ## Data acquisition {#III2}
 
@@ -162,7 +163,9 @@ knitr::include_graphics("figures/Modelling_FBFS_approach_overview.png")
 ```
 
 ## Data processing {#III3}
+
 ### Making conditional probability tables (CPTs) {#III31}
+
 As mentioned in section \@ref(III1), BNs are complex model in which influence between child and parent nodes are represented by arcs whereas the strength of that influence is represented by the conditional probabilities. Conditional probability tables (CPTs) are stochastic matrix storing these probabilities to portray the strength of the association between the states of a child node conditional on the probabilities of the states of its parents (e.g. probability of drought risk (available soil water node) knowing that rainfall is above normal (rainfall amount node)) [@Hansson_and_Sjokvist_2013; @Scutari_and_Denis_2015]. Specifying CPTs manually can be difficult particularly for complex nodes with many states and parents [@Hansson_and_Sjokvist_2013]. For example, a three states node with only three parents, each of which can assume 5 states, will require probability estimations for 375 possible situations. The make_CPT function from the decisionSupport package in R provides a shortcut for deriving CPTs relating a child node to its parents [@Luedeling_and_Goehring_2018]. The function requires the prior probability distribution of the child node, the child node sensitivity relative to the parents, the parents’ effects, and the weight of influence of each parent to create the full CPT [@Luedeling_and_Goehring_2018] using the likelihood method [@Hansson_and_Sjokvist_2013]. Estimates of all these parameters are elicited from the experts. The likelihood method is rooted in Bayes’ theorem but focuses on the likelihood instead of conditional probability. The former is easier to estimate than the latter, because expert only need to worry about a limited number of values to estimate [@Hansson_and_Sjokvist_2013; @Whitney_et_al_2018a]. For a node of interest, the method assumes the conditional probability of a given child state to be the product of the prior probability of that child state and its likelihood given the states of the parents of the node. Since the prior can also be easily estimated by the expert, the method substantially facilitates expert elicitation. With further mathematical simplifications [@Hansson_and_Sjokvist_2013], the expert only needs to provide few easier to estimate parameters for calculating the full CPT. These are the prior distribution of the child node, the base of the logarithm, a weight factor for the child node states, and a weight factor for the parent nodes states respectively corresponding to child prior, child node sensitivity, child state ranking, and the parents’ effects in the make_CPT function [@Hansson_and_Sjokvist_2013; @Luedeling_and_Goehring_2018].
 
 ### The models and the modelling interface {#III32}
@@ -182,6 +185,7 @@ knitr::include_graphics("figures/Modelling_FBFS_model_overview.png")
 ```
 
 ## Case studies {#IV2}
+
 ```{r Setting the Scene, include = FALSE, echo = FALSE, cache = FALSE}
 
 set.seed(123)
@@ -243,32 +247,34 @@ export_fun <- function(export, output_dir = "figures"){
 
 my_theme <- theme_bw(base_size = plot_font_size, 
                      base_family = plots_font_family) +
-  theme(panel.grid.minor = element_blank(),
+  theme(
+    # panel.grid.minor = element_blank(),
         # strip.background = element_blank(),
         legend.title = element_blank(),
         # remove facet spacing on x-direction
         panel.spacing = unit(0,"line"),
         
-        panel.border = element_rect(color = "black", fill = NA, size = 0.25),
+        panel.border = element_rect(fill=NA, size = 0.05),
+        panel.grid.major = element_line(size = 0.05),
+        panel.grid.minor = element_line(size = 0.02),
+        
         axis.ticks = element_line(colour = 'black', size = 0.05),
         legend.position="top",
         legend.justification = 'right',
         strip.background = element_rect(fill='lightgoldenrodyellow', color = "gray", size = 0.075),
         strip.text = element_text(colour = 'black'),
-        plot.subtitle=element_text(size=9.5, face="italic", color="blue"))
+        plot.title=element_text(size=12, face="bold", color="black", 
+                                   margin=unit(c(0, 0, 0, 0), "pt")),
+        plot.margin=unit(c(0, 0, 0, 0), "pt"),
+        plot.subtitle=element_text(size=9.5, face="italic", color="blue", 
+                                   margin=unit(c(0, 0, 0, 0), "pt")))
 ```
 
 ### Qualitative Soil water Assessment under different Management Decisions at initial stage of crop development in Flood-based livelihood systems. {#IV21}
 
-#### Abstract {#IV210}
-
-Add some text
-
-Keywords: FBFS, Soil water content, Soil type, manure application, water conservation
-
 #### Introduction {#IV211}
 
-FBFS are possible solutions to the increasing rainfall variability and drought in rainfed agriculture, because they can overcome water shortages through supplementary irrigation. To resolve potential drought risk, this irrigation must secure large amount of flood water in soil without creating a side effect of anaerobic conditions for crops. This requires maximizing water storage in soils (e.g. run-on, rainfall) while limiting waterlogging of soils and water loss (e.g. evapotranspiration, run-off, percolation). In FBFS, much of the water is acquired via flood, drought/waterlogging depend heavily on the amount of flood reaching the plot, and water losses are inversely related to the quality and quantity of soil organic amendments and other intrinsic factors related to soils along with other climatic factors. Depending on the soil type, farmers optimize the soil water at plot level by diverting the desired amount of flood, sometimes in combination with manure application and mechanic works. While most farmers use one or more of such soil and water conservation techniques, few can tell which the best option is. The objective of this case study is to demonstrate how the model could be used to prescribe optimum pre-season cultural practices for improved soil water under specific soil types using the BNs sub-model. Towards this end, we queried the BNs sub-model targeting the node available soil water (AvailSoilWater) conditional on different combination of the states of 3 parent nodes that are relevant for soil water. These are the nodes amount of flood reaching the plot (FloodReachsPlot) which is a direct parent (Figure \@ref(fig:fig5)), the soil type (SoilType) and the manure application (ManureApp) which are ancestors (indirect parents).
+FBFS are possible solutions to the increasing rainfall variability and drought in rainfed agriculture, because they can overcome water shortages through supplementary irrigation. To resolve potential drought risk, this irrigation must secure large amount of flood water in soil without creating a side effect of anaerobic conditions for crops. This requires maximizing water storage in soils (e.g. run-on, rainfall) while limiting waterlogging of soils and water loss (e.g. evapotranspiration, run-off, percolation). In FBFS, much of the water is acquired via flood, drought/waterlogging depend heavily on the amount of flood reaching the plot, and water losses are inversely related to the quality and quantity of soil organic amendments and other intrinsic factors related to soils along with other climatic factors. Depending on the soil type, farmers optimize the soil water at plot level by diverting the desired amount of flood, sometimes in combination with manure application and  mechanic works. While most farmers use one or more of such soil and water conservation techniques, few can tell which the best option is. The objective of this case study is to demonstrate how the model could be used to prescribe optimum pre-season cultural practices for improved soil water under specific soil types using the BNs sub-model. Towards this end, we queried the BNs sub-model targeting the node available soil water (`AvailSoilWater`) conditional on different combination of the states of 3 parent nodes that are relevant for soil water. The idea consisted in formulating all possible scenario accounting for each set of child-parent states relationships to ultimately investigate the chances of getting a specific state of soil water content. So doing, this study can be used a diagnosis for prescribing optimal pre-season management options in FBFS.
 
 #### Materials and Method {#IV212}
 
@@ -314,8 +320,7 @@ par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
 
 graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
                    grid = TRUE, scale = c(max_plots_height_in/2, max_plots_width_in), col = "black", bg = "transparent",
-                   text.col = "black", bar.col = "green", strip.bg = "lightyellow", main = NULL,
-                   sub = NULL, target_node="AvailSoilWater")
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
 
 legend('topleft', legend = legende, text.width = 0.6*strwidth(legende[which.max(nchar(legende))]), 
        cex=0.6, ncol = 2,
@@ -329,9 +334,11 @@ dev.off()
 knitr::include_graphics("figures/Modelling_FBFS_Avail_soil_water.png")
 ```
 
-A split-split plot experiment with 10 repetitions was used to test the effect of 3 different treatments and their interactions on the available soil water at initial stage of crop development (Figure 10; Suppl.) as node of interest. These include 3 different soil types (clayey, loamy, sandy) as the main plot, 2 manure applications levels (true, false) as subplot and 3 levels of amount of flood reaching the plot at initial stage as sub-subplot (too little, desired, too much). Split-split plot design extends the split plot design, both extensively described in @Gomez_and_Gomez_1984; Chap. 3 - 4 and @Panse_and_Sukhatme_1957; Chap. 11. Each treatment corresponds to a combination of plot, subplot and sub-subplot. Such a design was considered as evidence based on which the BNs was queried targeting the node of interest. The resulting evidence-based posterior distributions were then fitted using an Analysis of Variance (ANOVA) Model followed by Tukey's honestly significant difference (Tukey HSD) post hoc test using the agricolae package in R [@DeMendiburu_2016; @RCoreTeam_2018]. 
+We used the BNs part of the model to study the factor of soil water. The approach consisted in querying the local BNs describing the causality leading to the available soil water (`AvailSoilWater`) as described in Figure \@ref(fig:fig5). These are the nodes amount of flood reaching the plot (`FloodReachsPlot`) which is a direct parent (Figure \@ref(fig:fig5)), the soil type (`SoilType`) and the manure application (`ManureApp`) which are ancestors (indirect parents). We tested the effects of the different soil types (clayey, loamy, sandy), the 2 manure applications levels (true, false) and the 3 levels of amount of flood reaching the plot (too little, desired, too much). These were considered only at the initial stage of crop development as evidence based on which the BNs was queried targeting the node of interest. The resulting evidence-based posterior distributions were then used to study the probability of getting each of the 3 levels of available soil water (drought risk, normal, waterlogging risk).
 
 #### Results and Discussions {#IV213}
+
+A study was conducted to understand the effects of soil type, manure application and the amount of harvested flood water on the available soil water for crops at the initial stage of crop development using multiple BNs queries. The results are presented in Figure \@ref(fig:fig6).
 
 ```{r case study 1 results rds 1, eval=TRUE,include = FALSE, echo = FALSE, cache = FALSE}
 ## constructing the evidence list ####
@@ -353,14 +360,18 @@ ssp  <- reshape::melt(ssp)
 saveRDS(ssp, paste0("output_files", "/", substring(gsub(" ", "_", gsub('-|:', '', Sys.time())), 3), "_ssp_Case_study_1.rds"))
 ```
 
-```{r fig6,echo=FALSE,fig.width=14.2,fig.height=7.14/1.25,dpi=min_plots_res,fig.cap="Effect of soil type, manure application and flood water on the available soil water for crops at initial development stage in Kisumu (Kenya) and Tigray (Ethiopia)."}
+```{r fig6,echo=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/3,dpi=min_plots_res,fig.cap="Effect of soil types, manure, and flood water on the available soil water content in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
 
 p1 <- ggplot(data = ssp, aes(x=variable, y = value, fill = variable))+
-  geom_boxplot()+
+  geom_boxplot(lwd = 0.05, outlier.size = 0.05)+
   facet_grid(.~Soil_type+Manure_application+Amount_of_flood_reaching_the_plot_at_initial_stage, 
              space = 'free_x', scales = 'free_x')+
   scale_fill_discrete(labels = function(x) gsub("[.]", " ", x))+
   # labs(x = "Factors of available soil water", y = "Probability of soil water")+
+  scale_x_discrete(expand = c(0, 0))+
+  scale_y_continuous(expand = c(0, 0), 
+                     labels = function(x) sprintf("%.2f", x))+
+  guides(color=FALSE)+
   my_theme +
   # switch the facet strip label to outside 
   # remove background color
@@ -370,11 +381,17 @@ p1 <- ggplot(data = ssp, aes(x=variable, y = value, fill = variable))+
         axis.ticks.x = element_blank(),
         axis.title = element_blank(),
         # axis.title = element_text(size = plot_font_size+4),
-        legend.text = element_text(size = plot_font_size+10),
+        legend.text = element_text(size = plot_font_size+2),
         legend.position = 'top',
         legend.spacing.x = unit(1.0, 'cm'),
-        strip.text = element_text(size = plot_font_size+2),
-        axis.text = element_text(size = plot_font_size+2)
+        legend.margin=margin(0,0,0,0),
+        legend.box.margin=margin(0,0,-10, 0),
+        # panel.border = element_rect(fill=NA, size = 0.05),
+        # panel.grid.major = element_line(size = 0.05),
+        # panel.grid.minor = element_line(size = 0.02),
+        strip.text = element_text(size = plot_font_size-4),
+        strip.text.x = element_text(margin = margin(0,0,0,0, "cm")),
+        axis.text = element_text(size = plot_font_size-4)
 
        )
 
@@ -382,8 +399,8 @@ p1 <- list(p1)
 p1$ncol=1
 # p1$top = grid::textGrob("Biomass Yield at Initial stage",
 #                         x=0,hjust=0, gp = gpar(fontsize=16, face = "bold", col="grey"))
-p1$left = grid::textGrob("Probability of available soil water", rot = 90, gp = gpar(fontsize=plot_font_size+6, face = "bold", col="black"))
-p1$bottom <-  grid::textGrob("Factors of available soil water", gp = gpar(fontsize=plot_font_size+6, face = "bold", col="black"))
+p1$left = grid::textGrob("Probability of available soil water", rot = 90, gp = gpar(fontsize=plot_font_size-2, face = "bold", col="black"))
+p1$bottom <-  grid::textGrob("Factors of available soil water", gp = gpar(fontsize=plot_font_size-2, face = "bold", col="black"))
 
 grid.newpage()
 ga = do.call("grid.arrange", p1)
@@ -392,14 +409,16 @@ gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"),
 g <- gTree(children = gList(ga, gb))
 grid.draw(g)
 
-ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_factor_of_soil_water.png", width = 14.2, 
-       height =7.14, units = "in", dpi = min_plots_res
+ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_factor_of_soil_water.png", width = max_plots_width_in, 
+       height =max_plots_height_in/3, units = "in", dpi = min_plots_res
 )
 ```
 
-An ANOVA was conducted to test the effects of soil type, manure application and the amount of harvested flood water on the available soil water for crops at the initial stage of crop development using a split-split plot experimental design. It appears that all treatments and their interactions are statistically significant (p < 0.05; Table 1; Suppl.) for the 3 states of the target node expect the interaction between the treatments Amount of flood reaching the plot and Manure application when the target is set to waterlogging (p > 0.05; Table 1; Suppl.). Blocks effect are not statistically significant (p < 0.05) owing to their negligible contribution in the experiment.
+Under clayey soils without manure application, drought risk and normal soil water conditions are unlikely, with similar level of certainty, contrary to waterlogging when, at least, the desired amount of flood is expected. In years with potentially too little floods, the chances of waterlogging and normal soil water conditions are nearly equally likely with probabilities slightly below 0.5 against a chance over 10 for drought. The uncertainty is relatively higher when little amount of flood is expected. Supplementary manure application increases the chance of waterlogging with higher certainty when too much flood is expected. The chances of normal condition are seen reduced with lower certainty when a desired amount of flood is expected. In a nutshell, manure application for water management in FBFS with clayey soils may not be necessary when a least of desired flood amount is expected. Crops supporting anaerobic conditions (e.g. rice) are recommended unless when too little flood is predicted.
 
-The post hoc test (Figure 11; Suppl.) revealed that clay soils are better for soil water contrary to sandy ones. Even without manure addition and little amount of flood, drought is unlikely to occur under clayey soils. A similar situation is observed under sandy soils when it comes to waterlogging. While drought is not expected under both clayey and sandy soils supplemented with manure and good flood, the risk of waterlogging is eminent particularly under clayey soils. In general, normal conditions are rather rare as result of scoring probability below 0.5 expect in the sandy soils which have low chance for waterlogging. In general, drought, contrary to waterlogging, is equally unlikely under both loamy and clayey regardless of the manure application if at least the desired amount of flood is expected . 
+Loamy soils generally behave similarly to clayey ones with slightly lower chance of waterlogging in favor of normal soil water conditions. Drought is still unlikely with slightly higher chance. Waterlogging still dominate loamy soils, particularly with manure amendments. An important difference with clayey soils is that normal soil water conditions are more likely without manure application when little flood is expected even though the chance hardly reach 50%. With manure supplements, however, the situation is reversed with waterlogging slightly taking the lead, but the highest chance remains below 50%. In general, the uncertainty seems to be reducing with manure application and higher flood amount compared to clayey soils. The same crop recommendations, as in the case the case of clayey soils, can be prescribed for loamy soils. However, manure application can be justified herein, particularly when too little flood amount is expected or when the farmer plans to grow high water demanding crops.
+
+Sandy soils seems to be the riskiest and most uncertain soils type for FBFS. The uncertainty, nonetheless, seems to be reducing with better flood and manure application. In general, normal conditions dominate sandy soils in FBFS. However, drought is likely in years with little flood and manure application.  With good manure application, nonetheless, waterlogging can be expected in years with high flood expectations. For this soil type, good level of organic matter and drought tolerant crops are recommended. In any case, high water demanding crops can be risky.
 
 ### Probabilistic Assessment of Biomass Accumulation in Major Crops grown under FBFS in Kisumu, Kenya and Tigray, Ethiopia. {#IV22}
 
@@ -409,7 +428,7 @@ Apart from their substantial contribution to food security, FBFS also provide ex
 
 #### Materials and Method {#IV222}
 
-We used the model as described in section \@ref(III3) to simulate the biomass yield at both the initial and late stage of crop development. In this lumped assessment, all possible scenarios across the different nodes specified in the BNs were considered. With the 3 states for each of the 4 nodes describing the farming constraints at different development stages (section \@ref(III1)), and the 4 metrics considered (i.e. exploitable yield gap, exploitable yield gap loss due to constraints, actual exploited yield gap, and expected actual yield), the model simulation produced 324 (324 = 3*3*3*4) results corresponding to the space of possibilities. Only a few of these results are presented here to showcase the model. We selected the initial and the late stages of crop development along with the worst, the medium, and best cases scenario to respectively show the biomass accumulation over time, and the effect of varying farming constraints.
+We used the model as described in section \@ref(III3) to simulate the biomass yield at both the initial and late stage of crop development. In this lumped assessment, all possible scenarios across the different nodes specified in the BNs were considered. With the 3 states for each of the 4 nodes describing the farming constraints at different development stages (section \@ref(III1)), and the 4 metrics considered (i.e. exploitable yield gap, exploitable yield gap loss due to constraints, actual exploited yield gap, and expected actual yield), the model simulation produced 324 (324 = 3*3*3*4) results corresponding to the space of possibilities. Only a few of these results are presented here to showcase the model. We selected the initial and the late stages of crop development along with the worst, the medium, and best cases scenario to respectively show the biomass accumulation over time, and the effect of varying farming constraints on crop development.
 
 ```{r case study 2 methods plots, eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
 
@@ -461,9 +480,9 @@ knitr::include_graphics("figures/Modelling_FBFS_Monte_carlo_model.png")
 
 #### Results and Discussions {#IV223}
 
-The simulated actual biomass yield along with other yield metrics are presented in Figures 12 and 13. The yellow and the gray colors respectively represent values inside and outside the 90% confidence interval. As it can be seen there are clearly important risks in FBFS practice in the study areas. In general yield / yield gain vary according to farming constraints with relatively higher chance of low biomass with increasing farming constraints. While the variability is substantial with time and varying level of farming constraints, the distributions have not changed much.
+The simulated actual biomass yield along with other yield metrics are presented in Figure \@ref(fig:fig7) and Figure \@ref(fig:fig8). As it can be seen there are clearly important risks in FBFS practice in the study areas. In general yield / yield gain vary according to farming constraints with relatively higher chance of low biomass with increasing farming constraints. While the variability is substantial with time and varying level of farming constraints, the distributions have not changed much.
 
-Based on the 90% confidence intervals, the exploitable yield gap, the actual exploited yield gap, and the expected yield can nearly double between high and low farming constraints contrary to the yield opportunity loss . These have also exhibited interesting change with time. Zero chances of yield opportunity loss, which seems to have tied distribution and little change with time, are plausible with minimal farming constraints. However, there seems to be more of possibilities for high gains than there are for high losses in terms of exploitable yield gaps, and this has not much changed with time. In a nutshell, based on the 90% confidence interval, there are possibilities for substantial increases in biomass yields biomass yield regardless of the level of the farming constraints. This increase, however, seems to be more important moving from high to medium level of constraints than it is between the medium and the low level.
+Based on the 90% confidence intervals, the exploitable yield gap, the actual exploited yield gap, and the expected yield can nearly double between high and low farming constraints contrary to the yield opportunity loss. These have also exhibited interesting change with time. Zero chances of yield opportunity loss, which seems to have tied distribution and little change with time, are plausible with minimal farming constraints.  However, there seems to be more of possibilities for high gains than there are for high losses in terms of exploitable yield gaps, and this has not much changed with time. In a nutshell, based on the 90% confidence interval, there are possibilities for substantial increases in biomass yields biomass yield regardless of the level of the farming constraints. This increase, however, seems to be more important moving from high to medium level of constraints than it is between the medium and the low level. 
 
 ```{r case study 2 Results rds, eval=FALSE, include = FALSE, echo = FALSE, cache = FALSE}
 
@@ -719,6 +738,7 @@ model_pred_late <- readRDS("output_files/190518_075414_model_predictions_Case_st
 p = ggplot_mc_dens(model_pred_late, 
                    colorQuantile = c("GRAY48", "YELLOW", "YELLOW", "YELLOW", "YELLOW", "YELLOW", "GRAY49"),
                                        colorProbability = c(1.00,    0.95,     0.75,     0.55,         0.45,     0.25,     0.05))
+
 gg_data <- p$data
 
 y_scaleFUN <- function(x) sprintf("%.2f", x)
@@ -748,7 +768,8 @@ scale_fun <- function(gg_obj, new_data, split_column, facet_column) {
         expand = c(0,0)
       )+
       my_fill+
-      my_theme +
+      my_theme + 
+      theme(axis.title = element_blank())+
       labs(subtitle = gsub("_", " ", gsub("initial_stage.|at_initial_stage|dev_stage.|at_development_stage|mid_stage.|at_mid_stage|late_stage.|at_late_stage|grain_yield.", "", i)))
     p_i +     scale_x_continuous(
       labels = x_scaleFUN, 
@@ -766,18 +787,25 @@ grid_fun <- function(gg_list) {
   sapply(tmp, function(i){
     if (i == 1){
       gg_list[[i]] +
+        my_theme+
         theme(
           # strip.background = element_rect(fill='lightgoldenrodyellow'),
           plot.title = element_blank(),
           axis.title = element_blank(),
+          # plot.margin=unit(c(0, 0, 0, 0), "pt"),
           strip.text = element_text(colour = 'black')
         )
     } else {
       gg_list[[i]]+ guides(fill = FALSE)+
+        my_theme +
         theme(
           plot.title = element_blank(),
           strip.text = element_blank(),
           strip.background = element_blank(),
+          # plot.margin=unit(c(0, 0, 0, 0), "pt"),
+          # panel.border = element_rect(fill=NA, size = 0.05),
+          # panel.grid.major = element_line(size = 0.05),
+          # panel.grid.minor = element_line(size = 0.02),
           axis.title = element_blank()
         )
     }
@@ -829,10 +857,17 @@ p1 <- sapply(X = tmp, function(i) {
 
 
 p1$ncol=1
-p1$top = grid::textGrob("Biomass Yield at Initial stage",
-                        x=0,hjust=0, gp = gpar(fontsize=plot_font_size+6, face = "bold", col="grey"))
-p1$left = grid::textGrob("Density", rot = 90,  gp = gpar(fontsize=plot_font_size+6, face = "bold", col="black"))
-p1$bottom <-  grid::textGrob("Biomass yield", gp = gpar(fontsize=plot_font_size+6, face = "bold", col="black"))
+
+p1$top = grid::textGrob("The yellow and grey colors are respectively values inside and outside the 90% confidence interval. ",
+                        x=1, y=0, hjust=1, vjust=1, 
+                        gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size-2,fontface="italic", col="grey"))
+
+p1$left = grid::textGrob("Density", rot = 90,  
+                         gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size+2, fontface = "bold", col="black"))
+
+p1$bottom <-  grid::textGrob("Biomass yield", 
+                             gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size-2, fontface = "bold", col="black"))
+
 grid.newpage()
 ga = do.call("grid.arrange", p1)
 gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
@@ -840,11 +875,11 @@ gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"),
 g <- gTree(children = gList(ga, gb))
 ```
 
-```{r fig8,echo=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/1.5,dpi=min_plots_res,fig.cap="Expected biomass yield and other important yield-related metrics at initial stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+```{r fig8,echo=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/2.3,dpi=min_plots_res,fig.cap="Expected biomass yield and other important yield-related metrics at initial stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
 
 grid.draw(g)
-ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_initial_stage.png", width = 14.2, 
-       height =7.14, units = "in", dpi = min_plots_res
+ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_initial_stage.png", width = max_plots_width_in, 
+       height =max_plots_height_in/2.3, units = "in", dpi = min_plots_res
 )
 ```
 
@@ -903,10 +938,17 @@ p1 <- sapply(X = tmp, function(i) {
 
 
 p1$ncol=1
-p1$top = grid::textGrob("Biomass Yield at Late stage",
-                        x=0,hjust=0, gp = gpar(fontsize=plot_font_size+6, face = "bold", col="grey"))
-p1$left = grid::textGrob("Density", rot = 90, gp = gpar(fontsize=plot_font_size+6, face = "bold", col="black"))
-p1$bottom <-  grid::textGrob("Biomass yield", gp = gpar(fontsize=plot_font_size+6, face = "bold", col="black"))
+
+p1$top = grid::textGrob("The yellow and grey colors are respectively values inside and outside the 90% confidence interval. ",
+                        x=1, y = 0, hjust=1, vjust= 1,
+                        gp = gpar(fontfamily=plots_font_family, fontsize=plot_font_size-2, fontface = "italic", col="grey"))
+
+p1$left = grid::textGrob("Density", rot = 90,
+                         gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size-2, fontface = "bold", col="black"))
+
+p1$bottom <-  grid::textGrob("Biomass yield",
+                             gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size-2, fontface = "bold", col="black"))
+
 grid.newpage()
 ga = do.call("grid.arrange", p1)
 gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
@@ -914,23 +956,24 @@ gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"),
 g <- gTree(children = gList(ga, gb))
 ```
 
-```{r fig9,echo=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/1.5,dpi=min_plots_res,fig.cap="Expected biomass yield and other important yield-related metrics at late stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+```{r fig9,echo=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/2.3,dpi=min_plots_res,fig.cap="Expected biomass yield and other important yield-related metrics at late stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
 
 grid.draw(g)
-ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_late_stage.png", width = 14.2, 
-       height =7.14, units = "in", dpi = min_plots_res
+ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_late_stage.png", width = max_plots_width_in, 
+       height =max_plots_height_in/2.3, units = "in", dpi = min_plots_res
 )
 ```
 
 
-### Quantitative grain yield variability and relative performance of Rice and Sorghum under different scenarios for water and crop enemies at mid-stage of crop development in flood-based Agriculture. {#IV23}
+### Quantitative grain yield variability and relative performance of Rice and Sorghum under constraint at mid-stage of crop development in flood-based Agriculture. {#IV23}
 
 #### Introduction {#IV231}
 
-Many important risk factors for farmers; such as pest and diseases, weeds; are often overlooked by crop models because they are either difficult to measure or too complex to include . The impact of pest and disease or weeds on crop yield becomes even more important in FBFS due to their hydrology. In Rabour (Kisumu, Kenya) for example, rice grains can be destroyed by birds without what the famers refer to as the “bird scarring ”. Depending on the spacing, some crops may require more of the farmer’s skill in the matter than others. For example, weed removal in teff can be difficult and time consuming compared to sorghum which is traditionally planted in relatively sparse rows. Weed seeds may be carried in by the flood water which further creates suitable conditions for their germination and growth. In most FBFS, therefore, farmers must protect their crops at every stage against a host of biotic stressors. This becomes challenging when the available labour force is limited, in which case the farmer has to prioritize certain crop protection activities over other. Such prioritization should be based on comparative analysis of plausible outcomes for different scenarios. The objective of this short case study is to demonstrate how the model can be used to provide a relative assessment of the impact of such aspects on crop yield. We considered a factorial experiment with 4 different treatments to study the effect of pests, diseases, weeds, and the available soil water on grain yield of rice and sorghum.
+Many important risk factors for farmers (e.g. pest and diseases, weeds) are often overlooked by crop models because they are either difficult to measure or too complex to include. The stochastic nature of such factors makes them difficult to predict with accuracy. The impact of pest and disease or weeds on crop yield becomes even more important in FBFS due to their hydrology. Depending on the spacing, some crops may require more of the farmer’s skill in the matter than others.  For example, weed removal in teff can be difficult and time consuming compared to sorghum which is traditionally planted in relatively sparse rows. Weed seeds may be carried in by the flood water which further creates suitable conditions for their germination and growth. In most FBFS, therefore, farmers must protect their crops at every stage against a host of biotic stressors. This becomes challenging when the available labour force is limited, in which case the farmer must prioritize certain crop protection activities over other. Such prioritization should be based on comparative analysis of plausible outcomes for different scenarios. The objective of this short case study is to demonstrate how the model can be customized for use in relative assessments of the impact of such aspects on crop yield. As in the first case study, we formulated different evidence-based specifications to query the model and study the effect of pests, diseases and weeds, and the available soil water on grain yield of rice and sorghum. Assessment were provided relative to the corresponding rainfed agriculture in the areas.
 
 #### Materials and Methods {#IV232}
 
+To assess the effect of pests, diseases, weeds, the available soil water and crop type on grain yield, we queried the model based on these variables and simulate, for each query, the grain yield of rice and sorghum under FBFS settings in Kisumu county of Kenya and Tigray region in Ethiopia. Each query was run 1000 times as in the mcSimulation function [@Luedeling_and_Goehring_2018].  For each of the 4 treatments, we selected the 2 extremes states of the corresponding node in BNs to derive a sequence of all possible combinations. These were then used as evidence to query the posterior distribution of the node farming constraint in the BNs. Scenarios were assumed at the mid stage of crop development. The results of the BN queries were used to provide customized estimates of the node farming constraints to the MC model as described in section \@ref(III32) The simulated grain yield data were then analysed accounting for uncertainty in estimates.
 
 ```{r case study 3 methods rds 1, eval = TRUE,include = FALSE, echo = FALSE, cache = FALSE}
 
@@ -1010,8 +1053,7 @@ par(font=plots_font, family = plots_font_family, lwd=plots_lwd)
 
 graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
                    grid = TRUE, scale = c(max_plots_height_in/2, max_plots_width_in), col = "black", bg = "transparent",
-                   text.col = "black", bar.col = "green", strip.bg = "lightyellow", main = NULL,
-                   sub = NULL, target_node="AvailSoilWater")
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
 
 legend('bottomleft', legend = legende, text.width = 0.59*strwidth(legende[which.max(nchar(legende))]), 
        cex=0.59, ncol = 1,
@@ -1025,9 +1067,11 @@ dev.off()
 knitr::include_graphics("figures/Modelling_FBFS_Farming_Constraints.png")
 ```
 
-To assess the effect of pests, diseases, weeds, the available soil water and crop type on grain yield, a 2x2x2x2 factorial experiment was considered. These 4 treatments were tested in a completely randomized block design (Figure 14. Suppl.) where repetitions are 1000 model runs of the mcSimulation function [@Luedeling_and_Goehring_2018]. The rationale and the technical details on factorial/randomized block design can be found in @Panse_and_Sukhatme_1957 and @Gomez_and_Gomez_1984. For each of the 4 treatments, we selected the 2 extremes states of the corresponding node in BNs to derive a sequence of all possible combinations. These were then used as evidence to query the posterior distribution of the node farming constraint in the BNs. Scenarios were assumed at the mid stage of crop development. The results of the BN queries were used to provide customized estimates of the node farming constraints to the MC model as described in section \@ref(III32). The simulated grain yield data were then submitted to ANOVA and Tukey HSD post hoc testing using the agricolae package in R [@DeMendiburu_2016; @RCoreTeam_2018].
-
 #### Results {#IV233}
+
+The results of the model simulations are presented in Figure \@ref(fig:fig9). Yield function seems to have kept the right-skewed gamma distribution shape, meaning that crop yield in the study area is characterized by relatively higher frequency of low values. In general, chances of yield gain above 100 tons are pretty low or inexistence despite the ranges of uncertainty from this value.
+
+Under drought risk conditions and controlled pest and diseases, rice seems to experience higher yield reduction when weeds are not appropriately managed. With proper weeds removal, it is rather sorghum that seems to be more exposed to yield loss. In both crops, the ranges of yield losses seem to shrink with weed reduction. This means rice is likely to be more sensitive to weeds than sorghum when they are grown under drought and minor pest and diseases. This trend seems to have not much changed with the severity of pest and disease. Nonetheless, sorghum might be generally more exposed to yield loss regardless of the level of weed whereas both crop yield distributions become relatively leptokurtic, owing the narrow range of yield possibility. In general sorghum performed better under drought than rice
 
 ```{r case study 3 results rds 1, eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
 ## constructing the evidence list ####
@@ -1323,15 +1367,19 @@ labellers <- labeller(
                   )
 ```
 
-```{r fig11,echo=FALSE,fig.width=14.2,fig.height=7.14,dpi=min_plots_res,fig.cap="Joint effect of varying water supply and crop ennemies on grain yield of Sorghum and Rice in Kisumu (Kenya) and Tigray (Ethiopia)."}
+```{r fig11,echo=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/2.5,dpi=min_plots_res,fig.cap="Effect of Pest and diseases, weeds, and soil water on grain yield of rice and sorghum under FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
 
-p1 <- ggplot (data = ssp, aes(x, y, color = Crop_type))+
+p1 <- ggplot (data = ssp, aes(x, y, color = Crop_type, fill = Crop_type))+
   # geom_smooth(method = 'loess', aes(fill = Crop_type))+
   # guides(fill=FALSE)+
-  geom_smooth(method = 'loess')+
+  geom_smooth(method = 'loess', size = 0.25, alpha = 0.2)+
   facet_grid(Available_soil_water_at_mid_stage ~ Pest_and_desease_impact_at_mid_stage+Weeds_impact_at_mid_stage, 
                                            space = 'free_x', scales = 'free_x', labeller = labellers)+
   scale_fill_discrete(labels = function(x) gsub("[.]", " ", x))+
+  scale_x_continuous(expand = c(0, 0))+
+  scale_y_continuous(expand = c(0, 0), 
+                     labels = function(x) sprintf("%.3f", x))+
+  guides(fill=FALSE)+
   labs(x = "Grain yield", y = "Density")+
   my_theme+
     theme(
@@ -1340,44 +1388,50 @@ p1 <- ggplot (data = ssp, aes(x, y, color = Crop_type))+
         # axis.ticks.x = element_blank(),
         axis.title = element_blank(),
         # axis.title = element_text(size = plot_font_size+4),
-        legend.text = element_text(size = plot_font_size+10),
+        legend.text = element_text(size = plot_font_size+2),
         legend.position = 'top',
         legend.spacing.x = unit(1.0, 'cm'),
-        strip.text = element_text(size = plot_font_size+4),
-        axis.text = element_text(size = plot_font_size+2)
+        legend.margin=margin(0,0,0,0),
+        legend.box.margin=margin(0,0,-10, 0),
+        legend.key.width = unit(0.5, "cm"),
+        legend.key.height = unit(0.1, "cm"),
+        # panel.border = element_rect(fill=NA, size = 0.05),
+        # panel.grid.major = element_line(size = 0.05),
+        # panel.grid.minor = element_line(size = 0.02),
+        strip.text = element_text(size = plot_font_size-4),
+        strip.text.x = element_text(margin = margin(0,0,0,0, "cm")),
+        strip.text.y = element_text(margin = margin(0,0,0,0, "cm")),
+        axis.text = element_text(size = plot_font_size-2)
        )
 
 p1 <- list(p1)
 p1$ncol=1
 # p1$top = grid::textGrob("Biomass Yield at Initial stage",
 #                         x=0,hjust=0, gp = gpar(fontsize=16, face = "bold", col="grey"))
-p1$left = grid::textGrob("Density", rot = 90, gp = gpar(fontsize=plot_font_size+6, face = "bold", col="black"))
-p1$bottom <-  grid::textGrob("Grain yield", gp = gpar(fontsize=plot_font_size+6, face = "bold", col="black"))
+p1$left = grid::textGrob("Density", rot = 90, gp = gpar(fontsize=plot_font_size-2, face = "bold", col="black"))
+p1$bottom <-  grid::textGrob("Grain yield", gp = gpar(fontsize=plot_font_size-2, face = "bold", col="black"))
 grid.newpage()
 ga = do.call("grid.arrange", p1)
 gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
                gp=gpar(lwd=1, fill=NA, col="grey"))
 g <- gTree(children = gList(ga, gb))
 grid.draw(g)
-ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_grain_yield.png", width = 14.2, 
-       height =7.14, units = "in", dpi = min_plots_res
+ggsave(plot=g, device='png', filename = "figures/Modelling_FBFS_grain_yield.png", width = max_plots_width_in, 
+       height=max_plots_height_in/2.5, units="in", dpi=min_plots_res
 )
 ```
 
-##### Main effects of the different treatments on grain yield {#IV2331}
+Under waterlogging coupled with minor pest and disease, sorghum exhibits high chance of loss regardless of the level of weeds as it does under drought exacerbated by severe pest and disease. Increasing the effect of pest and diseases along with the level of weeds seems to result in sorghum keeping the higher loss. However, the tendency seems to reverse with proper weed removal in which case rice seems to lose more than does sorghum.
 
-The between-subjects effect from the ANOVA test are reported in Table 2; Suppl. In these results, the main factors of crop yield are pest and diseases (p < 0.01; Table 2; Suppl.), weeds (p < 0.05; Table 2; Suppl.), and the crop type (p < 0.01; Table 2; Suppl.). It is unclear how the available soil water affects crop yield (p > 0.05; Table 2; Suppl.). However, statistically significant differences are recorded when other factors, such as weeds (p < 0.05; Table 2; Suppl.) or pest and diseases, are considered (p < 0.05; Table 2; Suppl.). Pest and diseases accentuated the impact of weeds on crop yield and crop yield variability more than did the water regime (p < 0.05; Table 2; Suppl. 5 and 9). The reverse is observed when the crop type is considered (Table 2; Suppl. 11, 14). This means pest and diseases are strongly related to other factors, hence their implications on grain yield are to be explained in the context of other factors for which mutual influences can be expected. 
-
-##### Marginal and Joint effects of the levels of the different treatments on grain yield {#IV2332}
-
-The Tukey's honestly significant difference (Tukey HSD) suggests significant differences in the levels of the different treatments (p < 0.01; Table 3; Suppl.) except in the case of available soil water which was not statistically significant in the ANOVA test. Crop type seems to be the most important factor of grain yield variability followed by the available soil water. Weeds impact seems to be the least important. 
-
-In general, Rice outperformed Sorghum (diff = 6.76; p < 0.01; Table 3; Suppl. 33). When the farmer planned for both crops, waterlogging is worse than drought risk, particularly under well managed weeds (diff = -15.28 p < 0.01; Table 3; Suppl. 25). When proper pest & diseases control is considered, waterlogging is better than drought conditions coupled with severe level of pests & diseases (diff = -11.06; p < 0.01; Table 3; Suppl. 34). 
-Rice under drought is better than Sorghum under waterlogging condition (diff = -92.02; p < 0.01; Table 3; Suppl. 25) regardless of the state of crop protection deployed for sorghum (diff $\geq$ -55.53; p < 0.01; Table 3; Suppl. 4 2 - 3). However, Sorghum under waterlogging outperformed Rice subjected to drought conditions (diff $\geq$ -55.53; p < 0.01; Table 3; Suppl. 4 4 - 5) suggesting the importance of water management strategy employed by the farmer. Under the same scenario, increasing the effect of pest & disease along with the effect of weeds in rice resulted in important decrease (up to 3 times) of the relative performance of Rice (diff = -92.02; Table 3; Suppl. 1 versus diff = -34.03; Table 3; Suppl. 8; p < 0.01) testifying the importance of the regularity and skills of the farmers in crop protection on crop yield. 
-The overall comparative analysis from of the joint effect of the treatments from the post hoc test suggest rice coupled with proper crop protection methods to be the best option when drought risk is expected towards the mid stage of crop development (Table 3; Suppl. 1 & 4). When waterlogging is expected, however, no big difference can be expected between the two crops (Table 3; Suppl. 4 2-3). In the case of waterlogging, neither pest & disease control nor the weeds removal seems to promote sorghum over rice (Table 3; Suppl. 4 2-5). When Sorghum is grown under waterlogging without proper weed control, no big difference is observed with better pest & diseases control (Table 3; Suppl. 4 5-6) suggesting that either Sorghum is insensitive to pest & diseases, or pest & disease in Sorghum are insensitive to the protection methods employed by the farmers, or the effect of waterlogging and /or weeds mask the effect of pest & disease. This unclear behaviour of pest and diseases is also observed under rice subjected to drought (Table 3; Suppl. 4 7-9). Under drought conditions, Rice is no better than Sorghum even when proper weeding is considered (Table 3; Suppl. 4 10-11). Weeds control seems equivalent to pest & diseases control in drought-affected sorghum (Table 3; Suppl. 4 13-14) which performed equally under waterlogging coupled with suitable crop protection (Table 3; Suppl. 4 7-15). 
+Under drought, minimal pest and disease and high weeds levels, sorghum seems to rather dominate rice in term of yield gain. The situation is unclear when the effect of weeds is removed since sorghum dominate rice up to certain values (nearly 50 tons) wherefrom rice seems to take over. This superiority of sorghum for relatively lower yield gains seems to hold even with the severity of pest and diseases under which condition the possibilities of yield gain are slightly narrower. This confirm rice is more sensitive to weeds than sorghum in the study areas. Note that the performance of rice over sorghum seems to substantially increase with the severity of pest and disease. This means sorghum is likely to be more sensitive to pest and diseases than rice.
+Under waterlogging, rice seems to generally dominate sorghum in terms of yield gains regardless of the other factors. Where sorghum seems to do better are generally related to extremely high yield gains which may are necessarily within farmers’ reach.
 
 # Discussion {#V}
 
 For example, crop yield in certain crops such as maize are very sensitive to water stress during flowering and cob formation than during other development stages (Pault, 2013). 
+
+The post hoc test revealed that clay soils are better for soil water contrary to sandy ones. Even without manure addition and little amount of flood, drought is unlikely to occur under clayey soils.  A similar situation is observed under sandy soils when it comes to waterlogging. While drought is not expected under both clayey and sandy soils supplemented with manure and flood, the risk of waterlogging is eminent particularly under clayey soils. In general, normal conditions are rather rare, expect in the sandy soils which have low chance for waterlogging. In general, drought, contrary to waterlogging, is equally unlikely under both loamy and clayey regardless of the manure application if at least the desired amount of flood is expected.
+
+Rice and sorghum yield in the study area are characterized by high frequency of low values and low frequency of high values which exhibit higher uncertainties. Rice seems to be more sensitive to weeds and drought than sorghum which seems to be more affected by pest and diseases. The range of yield possibility seems to narrow with the severity of pest and disease.
 
 # reference {#VI}
