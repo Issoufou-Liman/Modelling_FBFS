@@ -1,0 +1,530 @@
+\documentclass[tikz, table]{standalone}
+% \usepackage[pdftex,active,tightpage]{preview}
+\usepackage[active,tightpage]{preview}
+
+% Beginning of common specifications %%%%
+
+% \usepackage[utf8]{inputenc}
+% \usepackage[utf8]
+
+\usepackage[skins]{tcolorbox}
+\usepackage{fontspec}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{
+tikz,
+enumitem,
+xcolor,
+colortbl,
+% fontspec,
+ulem,
+varwidth,
+graphicx}
+
+\usetikzlibrary{
+    shapes.geometric,
+    % shapes.symbols,
+    shapes,
+    arrows,
+    arrows.meta,
+    positioning,
+    fit,
+    backgrounds,
+    calc,
+    decorations,
+    % calligraphy,
+    decorations.pathreplacing,
+    % decorations.pathmorphing,
+    decorations.fractals,
+    lindenmayersystems,
+    matrix,
+    intersections,
+    shapes.multipart
+}
+
+% defining some common colours for the shapes to be created %%%%
+% \definecolor{McBoxColor}{rgb}{0.13, 0.55, 0.13}
+% \definecolor{McBoxColor}{rgb}{0.33, 0.42, 0.18}
+\definecolor{McBoxColor}{rgb}{0.01, 0.75, 0.24}
+% \definecolor{BnsCropBoxColor}{rgb}{0.55, 0.71, 0.0}
+\definecolor{BnsCropBoxColor}{rgb}{0.01, 0.75, 0.24}
+% \definecolor{graphicbackground}{rgb}{0.96,0.96,0.8}
+\definecolor{graphicbackground}{rgb}{0.98, 0.98, 0.82}
+
+\definecolor{ConstraintsColor}{rgb}{0.63, 0.63, 0.0}
+\definecolor{YieldColor}{rgb}{0.93, 0.92, 0.74}
+
+%\definecolor{BnsDomainColor}{rgb}{0.98, 0.94, 0.9}
+\definecolor{BnsDomainColor}{rgb}{0.99, 0.96, 0.9}
+
+% \definecolor{McDomainColor}{rgb}{0.74, 0.83, 0.9}
+\definecolor{McDomainColor}{rgb}{0.9, 0.9, 0.98}
+
+% \definecolor{ModellingInterfaceDomainColor}{rgb}{0.94, 1.0, 0.94}
+\definecolor{ModellingInterfaceDomainColor}{rgb}{0.83, 0.83, 0.83}
+
+% \definecolor {RedBnsBulletsColor} {rgb}{1, .5, 0}
+% \definecolor{RedBnsBulletsColor}{rgb}{1.0, 0.6, 0.4}
+% \definecolor{RedBnsBulletsColor}{rgb}{0.43, 0.21, 0.1}
+\definecolor{RedBnsBulletsColor}{rgb}{1.0, 0.13, 0.32}
+\definecolor{BlackBnsBulletsColor}{rgb}{0.0, 0.0, 0.0}
+
+% \definecolor{ModellingInterfaceBulletsColor}{rgb}{0.63, 0.84, 0.71} This not currently needed
+
+% \definecolor{BlueMcBulletsColor}{rgb}{0.28, 0.57, 0.81}
+\definecolor{BlueMcBulletsColor}{rgb}{0.0, 0.0, 1.0}
+\definecolor{BlackMcBulletsColor}{rgb}{0.0, 0.0, 0.0}
+
+\definecolor{LitleNodeFill}{rgb}{0.97, 0.97, 1.0}
+
+ \definecolor{BarColor}{rgb}{0.56, 0.93, 0.56}
+ \definecolor{BarFill}{rgb}{0.56, 0.93, 0.56}
+
+
+% Rised text 
+
+% Bullet styles definition %%%%
+% this is taken from https://tex.stackexchange.com/questions/329990/how-do-i-change-the-color-of-itemize-bullet-specific-and-default
+
+\newlist{RedBnsBullets}{itemize}{1}
+\setlist[RedBnsBullets]{
+label=\textcolor{RedBnsBulletsColor}{\textbullet},
+leftmargin=*,
+topsep=0ex,
+partopsep=0ex,
+parsep=0ex,
+itemsep=0ex,
+% font=\normalfont\bfseries\color{RedBnsBulletsColor},
+before={\color{RedBnsBulletsColor}\itshape}}
+
+\newlist{GrayModellingInterfaceBullets}{itemize}{1}
+\setlist[GrayModellingInterfaceBullets]{
+label=\textcolor{gray}{\textbullet},
+leftmargin=*,
+topsep=0ex,
+partopsep=0ex,
+parsep=0ex,
+itemsep=0ex,
+% font=\normalfont\bfseries\color{RedBnsBulletsColor},
+before={\color{gray}\itshape}}
+
+\newlist{BlackBnsBullets}{itemize}{1}
+\setlist[BlackBnsBullets]{
+label=\textcolor{BlackBnsBulletsColor}{\textbullet},
+leftmargin=*,
+topsep=0ex,
+partopsep=0ex,
+parsep=0ex,
+itemsep=0ex,
+% font=\normalfont\bfseries\color{RedBnsBulletsColor},
+before={\color{BlackBnsBulletsColor}\itshape}}
+
+\newlist{BlueMcBullets}{itemize}{1}
+\setlist[BlueMcBullets]{
+label=\textcolor{BlueMcBulletsColor}{\textbullet},
+leftmargin=*,
+topsep=0ex,
+partopsep=0ex,
+parsep=0ex,
+itemsep=0ex,
+% font=\normalfont\bfseries\color{BlueMcBulletsColor},
+before={\color{BlueMcBulletsColor}\itshape}}
+
+\newlist{BlackMcBullets}{itemize}{1}
+\setlist[BlackMcBullets]{
+label=\textcolor{BlackMcBulletsColor}{\textbullet},
+leftmargin=*,
+topsep=0ex,
+partopsep=0ex,
+parsep=0ex,
+itemsep=0ex,
+% font=\normalfont\bfseries\color{BlueMcBulletsColor},
+before={\color{BlackMcBulletsColor}\itshape}}
+
+
+% Defining a common font %%%%
+
+% \setsansfont{Arial}
+% \setmonofont[Color={0019D4}]{Courier New}
+\setromanfont{Times New Roman}
+
+% Defining the basic shape components for the flowchart %%%%
+
+%% Defining common variables for node dimensions %%%%
+
+\pgfmathsetmacro{\MinNodeWidth}{1cm}
+\pgfmathsetmacro{\MinNodeHigth}{1cm}
+
+\pgfmathsetmacro{\MinSubNodeWidth}{1cm}
+\pgfmathsetmacro{\MinSubNodeHigth}{1cm}
+
+\pgfmathsetmacro{\NodeTextWidth}{5cm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+
+%% Styles specifications %%%%
+
+%%%% Main containers specifications %%%%
+
+\tikzstyle{every node}=[font=\Large]
+
+\tikzstyle{BnsBox} = [rectangle, outer sep =0pt, inner sep=5pt, minimum width=\MinNodeWidth, minimum height=\MinNodeHigth, draw=BnsDomainColor, fill=BnsDomainColor]
+
+\tikzstyle{ModellingInterfaceBox} = [rectangle, outer sep =0pt, inner sep=5pt, minimum width=\MinNodeWidth-3cm, minimum height=\MinNodeHigth,draw=ModellingInterfaceDomainColor, fill=ModellingInterfaceDomainColor]
+
+\tikzstyle{McBox} = [rectangle, outer sep =0pt, inner sep=5pt, minimum width=\MinNodeWidth, minimum height=\MinNodeHigth,draw=McDomainColor, fill=McDomainColor]
+
+%%%% arrows styles %%%%
+
+% \tikzstyle{thickarrow} = [thick,->,>=stealth, very thick]
+
+\tikzstyle{thickarrow} = [thick,-{Stealth[scale=1.3,angle'=45,open]},very thick]
+
+\tikzstyle{dashedarrow} = [dashed,-{Stealth[scale=1.3,angle'=45,open]},very thick]
+
+\tikzstyle{thickes} = [thick,very thick]
+
+\tikzstyle{dashes} = [dashed,very thick]
+
+\tikzstyle {BnsStyle} = [
+% rounded rectangle,
+ellipse,
+% sep = 0pt
+% ysep = 0pt,
+% xsep = 0pt,
+thick,
+inner sep=0pt,
+minimum width=\MinNodeWidth,
+minimum height=\MinNodeHigth,
+text width=\NodeTextWidth,
+draw=white,
+fill=white,
+% font=\sffamily,
+text centered, 
+align=left
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+
+\tikzstyle {CloudyBnsStyle} = [
+cloud, 
+cloud puffs=30,
+cloud ignores aspect,
+% cloud puff arc=120,
+draw=McDomainColor,
+fill=McDomainColor,
+thick,
+inner sep=0pt,
+% node distance=2cm and 4cm,
+% minimum width=\MinNodeWidth,
+% minimum height=\MinNodeHigth,
+% minimum width=3cm, 
+% minimum height=1cm,
+% text width=\NodeTextWidth,
+text centered, 
+align=center
+]
+
+\tikzstyle {FlexBnsStyle} = [
+% rounded rectangle,
+ellipse,
+% sep = 0pt
+% ysep = 0pt,
+% xsep = 0pt,
+draw=McDomainColor,
+fill=McDomainColor,
+thick,
+inner sep=0pt,
+% node distance=2cm and 4cm,
+% minimum width=\MinNodeWidth,
+% minimum height=\MinNodeHigth,
+% text width=\NodeTextWidth,
+% font=\sffamily,
+text centered, 
+align=center
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+
+\tikzstyle {McStyle} = [
+% UpCutRectangle, 
+chamfered rectangle,
+chamfered rectangle corners=north east,
+inner sep=0pt,
+minimum width=\MinNodeWidth,
+minimum height=\MinNodeHigth,
+text width=\NodeTextWidth,
+draw=white, 
+fill=white,
+% font=\sffamily,
+text centered, 
+align=left
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+
+\tikzstyle {FlexMcStyle} = [
+% ultra thick,
+line width = 1.5mm,
+% UpCutRectangle, 
+chamfered rectangle,
+chamfered rectangle corners=north east,
+inner sep=0pt,
+% minimum width=\MinNodeWidth,
+% minimum height=\MinNodeHigth,
+% text width=\NodeTextWidth,
+draw=McDomainColor, 
+fill=McDomainColor,
+% font=\sffamily,
+text centered, 
+align=center
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+\tikzstyle{McStyleSub} = [
+BlackMcBulletsColor,
+rectangle, 
+double distance=2pt,
+thin,
+inner sep=2pt,
+minimum width=\MinNodeWidth,
+minimum height=\MinNodeHigth,
+text width=\NodeTextWidth,
+draw=BnsDomainColor, 
+fill=white,
+% font=\sffamily,
+text centered, 
+align=left
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+
+\tikzstyle{FitnodesStyle} = [
+ultra thick,
+rectangle, 
+inner sep=0pt,
+minimum width=\MinNodeWidth,
+minimum height=\MinNodeHigth,
+text width=\NodeTextWidth,
+draw=white, 
+fill=white,
+% font=\sffamily
+% text centered, 
+% align=left
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+
+\tikzstyle{BraceStyle} = [
+white,
+decorate, 
+line width=1mm, 
+decoration={brace,amplitude=10pt}]
+
+\tikzstyle {ModelsStyle} = [
+shape = star, 
+star points=3, 
+star point ratio=1, 
+% star points=3,
+% star point ratio=1,
+minimum size=3cm,
+inner sep=0pt,
+outer sep=0pt,
+% minimum width=0pt,
+% minimum height=0pt,
+% text width=\NodeTextWidth,
+draw=black, 
+fill=white,
+% font=\sffamily,
+text centered, 
+align=center
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+
+\tikzstyle {TransitionalNodesStyle} = [
+rectangle, 
+inner sep=0pt,
+minimum width=\MinNodeWidth,
+minimum height=\MinNodeHigth,
+text width=10cm,
+draw=white, 
+fill=white,
+opacity = 0.8,
+% xshift = 1mm,
+% font=\sffamily,
+% font=\normalfont\underline\color{black},
+% before={\color{black}\itshape},
+text centered, 
+align=center
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+
+\tikzstyle {ApproachNodesStyle} = [
+rectangle, 
+% inner sep=0pt,
+minimum width=11cm,
+minimum height=\MinNodeHigth,
+% text width=\NodeTextWidth,
+draw=white, 
+fill=white,
+% font=\sffamily,
+text centered, 
+align=center
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+
+\tikzstyle {ApproachTitlesStyle} = [
+rounded rectangle,
+% ellipse,
+% sep = 0pt
+% ysep = 0pt,
+% xsep = 0pt,
+thick,
+inner sep=0pt,
+minimum width=\MinNodeWidth,
+minimum height=\MinNodeHigth,
+text width=\NodeTextWidth,
+draw=white,
+fill=white,
+% font=\sffamily,
+text centered, 
+align=center
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+
+\tikzstyle {BnsBarplotStyle} = [
+rectangle split, 
+rectangle split parts=2,
+% sep = 0pt
+% ysep = 0pt,
+% xsep = 0pt,
+thick,
+inner sep=0pt,
+minimum width=\MinNodeWidth,
+minimum height=\MinNodeHigth,
+% text width=\NodeTextWidth,
+draw=McDomainColor
+% fill=white,
+% rectangle split part fill={BnsDomainColor, white}
+% font=\sffamily,
+% text centered, 
+% align=center
+% rectangle split part align={center,center}
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+% every text node part/.style={text=black},
+% every lower node part/.style={text=blue}
+]
+
+\tikzstyle {BnsMultipartStyle} = [
+rectangle split, 
+rectangle split parts=2,
+thick,
+inner sep=2pt,
+% outer sep =0pt,
+minimum width=\MinNodeWidth,
+minimum height=\MinNodeHigth,
+draw=white,
+rectangle split part fill={graphicbackground, white},
+every one node part/.style={font=\LARGE\bf}
+]
+
+\tikzstyle {McMultipartStyle} = [
+rectangle split, 
+rectangle split parts=2,
+thick,
+inner sep=0pt,
+minimum width=\MinNodeWidth,
+minimum height=\MinNodeHigth,
+draw=white,
+rectangle split part fill={graphicbackground, white}
+]
+
+\tikzstyle {BnsBarplotTitleStyle} = [
+% UpCutRectangle, 
+rectangle,
+inner sep=0pt,
+minimum width=\MinNodeWidth,
+minimum height=\MinNodeHigth,
+%text width=\NodeTextWidth,
+draw=graphicbackground, 
+fill=graphicbackground,
+% font=\sffamily,
+font=\LARGE\bf,
+text centered, 
+align=left
+% node distance=5mm,
+% text height=1.5ex,
+% text depth=.25ex
+]
+
+% Preamble: \pgfplotsset{width=7cm,compat=1.3}
+\pgfplotsset{AxisStyle/.style={
+                    y=20pt,
+                    enlarge y limits={abs=10pt},
+                    xbar,
+                    /pgf/bar width=15pt,% bar width in barplot
+                    xmin=0,
+                    % xmax=1,
+                    y axis line style = {opacity = 0},
+                    axis x line       = none,
+                    tickwidth         = 0pt,
+                    ytick             = data,
+                    nodes near coords, nodes near coords align={horizontal},
+                    scaled x ticks=false,
+                    every node near coord/.style={
+                         /pgf/number format/fixed,
+                         /pgf/number format/precision=3}
+                    }
+}
+
+\pgfplotsset{AddPlotStyle/.style={ultra thin,
+color=black,
+% fill=ModellingInterfaceDomainColor, 
+fill=white,
+every node near coord/.style={text=black}
+}
+}
+
+% background color definition from pgfmanual-en-macros.tex
+% key to change color
+\pgfkeys{/tikz/.cd,
+  background color/.initial=BnsDomainColor,
+  background color/.get=\backcol,
+  background color/.store in=\backcol,
+}
+\tikzset{background rectangle/.style={
+    fill=\backcol,
+  },
+  use background/.style={    
+    show background rectangle
+  }
+}
+
+\newcommand{\specialcell}[2][c]{%
+  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+% End of common specifications %%%%
+\begin{preview}
+%% TIKZ_CODE %%
+\end{preview}
+
+\end{document}

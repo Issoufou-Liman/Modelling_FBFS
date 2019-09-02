@@ -37,6 +37,8 @@ graphviz_chart_bn <- function(x, type = "barchart", layout = "dot", draw.levels 
                               target_node_title_cex=0.25, target_node_leg_cex=0.25,
                               target_node_plot_mgp=c(3,1,0)){
   # yy <- eval(as.expression(substitute(sample_cpdist(x, target_node, op))))[[2]]
+  # old_par <- par(no.readonly = TRUE)
+  # par(mar=c(0,0,0,0))
   nam0 <- bnlearn::nodes(x)
   nam1 <- gsub("_"," ", nam0)
   if (abbreviate){
@@ -83,4 +85,5 @@ graphviz_chart_bn <- function(x, type = "barchart", layout = "dot", draw.levels 
   #                     main=target_node_title, leg_title = target_node_leg_title, 
   #                     cex.main = target_node_title_cex, leg_pos = target_node_leg_pos,
   #                     leg_cex=target_node_leg_cex, mgp = target_node_plot_mgp)
+  # par(old_par)
 }

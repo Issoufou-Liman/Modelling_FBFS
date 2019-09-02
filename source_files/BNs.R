@@ -34,7 +34,7 @@ Main_Canals_Maitnenance_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = 
                                                                parent_weights = c(1,2),
                                                                b = 1.5,
                                                                child_prior = c(0.5,0.5),
-                                                               child_states = c('Bad', 'Good'),
+                                                               child_states = c('Poor', 'Good'),
                                                                parent_states = list(c('Modern', 'Hybrid', 'Traditional'),
                                                                                     c('Inadequate', 'Adequate')))
 
@@ -59,7 +59,7 @@ Amount_of_shared_flood_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = l
                                                               child_prior = c(0.3, 0.6, 0.1),
                                                               child_states = c('< Enough', 'Enough', '> Enough'),
                                                               parent_states = list(c('Off-site', 'On-site'),
-                                                                                   c('Bad', 'Good'),
+                                                                                   c('Poor', 'Good'),
                                                                                    c('High', 'Medium',  'Low'), 
                                                                                    c('Steep','Moderate', 'Gentil')))
 
@@ -96,10 +96,10 @@ Upstream_abstraction_at_initial_stage_levels <- Upstream_abstraction_at_initial_
 Upstream_abstraction_at_initial_stage <- cptable (~Upstream_abstraction_at_initial_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_initial_stage_values,levels = Upstream_abstraction_at_initial_stage_levels)
 
 ## Field_canal_maintenance_at_initial_stage####
-Field_canal_maintenance_at_initial_stage<- cptable (~Field_canal_maintenance_at_initial_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
+Field_canal_maintenance_at_initial_stage<- cptable (~Field_canal_maintenance_at_initial_stage, values = c(0.2, 0.8),levels = c('Poor', 'Good'))
 
 ## Presence_of_the_farmer_during_flood_event_at_initial_stage ###
-Presence_of_the_farmer_during_flood_event_at_initial_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_initial_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
+Presence_of_the_farmer_during_flood_event_at_initial_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_initial_stage, values = c(0.2, 0.8),levels = c('False', 'True'))
 
 ## Amount_of_flood_reaching_the_plot_at_initial_stage ####
 Amount_of_flood_reaching_the_plot_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2), 
@@ -110,8 +110,8 @@ Amount_of_flood_reaching_the_plot_at_initial_stage_tmp <- make_gRain_CPT(parent_
                                                                          b = 2,
                                                                          child_prior = c(0.2,0.7,0.1),
                                                                          child_states = c('Too little', 'Desired', 'Too much'),
-                                                                         parent_states = list(c('Bad', 'Good'),
-                                                                                              c('FALSE', 'TRUE'),
+                                                                         parent_states = list(c('Poor', 'Good'),
+                                                                                              c('False', 'True'),
                                                                                               c('< Enough', 'Enough', '> Enough'),
                                                                                               c('Unfair', 'Fair')))
 
@@ -132,7 +132,7 @@ Soil_type <- cptable (~Soil_type, values = c(0.05, 0.55, 0.4),levels = c('Sandy'
 
 ## Manure_application ####
 
-Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('False', 'True'))
 
 ## Soil_water_holding_capacity ####
 
@@ -143,7 +143,7 @@ Soil_water_holding_capacity_tmp <- make_gRain_CPT(parent_effects = list(c(0, 2.5
                                                   child_prior = c(0.2,0.5,0.3),
                                                   child_states = c('Low', 'Medium', 'High'),
                                                   parent_states = list(c('Sandy', 'Loamy', 'Clayey'),
-                                                                       c('FALSE', 'TRUE')))
+                                                                       c('False', 'True')))
 Soil_water_holding_capacity_values <- Soil_water_holding_capacity_tmp$values
 Soil_water_holding_capacity_levels <- Soil_water_holding_capacity_tmp$levels
 Soil_water_holding_capacity <- cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
@@ -197,7 +197,7 @@ Relative_wealth_status <- cptable(~Relative_wealth_status, values = c(0.6, 0.3, 
 
 ## Mutual_aids ####
 
-Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('False', 'True'))
 
 ## Access_to_inputs_at_initial_stage ####
 
@@ -206,9 +206,9 @@ Access_to_inputs_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(
                                                         parent_weights = c(1.5, 1),
                                                         b = 1.5,
                                                         child_prior = c(0.4,0.6),
-                                                        child_states = c('FALSE', 'TRUE'),
+                                                        child_states = c('False', 'True'),
                                                         parent_states = list(c('Poor', 'Middle class', 'Rich'),
-                                                                             c('FALSE', 'TRUE')))
+                                                                             c('False', 'True')))
 Access_to_inputs_at_initial_stage_values <- Access_to_inputs_at_initial_stage_tmp$values
 Access_to_inputs_at_initial_stage_levels <- Access_to_inputs_at_initial_stage_tmp$levels
 Access_to_inputs_at_initial_stage <- cptable (~Access_to_inputs_at_initial_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_initial_stage_values,levels = Access_to_inputs_at_initial_stage_levels)
@@ -225,7 +225,7 @@ Available_Labor_force_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = li
                                                              child_prior = c(0.2,0.8),
                                                              child_states = c('Unsufficient', 'Sufficient'),
                                                              parent_states = list(c('Poor', 'Middle class', 'Rich'),
-                                                                                  c('FALSE', 'TRUE'),
+                                                                                  c('False', 'True'),
                                                                                   c('Unavailable', 'Available')))
 # Available_Labor_force_at_initial_stage_values <- Available_Labor_force_at_initial_stage_tmp$values
 Available_Labor_force_at_initial_stage_values <- c(0.35, 0.65, 
@@ -269,7 +269,7 @@ Effectiveness_of_pest_and_disease_reduction_practices_at_initial_stage_tmp <- ma
                                                                                              parent_weights = c(1.5,2,1,3),
                                                                                              b = 1.5,
                                                                                              child_prior = c(0.3, 0.4, 0.3),
-                                                                                             child_states = c('Bad', 'Good', 'Excellent'),
+                                                                                             child_states = c('Poor', 'Good', 'Excellent'),
                                                                                              parent_states = list(c('Unsufficient', 'Sufficient'),
                                                                                                                   c('Uncommon', 'Common'),
                                                                                                                   c('Unsufficient', 'Sufficient'),
@@ -290,7 +290,7 @@ Effectiveness_of_Weeding_at_initial_stage_tmp <- make_gRain_CPT(parent_effects =
                                                                 parent_weights = c(1, 1.5),
                                                                 b = 1.75,
                                                                 child_prior = c(0.3, 0.4, 0.3),
-                                                                child_states = c('Bad', 'Good', 'Excellent'),
+                                                                child_states = c('Poor', 'Good', 'Excellent'),
                                                                 parent_states = list(c('Unsufficient', 'Sufficient'),
                                                                                      c('Defavorable', 'Favorable')))
 
@@ -306,11 +306,11 @@ Effectiveness_of_Weeding_at_initial_stage <- cptable (~Effectiveness_of_Weeding_
 Fertilizers_application_at_initial_stage <- cptable (~Fertilizers_application_at_initial_stage|Access_to_inputs_at_initial_stage, 
                                                      values = c(0.9, 0.1,
                                                                 0.3, 0.7),
-                                                     levels = c('FALSE', 'TRUE'))
+                                                     levels = c('False', 'True'))
 
 ## Rich_sediments_addition_from_flood_at_initial_stage ####
 
-Rich_sediments_addition_from_flood_at_initial_stage <- cptable(~Rich_sediments_addition_from_flood_at_initial_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
+Rich_sediments_addition_from_flood_at_initial_stage <- cptable(~Rich_sediments_addition_from_flood_at_initial_stage, values = c(0.4, 0.6), levels = c('False', 'True'))
 
 ## Available_soil_nutrients_at_initial_stage ####
 
@@ -321,9 +321,9 @@ Available_soil_nutrients_at_initial_stage_tmp <- make_gRain_CPT(parent_effects =
                                                                 b = 1.5,
                                                                 child_prior = c(0.25, 0.5, 0.25),
                                                                 child_states = c('Deficient','Satisfactory', 'Plenty'),
-                                                                parent_states = list(c('FALSE', 'TRUE'),
-                                                                                     c('FALSE', 'TRUE'),
-                                                                                     c('FALSE', 'TRUE')))
+                                                                parent_states = list(c('False', 'True'),
+                                                                                     c('False', 'True'),
+                                                                                     c('False', 'True')))
 
 
 
@@ -346,7 +346,7 @@ Pest_and_desease_impact_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = 
                                                                b = 2,
                                                                child_prior = c(0.3, 0.4, 0.3),
                                                                child_states = c('Severe', 'Significant', 'Minor'),
-                                                               parent_states = list(c('Bad', 'Good', "Excellent"),
+                                                               parent_states = list(c('Poor', 'Good', "Excellent"),
                                                                                     c('Sorghum', 'Maize','Teff', 'Rice')
                                                                ))
 
@@ -365,14 +365,14 @@ Pest_and_desease_impact_at_initial_stage <- cptable (~Pest_and_desease_impact_at
 # Weeds_impact_at_initial_stage <- cptable (~Weeds_impact_at_initial_stage|Effectiveness_of_Weeding_at_initial_stage, 
 #                                           values = c(0.6, 0.35, 0.05,
 #                                                      0.05, 0.35, 0.6),
-#                                           levels = c('Consuming', 'Moderate', 'Negligible'))
+#                                           levels = c('Significant', 'Moderate', 'Negligible'))
 
 Weeds_impact_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), rev(c(4,3,2,1))),
                                                     parent_weights = c(2, 1.5),
                                                     b = 3,
                                                     child_prior = c(0.3, 0.4, 0.3),
-                                                    child_states = c('Consuming', 'Moderate', 'Negligible'),
-                                                    parent_states = list(c('Bad', 'Good', 'Excellent'),
+                                                    child_states = c('Significant', 'Moderate', 'Negligible'),
+                                                    parent_states = list(c('Poor', 'Good', 'Excellent'),
                                                                          c('Sorghum', 'Maize','Teff', 'Rice')
                                                     ))
 
@@ -392,7 +392,7 @@ Weeds_impact_at_initial_stage <- cptable (~Weeds_impact_at_initial_stage|
 
 ## Agricultural_management_efficiency at initial stage ####
 
-Agricultural_management_efficiency_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,4), c(1,2,3), c(1,2,3)),
+Agricultural_management_efficiency_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,3), c(1,2,3), c(1,2,3)),
                                                                           parent_weights = c(1.5, 1.75, 2),
                                                                           # parent_weights = c(2, 1, 1),
                                                                           # parent_weights = c(2, 1, 0.5),
@@ -400,9 +400,9 @@ Agricultural_management_efficiency_at_initial_stage_tmp <- make_gRain_CPT(parent
                                                                           b = 2,
                                                                           child_prior = c(0.3, 0.4, 0.3),
                                                                           child_states = c('Low','Medium', 'High'),
-                                                                          parent_states = list(c('Deficient','Satisfactory', 'Plenty'),
+                                                                          parent_states = list(c("Inadequate", "Adequate"),
                                                                                                c('Severe', 'Significant', 'Minor'),
-                                                                                               c('Consuming', 'Moderate', 'Negligible')
+                                                                                               c('Significant', 'Moderate', 'Negligible')
                                                                           ))
 
 
@@ -410,7 +410,7 @@ Agricultural_management_efficiency_at_initial_stage_tmp <- make_gRain_CPT(parent
 Agricultural_management_efficiency_at_initial_stage_values <- Agricultural_management_efficiency_at_initial_stage_tmp$values
 Agricultural_management_efficiency_at_initial_stage_levels <- Agricultural_management_efficiency_at_initial_stage_tmp$levels
 Agricultural_management_efficiency_at_initial_stage <- cptable (~Agricultural_management_efficiency_at_initial_stage|
-                                                                  Available_soil_nutrients_at_initial_stage:
+                                                                  nutrient_supply_adequacy_at_initial_stage:
                                                                   Pest_and_desease_impact_at_initial_stage:
                                                                   Weeds_impact_at_initial_stage,
                                                                 values = Agricultural_management_efficiency_at_initial_stage_values,levels = Agricultural_management_efficiency_at_initial_stage_levels)
@@ -460,6 +460,24 @@ Effectiveness_of_cropping_options <- cptable (~Effectiveness_of_cropping_options
                                                 Planting_date:
                                                 Crop_type,
                                               values = Effectiveness_of_cropping_options_values,levels = Effectiveness_of_cropping_options_levels)
+
+
+### nutrient_supply_adequacy_at_initial_stage ####
+
+nutrient_supply_adequacy_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(4,3,2,1)),
+                                                        parent_weights = c(2,1),
+                                                        b = 1.5,
+                                                        child_prior = c(0.5, 0.5),
+                                                        child_states = c("Inadequate", "Adequate"),
+                                                        parent_states = list(c('Deficient','Satisfactory', 'Plenty'),
+                                                                             c('Sorghum', 'Maize','Teff', 'Rice')))
+
+nutrient_supply_adequacy_at_initial_stage_values <- nutrient_supply_adequacy_at_initial_stage_tmp$values
+nutrient_supply_adequacy_at_initial_stage_levels <- nutrient_supply_adequacy_at_initial_stage_tmp$levels
+nutrient_supply_adequacy_at_initial_stage <- cptable (~nutrient_supply_adequacy_at_initial_stage|
+                                                        Available_soil_nutrients_at_initial_stage:
+                                                        Crop_type,
+                                                      values = nutrient_supply_adequacy_at_initial_stage_values,levels = nutrient_supply_adequacy_at_initial_stage_levels)
 
 
 ### Water_supply_adequacy_at_initial_stage ####
@@ -544,7 +562,7 @@ Main_Canals_Maitnenance_at_initial_stage_tmp <- make_gRain_CPT(parent_effects = 
                                                                parent_weights = c(1,2),
                                                                b = 1.5,
                                                                child_prior = c(0.5,0.5),
-                                                               child_states = c('Bad', 'Good'),
+                                                               child_states = c('Poor', 'Good'),
                                                                parent_states = list(c('Modern', 'Hybrid', 'Traditional'),
                                                                                     c('Inadequate', 'Adequate')))
 
@@ -564,7 +582,7 @@ Main_Canals_Maitnenance_at_development_stage_tmp <- make_gRain_CPT(parent_effect
                                                                    b = 1.5,
                                                                    # child_prior = c(0.5,0.5),
                                                                    child_prior = c(0.6,0.4),
-                                                                   child_states = c('Bad', 'Good'),
+                                                                   child_states = c('Poor', 'Good'),
                                                                    parent_states = list(c('Modern', 'Hybrid', 'Traditional'),
                                                                                         c('Inadequate', 'Adequate')))
 
@@ -589,7 +607,7 @@ Amount_of_shared_flood_at_development_stage_tmp <- make_gRain_CPT(parent_effects
                                                                   child_prior = c(0.3, 0.6, 0.1),
                                                                   child_states = c('< Enough', 'Enough', '> Enough'),
                                                                   parent_states = list(c('Off-site', 'On-site'),
-                                                                                       c('Bad', 'Good'),
+                                                                                       c('Poor', 'Good'),
                                                                                        c('High', 'Medium',  'Low'), 
                                                                                        c('Steep','Moderate', 'Gentil')))
 
@@ -628,10 +646,10 @@ Upstream_abstraction_at_development_stage_levels <- Upstream_abstraction_at_deve
 Upstream_abstraction_at_development_stage <- cptable (~Upstream_abstraction_at_development_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_development_stage_values,levels = Upstream_abstraction_at_development_stage_levels)
 
 ## Field_canal_maintenance_at_development_stage####
-Field_canal_maintenance_at_development_stage<- cptable (~Field_canal_maintenance_at_development_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
+Field_canal_maintenance_at_development_stage<- cptable (~Field_canal_maintenance_at_development_stage, values = c(0.2, 0.8),levels = c('Poor', 'Good'))
 
 ## Presence_of_the_farmer_during_flood_event_at_development_stage ###
-Presence_of_the_farmer_during_flood_event_at_development_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_development_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
+Presence_of_the_farmer_during_flood_event_at_development_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_development_stage, values = c(0.2, 0.8),levels = c('False', 'True'))
 
 ## Amount_of_flood_reaching_the_plot_at_development_stage ####
 Amount_of_flood_reaching_the_plot_at_development_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2), 
@@ -642,8 +660,8 @@ Amount_of_flood_reaching_the_plot_at_development_stage_tmp <- make_gRain_CPT(par
                                                                              b = 2,
                                                                              child_prior = c(0.2,0.7,0.1),
                                                                              child_states = c('Too little', 'Desired', 'Too much'),
-                                                                             parent_states = list(c('Bad', 'Good'),
-                                                                                                  c('FALSE', 'TRUE'),
+                                                                             parent_states = list(c('Poor', 'Good'),
+                                                                                                  c('False', 'True'),
                                                                                                   c('< Enough', 'Enough', '> Enough'),
                                                                                                   c('Unfair', 'Fair')))
 
@@ -664,7 +682,7 @@ Amount_of_flood_reaching_the_plot_at_development_stage <- cptable (~Amount_of_fl
 
 # ## Manure_application ####
 # 
-# Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('False', 'True'))
 
 # ## Soil_water_holding_capacity ####
 # 
@@ -675,7 +693,7 @@ Amount_of_flood_reaching_the_plot_at_development_stage <- cptable (~Amount_of_fl
 #                                                   child_prior = c(0.2,0.5,0.3),
 #                                                   child_states = c('Low', 'Medium', 'High'),
 #                                                   parent_states = list(c('Sandy', 'Loamy', 'Clayey'),
-#                                                                        c('FALSE', 'TRUE')))
+#                                                                        c('False', 'True')))
 # Soil_water_holding_capacity_values <- Soil_water_holding_capacity_tmp$values
 # Soil_water_holding_capacity_levels <- Soil_water_holding_capacity_tmp$levels
 # Soil_water_holding_capacity <- cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
@@ -733,7 +751,7 @@ Available_soil_water_at_development_stage <- cptable (~Available_soil_water_at_d
 
 # ## Mutual_aids ####
 # 
-# Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('False', 'True'))
 
 ## Access_to_inputs_at_development_stage ####
 
@@ -742,9 +760,9 @@ Access_to_inputs_at_development_stage_tmp <- make_gRain_CPT(parent_effects = lis
                                                             parent_weights = c(1.5, 1),
                                                             b = 1.5,
                                                             child_prior = c(0.4,0.6),
-                                                            child_states = c('FALSE', 'TRUE'),
+                                                            child_states = c('False', 'True'),
                                                             parent_states = list(c('Poor', 'Middle class', 'Rich'),
-                                                                                 c('FALSE', 'TRUE')))
+                                                                                 c('False', 'True')))
 Access_to_inputs_at_development_stage_values <- Access_to_inputs_at_development_stage_tmp$values
 Access_to_inputs_at_development_stage_levels <- Access_to_inputs_at_development_stage_tmp$levels
 Access_to_inputs_at_development_stage <- cptable (~Access_to_inputs_at_development_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_development_stage_values,levels = Access_to_inputs_at_development_stage_levels)
@@ -761,7 +779,7 @@ Available_Labor_force_at_development_stage_tmp <- make_gRain_CPT(parent_effects 
                                                                  child_prior = c(0.2,0.8),
                                                                  child_states = c('Unsufficient', 'Sufficient'),
                                                                  parent_states = list(c('Poor', 'Middle class', 'Rich'),
-                                                                                      c('FALSE', 'TRUE'),
+                                                                                      c('False', 'True'),
                                                                                       c('Unavailable', 'Available')))
 # Available_Labor_force_at_development_stage_values <- Available_Labor_force_at_development_stage_tmp$values
 Available_Labor_force_at_development_stage_values <- c(0.35, 0.65, 
@@ -805,7 +823,7 @@ Effectiveness_of_pest_and_disease_reduction_practices_at_development_stage_tmp <
                                                                                                  parent_weights = c(1.5,2,1,3),
                                                                                                  b = 1.5,
                                                                                                  child_prior = c(0.3,0.4,0.3),
-                                                                                                 child_states = c('Bad', 'Good', 'Excellent'),
+                                                                                                 child_states = c('Poor', 'Good', 'Excellent'),
                                                                                                  parent_states = list(c('Unsufficient', 'Sufficient'),
                                                                                                                       c('Uncommon', 'Common'),
                                                                                                                       c('Unsufficient', 'Sufficient'),
@@ -827,7 +845,7 @@ Effectiveness_of_Weeding_at_development_stage_tmp <- make_gRain_CPT(parent_effec
                                                                     parent_weights = c(1, 1.5),
                                                                     b = 1.75,
                                                                     child_prior = c(0.3,0.4,0.3),
-                                                                    child_states = c('Bad', 'Good', 'Excellent'),
+                                                                    child_states = c('Poor', 'Good', 'Excellent'),
                                                                     parent_states = list(c('Unsufficient', 'Sufficient'),
                                                                                          c('Defavorable', 'Favorable')))
 
@@ -843,11 +861,11 @@ Effectiveness_of_Weeding_at_development_stage <- cptable (~Effectiveness_of_Weed
 Fertilizers_application_at_development_stage <- cptable (~Fertilizers_application_at_development_stage|Access_to_inputs_at_development_stage, 
                                                          values = c(0.9, 0.1,
                                                                     0.3, 0.7),
-                                                         levels = c('FALSE', 'TRUE'))
+                                                         levels = c('False', 'True'))
 
 ## Rich_sediments_addition_from_flood_at_development_stage ####
 
-Rich_sediments_addition_from_flood_at_development_stage <- cptable(~Rich_sediments_addition_from_flood_at_development_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
+Rich_sediments_addition_from_flood_at_development_stage <- cptable(~Rich_sediments_addition_from_flood_at_development_stage, values = c(0.4, 0.6), levels = c('False', 'True'))
 
 ## Available_soil_nutrients_at_development_stage ####
 
@@ -863,9 +881,9 @@ Available_soil_nutrients_at_development_stage_tmp <- make_gRain_CPT(parent_effec
   child_prior = c(0.25, 0.5, 0.25),
   child_states = c('Deficient','Satisfactory', 'Plenty'),
   parent_states = list(
-    # c('FALSE', 'TRUE'),
-    c('FALSE', 'TRUE'),
-    c('FALSE', 'TRUE'),
+    # c('False', 'True'),
+    c('False', 'True'),
+    c('False', 'True'),
     c('Deficient','Satisfactory', 'Plenty')))
 
 
@@ -891,7 +909,7 @@ Pest_and_desease_impact_at_development_stage_tmp <- make_gRain_CPT(parent_effect
                                                                    b = 1.75,
                                                                    child_prior = c(0.3, 0.4, 0.3),
                                                                    child_states = c('Severe', 'Significant', 'Minor'),
-                                                                   parent_states = list(c('Bad', 'Good', 'Excellent'),
+                                                                   parent_states = list(c('Poor', 'Good', 'Excellent'),
                                                                                         c('Severe', 'Significant', 'Minor'),
                                                                                         c('Sorghum', 'Maize','Teff', 'Rice')))
 Pest_and_desease_impact_at_development_stage_values <- Pest_and_desease_impact_at_development_stage_tmp$values
@@ -907,15 +925,15 @@ Pest_and_desease_impact_at_development_stage <- cptable (~Pest_and_desease_impac
 # Weeds_impact_at_development_stage <- cptable (~Weeds_impact_at_development_stage|Effectiveness_of_Weeding_at_development_stage, 
 #                                          values = c(0.5, 0.3, 0.2,
 #                                                     0.15, 0.25, 0.6),
-#                                          levels = c('Consuming', 'Moderate', 'Negligible'))
+#                                          levels = c('Significant', 'Moderate', 'Negligible'))
 
 Weeds_impact_at_development_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(1, 2, 3), rev(c(4,3,2,1))),
                                                         parent_weights = c(2, 3, 1),
                                                         b = 2.5,
                                                         child_prior = c(0.3, 0.4, 0.3),
-                                                        child_states = c('Consuming', 'Moderate', 'Negligible'),
-                                                        parent_states = list(c('Bad', 'Good', 'Excellent'),
-                                                                             c('Consuming', 'Moderate', 'Negligible'),
+                                                        child_states = c('Significant', 'Moderate', 'Negligible'),
+                                                        parent_states = list(c('Poor', 'Good', 'Excellent'),
+                                                                             c('Significant', 'Moderate', 'Negligible'),
                                                                              c('Sorghum', 'Maize','Teff', 'Rice')))
 Weeds_impact_at_development_stage_values <- Weeds_impact_at_development_stage_tmp$values
 Weeds_impact_at_development_stage_levels <- Weeds_impact_at_development_stage_tmp$levels
@@ -931,7 +949,7 @@ Weeds_impact_at_development_stage <- cptable (~Weeds_impact_at_development_stage
 
 ## Farming_inefficiency at developemnt stage ####
 
-Agricultural_management_efficiency_at_development_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(1,2,3), c(1,2,3)),
+Agricultural_management_efficiency_at_development_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,3), c(1,2,3), c(1,2,3)),
                                                                               # parent_weights = c(1.5, 1.75, 2, 1.5, 1),
                                                                               parent_weights = c(1.5, 1.5, 1.75),
                                                                               
@@ -940,9 +958,9 @@ Agricultural_management_efficiency_at_development_stage_tmp <- make_gRain_CPT(pa
                                                                               b = 2,
                                                                               child_prior = c(0.3, 0.4, 0.3),
                                                                               child_states = c('Low','Medium', 'High'),
-                                                                              parent_states = list(c('Deficient','Satisfactory', 'Plenty'),
+                                                                              parent_states = list(c("Inadequate", "Adequate"),
                                                                                                    c('Severe', 'Significant', 'Minor'),
-                                                                                                   c('Consuming', 'Moderate', 'Negligible')
+                                                                                                   c('Significant', 'Moderate', 'Negligible')
                                                                               ))
 
 
@@ -950,10 +968,27 @@ Agricultural_management_efficiency_at_development_stage_tmp <- make_gRain_CPT(pa
 Agricultural_management_efficiency_at_development_stage_values <- Agricultural_management_efficiency_at_development_stage_tmp$values
 Agricultural_management_efficiency_at_development_stage_levels <- Agricultural_management_efficiency_at_development_stage_tmp$levels
 Agricultural_management_efficiency_at_development_stage <- cptable (~Agricultural_management_efficiency_at_development_stage|
-                                                                      Available_soil_nutrients_at_development_stage:
+                                                                      nutrient_supply_adequacy_at_development_stage:
                                                                       Pest_and_desease_impact_at_development_stage:
                                                                       Weeds_impact_at_development_stage,
                                                                     values = Agricultural_management_efficiency_at_development_stage_values,levels = Agricultural_management_efficiency_at_development_stage_levels)
+
+### nutrient_supply_adequacy_at_development_stage ####
+
+nutrient_supply_adequacy_at_development_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(4,3,2,1)),
+                                                                parent_weights = c(2,1),
+                                                                b = 3,
+                                                                child_prior = c(0.5, 0.5),
+                                                                child_states = c("Inadequate", "Adequate"),
+                                                                parent_states = list(c('Deficient','Satisfactory', 'Plenty'),
+                                                                                     c('Sorghum', 'Maize','Teff', 'Rice')))
+
+nutrient_supply_adequacy_at_development_stage_values <- nutrient_supply_adequacy_at_development_stage_tmp$values
+nutrient_supply_adequacy_at_development_stage_levels <- nutrient_supply_adequacy_at_development_stage_tmp$levels
+nutrient_supply_adequacy_at_development_stage <- cptable (~nutrient_supply_adequacy_at_development_stage|
+                                                        Available_soil_nutrients_at_development_stage:
+                                                        Crop_type,
+                                                      values = nutrient_supply_adequacy_at_development_stage_values,levels = nutrient_supply_adequacy_at_development_stage_levels)
 
 
 ### Water_supply_adequacy_at_development_stage ####
@@ -1040,7 +1075,7 @@ Main_Canals_Maitnenance_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list
                                                            # child_prior = c(0.5,0.5),
                                                            # child_prior = c(0.6,0.4),
                                                            child_prior = c(0.7,0.3),
-                                                           child_states = c('Bad', 'Good'),
+                                                           child_states = c('Poor', 'Good'),
                                                            parent_states = list(c('Modern', 'Hybrid', 'Traditional'),
                                                                                 c('Inadequate', 'Adequate')))
 
@@ -1065,7 +1100,7 @@ Amount_of_shared_flood_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(
                                                           child_prior = c(0.3, 0.6, 0.1),
                                                           child_states = c('< Enough', 'Enough', '> Enough'),
                                                           parent_states = list(c('Off-site', 'On-site'),
-                                                                               c('Bad', 'Good'),
+                                                                               c('Poor', 'Good'),
                                                                                c('High', 'Medium',  'Low'), 
                                                                                c('Steep','Moderate', 'Gentil')))
 
@@ -1104,10 +1139,10 @@ Upstream_abstraction_at_mid_stage_levels <- Upstream_abstraction_at_mid_stage_tm
 Upstream_abstraction_at_mid_stage <- cptable (~Upstream_abstraction_at_mid_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_mid_stage_values,levels = Upstream_abstraction_at_mid_stage_levels)
 
 ## Field_canal_maintenance_at_mid_stage####
-Field_canal_maintenance_at_mid_stage<- cptable (~Field_canal_maintenance_at_mid_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
+Field_canal_maintenance_at_mid_stage<- cptable (~Field_canal_maintenance_at_mid_stage, values = c(0.2, 0.8),levels = c('Poor', 'Good'))
 
 ## Presence_of_the_farmer_during_flood_event_at_mid_stage ###
-Presence_of_the_farmer_during_flood_event_at_mid_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_mid_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
+Presence_of_the_farmer_during_flood_event_at_mid_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_mid_stage, values = c(0.2, 0.8),levels = c('False', 'True'))
 
 ## Amount_of_flood_reaching_the_plot_at_mid_stage ####
 Amount_of_flood_reaching_the_plot_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2), 
@@ -1118,8 +1153,8 @@ Amount_of_flood_reaching_the_plot_at_mid_stage_tmp <- make_gRain_CPT(parent_effe
                                                                      b = 2,
                                                                      child_prior = c(0.2,0.7,0.1),
                                                                      child_states = c('Too little', 'Desired', 'Too much'),
-                                                                     parent_states = list(c('Bad', 'Good'),
-                                                                                          c('FALSE', 'TRUE'),
+                                                                     parent_states = list(c('Poor', 'Good'),
+                                                                                          c('False', 'True'),
                                                                                           c('< Enough', 'Enough', '> Enough'),
                                                                                           c('Unfair', 'Fair')))
 
@@ -1140,7 +1175,7 @@ Amount_of_flood_reaching_the_plot_at_mid_stage <- cptable (~Amount_of_flood_reac
 
 # ## Manure_application ####
 # 
-# Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('False', 'True'))
 
 # ## Soil_water_holding_capacity ####
 # 
@@ -1151,7 +1186,7 @@ Amount_of_flood_reaching_the_plot_at_mid_stage <- cptable (~Amount_of_flood_reac
 #                                                   child_prior = c(0.2,0.5,0.3),
 #                                                   child_states = c('Low', 'Medium', 'High'),
 #                                                   parent_states = list(c('Sandy', 'Loamy', 'Clayey'),
-#                                                                        c('FALSE', 'TRUE')))
+#                                                                        c('False', 'True')))
 # Soil_water_holding_capacity_values <- Soil_water_holding_capacity_tmp$values
 # Soil_water_holding_capacity_levels <- Soil_water_holding_capacity_tmp$levels
 # Soil_water_holding_capacity <- cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
@@ -1209,7 +1244,7 @@ Available_soil_water_at_mid_stage <- cptable (~Available_soil_water_at_mid_stage
 
 # ## Mutual_aids ####
 # 
-# Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('False', 'True'))
 
 ## Access_to_inputs_at_mid_stage ####
 
@@ -1218,9 +1253,9 @@ Access_to_inputs_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2,
                                                     parent_weights = c(1.5, 1),
                                                     b = 1.5,
                                                     child_prior = c(0.4,0.6),
-                                                    child_states = c('FALSE', 'TRUE'),
+                                                    child_states = c('False', 'True'),
                                                     parent_states = list(c('Poor', 'Middle class', 'Rich'),
-                                                                         c('FALSE', 'TRUE')))
+                                                                         c('False', 'True')))
 Access_to_inputs_at_mid_stage_values <- Access_to_inputs_at_mid_stage_tmp$values
 Access_to_inputs_at_mid_stage_levels <- Access_to_inputs_at_mid_stage_tmp$levels
 Access_to_inputs_at_mid_stage <- cptable (~Access_to_inputs_at_mid_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_mid_stage_values,levels = Access_to_inputs_at_mid_stage_levels)
@@ -1237,7 +1272,7 @@ Available_Labor_force_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c
                                                          child_prior = c(0.2,0.8),
                                                          child_states = c('Unsufficient', 'Sufficient'),
                                                          parent_states = list(c('Poor', 'Middle class', 'Rich'),
-                                                                              c('FALSE', 'TRUE'),
+                                                                              c('False', 'True'),
                                                                               c('Unavailable', 'Available')))
 # Available_Labor_force_at_mid_stage_values <- Available_Labor_force_at_mid_stage_tmp$values
 Available_Labor_force_at_mid_stage_values <- c(0.35, 0.65, 
@@ -1281,7 +1316,7 @@ Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage_tmp <- make_g
                                                                                          parent_weights = c(1.5,2,1,3),
                                                                                          b = 1.5,
                                                                                          child_prior = c(0.3,0.4,0.3),
-                                                                                         child_states = c('Bad', 'Good', 'Excellent'),
+                                                                                         child_states = c('Poor', 'Good', 'Excellent'),
                                                                                          parent_states = list(c('Unsufficient', 'Sufficient'),
                                                                                                               c('Uncommon', 'Common'),
                                                                                                               c('Unsufficient', 'Sufficient'),
@@ -1303,7 +1338,7 @@ Effectiveness_of_Weeding_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = lis
                                                             parent_weights = c(1, 1.5),
                                                             b = 1.75,
                                                             child_prior = c(0.3,0.4,0.3),
-                                                            child_states = c('Bad', 'Good', 'Excellent'),
+                                                            child_states = c('Poor', 'Good', 'Excellent'),
                                                             parent_states = list(c('Unsufficient', 'Sufficient'),
                                                                                  c('Defavorable', 'Favorable')))
 
@@ -1319,11 +1354,11 @@ Effectiveness_of_Weeding_at_mid_stage <- cptable (~Effectiveness_of_Weeding_at_m
 Fertilizers_application_at_mid_stage <- cptable (~Fertilizers_application_at_mid_stage|Access_to_inputs_at_mid_stage, 
                                                  values = c(0.9, 0.1,
                                                             0.3, 0.7),
-                                                 levels = c('FALSE', 'TRUE'))
+                                                 levels = c('False', 'True'))
 
 ## Rich_sediments_addition_from_flood_at_mid_stage ####
 
-Rich_sediments_addition_from_flood_at_mid_stage <- cptable(~Rich_sediments_addition_from_flood_at_mid_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
+Rich_sediments_addition_from_flood_at_mid_stage <- cptable(~Rich_sediments_addition_from_flood_at_mid_stage, values = c(0.4, 0.6), levels = c('False', 'True'))
 
 ## Available_soil_nutrients_at_mid_stage ####
 
@@ -1339,9 +1374,9 @@ Available_soil_nutrients_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = lis
   child_prior = c(0.25, 0.5, 0.25),
   child_states = c('Deficient','Satisfactory', 'Plenty'),
   parent_states = list(
-    # c('FALSE', 'TRUE'),
-    c('FALSE', 'TRUE'),
-    c('FALSE', 'TRUE'),
+    # c('False', 'True'),
+    c('False', 'True'),
+    c('False', 'True'),
     c('Deficient','Satisfactory', 'Plenty')))
 
 
@@ -1368,7 +1403,7 @@ Pest_and_desease_impact_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list
                                                            b = 1.5,
                                                            child_prior = c(0.3, 0.4, 0.3),
                                                            child_states = c('Severe', 'Significant', 'Minor'),
-                                                           parent_states = list(c('Bad', 'Good', 'Excellent'),
+                                                           parent_states = list(c('Poor', 'Good', 'Excellent'),
                                                                                 c('Severe', 'Significant', 'Minor'),
                                                                                 c('Sorghum', 'Maize','Teff', 'Rice')))
 Pest_and_desease_impact_at_mid_stage_values <- Pest_and_desease_impact_at_mid_stage_tmp$values
@@ -1384,15 +1419,15 @@ Pest_and_desease_impact_at_mid_stage <- cptable (~Pest_and_desease_impact_at_mid
 # Weeds_impact_at_mid_stage <- cptable (~Weeds_impact_at_mid_stage|Effectiveness_of_Weeding_at_mid_stage, 
 #                                          values = c(0.5, 0.3, 0.2,
 #                                                     0.15, 0.25, 0.6),
-#                                          levels = c('Consuming', 'Moderate', 'Negligible'))
+#                                          levels = c('Significant', 'Moderate', 'Negligible'))
 Weeds_impact_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(1, 2, 3), rev(c(4,3,2,1))),
                                                 parent_weights = c(2, 3, 1),
                                                 # b = 2.5,
                                                 b = 2,
                                                 child_prior = c(0.2, 0.4, 0.2),
-                                                child_states = c('Consuming', 'Moderate', 'Negligible'),
-                                                parent_states = list(c('Bad', 'Good', 'Excellent'),
-                                                                     c('Consuming', 'Moderate', 'Negligible'),
+                                                child_states = c('Significant', 'Moderate', 'Negligible'),
+                                                parent_states = list(c('Poor', 'Good', 'Excellent'),
+                                                                     c('Significant', 'Moderate', 'Negligible'),
                                                                      c('Sorghum', 'Maize','Teff', 'Rice')))
 Weeds_impact_at_mid_stage_values <- Weeds_impact_at_mid_stage_tmp$values
 Weeds_impact_at_mid_stage_levels <- Weeds_impact_at_mid_stage_tmp$levels
@@ -1408,16 +1443,16 @@ Weeds_impact_at_mid_stage <- cptable (~Weeds_impact_at_mid_stage|
 
 ## Farming_inefficiency at mid stage ####
 
-Agricultural_management_efficiency_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(1,2,4), c(1,2,4)),
+Agricultural_management_efficiency_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,3), c(1,2,4), c(1,2,4)),
                                                                       # parent_weights = c(1.5, 1.75, 2, 1.5, 1),
                                                                       # parent_weights = c(1.5, 1.5, 1.75, 1.5, 1),
                                                                       parent_weights = c(1.5, 1.5, 1.25),
                                                                       b = 2,
                                                                       child_prior = c(0.3, 0.4, 0.3),
                                                                       child_states = c('Low','Medium', 'High'),
-                                                                      parent_states = list(c('Deficient','Satisfactory', 'Plenty'),
+                                                                      parent_states = list(c("Inadequate", "Adequate"),
                                                                                            c('Severe', 'Significant', 'Minor'),
-                                                                                           c('Consuming', 'Moderate', 'Negligible')
+                                                                                           c('Significant', 'Moderate', 'Negligible')
                                                                       ))
 
 
@@ -1425,10 +1460,27 @@ Agricultural_management_efficiency_at_mid_stage_tmp <- make_gRain_CPT(parent_eff
 Agricultural_management_efficiency_at_mid_stage_values <- Agricultural_management_efficiency_at_mid_stage_tmp$values
 Agricultural_management_efficiency_at_mid_stage_levels <- Agricultural_management_efficiency_at_mid_stage_tmp$levels
 Agricultural_management_efficiency_at_mid_stage <- cptable (~Agricultural_management_efficiency_at_mid_stage|
-                                                              Available_soil_nutrients_at_mid_stage:
+                                                              nutrient_supply_adequacy_at_mid_stage:
                                                               Pest_and_desease_impact_at_mid_stage:
                                                               Weeds_impact_at_mid_stage,
                                                             values = Agricultural_management_efficiency_at_mid_stage_values,levels = Agricultural_management_efficiency_at_mid_stage_levels)
+
+### nutrient_supply_adequacy_at_development_stage ####
+
+nutrient_supply_adequacy_at_mid_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(4,3,2,1)),
+                                                                    parent_weights = c(2,1),
+                                                                    b = 2,
+                                                                    child_prior = c(0.5, 0.5),
+                                                                    child_states = c("Inadequate", "Adequate"),
+                                                                    parent_states = list(c('Deficient','Satisfactory', 'Plenty'),
+                                                                                         c('Sorghum', 'Maize','Teff', 'Rice')))
+
+nutrient_supply_adequacy_at_mid_stage_values <- nutrient_supply_adequacy_at_mid_stage_tmp$values
+nutrient_supply_adequacy_at_mid_stage_levels <- nutrient_supply_adequacy_at_mid_stage_tmp$levels
+nutrient_supply_adequacy_at_mid_stage <- cptable (~nutrient_supply_adequacy_at_mid_stage|
+                                                            Available_soil_nutrients_at_mid_stage:
+                                                            Crop_type,
+                                                          values = nutrient_supply_adequacy_at_mid_stage_values,levels = nutrient_supply_adequacy_at_mid_stage_levels)
 
 
 ### Water_supply_adequacy_at_mid_stage ####
@@ -1530,7 +1582,7 @@ Main_Canals_Maitnenance_at_late_stage_tmp <- make_gRain_CPT(parent_effects = lis
                                                             # child_prior = c(0.6,0.4),
                                                             # child_prior = c(0.7,0.3),
                                                             child_prior = c(0.8,0.2),
-                                                            child_states = c('Bad', 'Good'),
+                                                            child_states = c('Poor', 'Good'),
                                                             parent_states = list(c('Modern', 'Hybrid', 'Traditional'),
                                                                                  c('Inadequate', 'Adequate')))
 
@@ -1555,7 +1607,7 @@ Amount_of_shared_flood_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list
                                                            child_prior = c(0.3, 0.6, 0.1),
                                                            child_states = c('< Enough', 'Enough', '> Enough'),
                                                            parent_states = list(c('Off-site', 'On-site'),
-                                                                                c('Bad', 'Good'),
+                                                                                c('Poor', 'Good'),
                                                                                 c('High', 'Medium',  'Low'), 
                                                                                 c('Steep','Moderate', 'Gentil')))
 
@@ -1595,10 +1647,10 @@ Upstream_abstraction_at_late_stage_levels <- Upstream_abstraction_at_late_stage_
 Upstream_abstraction_at_late_stage <- cptable (~Upstream_abstraction_at_late_stage|Social_arrangements:Location_of_the_plot, values = Upstream_abstraction_at_late_stage_values,levels = Upstream_abstraction_at_late_stage_levels)
 
 ## Field_canal_maintenance_at_late_stage####
-Field_canal_maintenance_at_late_stage<- cptable (~Field_canal_maintenance_at_late_stage, values = c(0.2, 0.8),levels = c('Bad', 'Good'))
+Field_canal_maintenance_at_late_stage<- cptable (~Field_canal_maintenance_at_late_stage, values = c(0.2, 0.8),levels = c('Poor', 'Good'))
 
 ## Presence_of_the_farmer_during_flood_event_at_late_stage ###
-Presence_of_the_farmer_during_flood_event_at_late_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_late_stage, values = c(0.2, 0.8),levels = c('FALSE', 'TRUE'))
+Presence_of_the_farmer_during_flood_event_at_late_stage <- cptable (~Presence_of_the_farmer_during_flood_event_at_late_stage, values = c(0.2, 0.8),levels = c('False', 'True'))
 
 ## Amount_of_flood_reaching_the_plot_at_late_stage ####
 Amount_of_flood_reaching_the_plot_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2), 
@@ -1609,8 +1661,8 @@ Amount_of_flood_reaching_the_plot_at_late_stage_tmp <- make_gRain_CPT(parent_eff
                                                                       b = 2,
                                                                       child_prior = c(0.2,0.7,0.1),
                                                                       child_states = c('Too little', 'Desired', 'Too much'),
-                                                                      parent_states = list(c('Bad', 'Good'),
-                                                                                           c('FALSE', 'TRUE'),
+                                                                      parent_states = list(c('Poor', 'Good'),
+                                                                                           c('False', 'True'),
                                                                                            c('< Enough', 'Enough', '> Enough'),
                                                                                            c('Unfair', 'Fair')))
 
@@ -1631,7 +1683,7 @@ Amount_of_flood_reaching_the_plot_at_late_stage <- cptable (~Amount_of_flood_rea
 
 # ## Manure_application ####
 # 
-# Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Manure_application <- cptable(~Manure_application, values = c(0.3, 0.7), levels = c('False', 'True'))
 
 # ## Soil_water_holding_capacity ####
 # 
@@ -1642,7 +1694,7 @@ Amount_of_flood_reaching_the_plot_at_late_stage <- cptable (~Amount_of_flood_rea
 #                                                   child_prior = c(0.2,0.5,0.3),
 #                                                   child_states = c('Low', 'Medium', 'High'),
 #                                                   parent_states = list(c('Sandy', 'Loamy', 'Clayey'),
-#                                                                        c('FALSE', 'TRUE')))
+#                                                                        c('False', 'True')))
 # Soil_water_holding_capacity_values <- Soil_water_holding_capacity_tmp$values
 # Soil_water_holding_capacity_levels <- Soil_water_holding_capacity_tmp$levels
 # Soil_water_holding_capacity <- cptable (~Soil_water_holding_capacity|Soil_type:Manure_application, values = Soil_water_holding_capacity_values,levels = Soil_water_holding_capacity_levels)
@@ -1700,7 +1752,7 @@ Available_soil_water_at_late_stage <- cptable (~Available_soil_water_at_late_sta
 
 # ## Mutual_aids ####
 # 
-# Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('FALSE', 'TRUE'))
+# Mutual_aids <- cptable(~Mutual_aids, values = c(0.3, 0.7), levels = c('False', 'True'))
 
 ## Access_to_inputs_at_late_stage ####
 
@@ -1709,9 +1761,9 @@ Access_to_inputs_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(0,2
                                                      parent_weights = c(1.5, 1),
                                                      b = 1.5,
                                                      child_prior = c(0.4,0.6),
-                                                     child_states = c('FALSE', 'TRUE'),
+                                                     child_states = c('False', 'True'),
                                                      parent_states = list(c('Poor', 'Middle class', 'Rich'),
-                                                                          c('FALSE', 'TRUE')))
+                                                                          c('False', 'True')))
 Access_to_inputs_at_late_stage_values <- Access_to_inputs_at_late_stage_tmp$values
 Access_to_inputs_at_late_stage_levels <- Access_to_inputs_at_late_stage_tmp$levels
 Access_to_inputs_at_late_stage <- cptable (~Access_to_inputs_at_late_stage|Relative_wealth_status:Mutual_aids, values = Access_to_inputs_at_late_stage_values,levels = Access_to_inputs_at_late_stage_levels)
@@ -1728,7 +1780,7 @@ Available_Labor_force_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(
                                                           child_prior = c(0.2,0.8),
                                                           child_states = c('Unsufficient', 'Sufficient'),
                                                           parent_states = list(c('Poor', 'Middle class', 'Rich'),
-                                                                               c('FALSE', 'TRUE'),
+                                                                               c('False', 'True'),
                                                                                c('Unavailable', 'Available')))
 # Available_Labor_force_at_late_stage_values <- Available_Labor_force_at_late_stage_tmp$values
 Available_Labor_force_at_late_stage_values <- c(0.35, 0.65, 
@@ -1772,7 +1824,7 @@ Effectiveness_of_pest_and_disease_reduction_practices_at_late_stage_tmp <- make_
                                                                                           parent_weights = c(1.5,2,1,3),
                                                                                           b = 1.5,
                                                                                           child_prior = c(0.3,0.4, 0.3),
-                                                                                          child_states = c('Bad', 'Good', 'Excellent'),
+                                                                                          child_states = c('Poor', 'Good', 'Excellent'),
                                                                                           parent_states = list(c('Unsufficient', 'Sufficient'),
                                                                                                                c('Uncommon', 'Common'),
                                                                                                                c('Unsufficient', 'Sufficient'),
@@ -1794,7 +1846,7 @@ Effectiveness_of_Weeding_at_late_stage_tmp <- make_gRain_CPT(parent_effects = li
                                                              parent_weights = c(1, 1.5),
                                                              b = 1.75,
                                                              child_prior = c(0.3,0.4,0.3),
-                                                             child_states = c('Bad', 'Good', 'Excellent'),
+                                                             child_states = c('Poor', 'Good', 'Excellent'),
                                                              parent_states = list(c('Unsufficient', 'Sufficient'),
                                                                                   c('Defavorable', 'Favorable')))
 
@@ -1810,11 +1862,11 @@ Effectiveness_of_Weeding_at_late_stage <- cptable (~Effectiveness_of_Weeding_at_
 Fertilizers_application_at_late_stage <- cptable (~Fertilizers_application_at_late_stage|Access_to_inputs_at_late_stage, 
                                                   values = c(0.9, 0.1,
                                                              0.3, 0.7),
-                                                  levels = c('FALSE', 'TRUE'))
+                                                  levels = c('False', 'True'))
 
 ## Rich_sediments_addition_from_flood_at_late_stage ####
 
-Rich_sediments_addition_from_flood_at_late_stage <- cptable(~Rich_sediments_addition_from_flood_at_late_stage, values = c(0.4, 0.6), levels = c('FALSE', 'TRUE'))
+Rich_sediments_addition_from_flood_at_late_stage <- cptable(~Rich_sediments_addition_from_flood_at_late_stage, values = c(0.4, 0.6), levels = c('False', 'True'))
 
 ## Available_soil_nutrients_at_late_stage ####
 
@@ -1830,9 +1882,9 @@ Available_soil_nutrients_at_late_stage_tmp <- make_gRain_CPT(parent_effects = li
   child_prior = c(0.25, 0.5, 0.25),
   child_states = c('Deficient','Satisfactory', 'Plenty'),
   parent_states = list(
-    # c('FALSE', 'TRUE'),
-    c('FALSE', 'TRUE'),
-    c('FALSE', 'TRUE'),
+    # c('False', 'True'),
+    c('False', 'True'),
+    c('False', 'True'),
     c('Deficient','Satisfactory', 'Plenty')))
 
 
@@ -1861,7 +1913,7 @@ Pest_and_desease_impact_at_late_stage_tmp <- make_gRain_CPT(parent_effects = lis
                                                             b = 2.5,
                                                             child_prior = c(0.3, 0.4, 0.3),
                                                             child_states = c('Severe', 'Significant', 'Minor'),
-                                                            parent_states = list(c('Bad', 'Good','Excellent'),
+                                                            parent_states = list(c('Poor', 'Good','Excellent'),
                                                                                  c('Severe', 'Significant', 'Minor'),
                                                                                  c('Sorghum', 'Maize','Teff', 'Rice')))
 Pest_and_desease_impact_at_late_stage_values <- Pest_and_desease_impact_at_late_stage_tmp$values
@@ -1877,16 +1929,16 @@ Pest_and_desease_impact_at_late_stage <- cptable (~Pest_and_desease_impact_at_la
 # Weeds_impact_at_late_stage <- cptable (~Weeds_impact_at_late_stage|Effectiveness_of_Weeding_at_late_stage, 
 #                                          values = c(0.5, 0.3, 0.2,
 #                                                     0.15, 0.25, 0.6),
-#                                          levels = c('Consuming', 'Moderate', 'Negligible'))
+#                                          levels = c('Significant', 'Moderate', 'Negligible'))
 Weeds_impact_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,2), c(1, 2, 3), c(4,3,2,1.5)),
                                                  parent_weights = c(1, 2, 1),
                                                  # b = 2.5,
                                                  # b = 2,
                                                  b = 1.75,
                                                  child_prior = c(0.2, 0.6, 0.2),
-                                                 child_states = c('Consuming', 'Moderate', 'Negligible'),
-                                                 parent_states = list(c('Bad', 'Good','Excellent'),
-                                                                      c('Consuming', 'Moderate', 'Negligible'),
+                                                 child_states = c('Significant', 'Moderate', 'Negligible'),
+                                                 parent_states = list(c('Poor', 'Good','Excellent'),
+                                                                      c('Significant', 'Moderate', 'Negligible'),
                                                                       c('Sorghum', 'Maize','Teff', 'Rice')))
 Weeds_impact_at_late_stage_values <- Weeds_impact_at_late_stage_tmp$values
 Weeds_impact_at_late_stage_levels <- Weeds_impact_at_late_stage_tmp$levels
@@ -1902,7 +1954,7 @@ Weeds_impact_at_late_stage <- cptable (~Weeds_impact_at_late_stage|
 
 ## Farming_inefficiency at late stage ####
 
-Agricultural_management_efficiency_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(1,2,3), c(1,2,3)),
+Agricultural_management_efficiency_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,3), c(1,2,3), c(1,2,3)),
                                                                        
                                                                        # parent_weights = c(1.5, 1.75, 2, 1.5, 1),
                                                                        # parent_weights = c(1.5, 1.5, 1.75, 1.5, 1),
@@ -1912,9 +1964,9 @@ Agricultural_management_efficiency_at_late_stage_tmp <- make_gRain_CPT(parent_ef
                                                                        b = 2,
                                                                        child_prior = c(0.3 , 0.4, 0.3),
                                                                        child_states = c('Low','Medium', 'High'),
-                                                                       parent_states = list(c('Deficient','Satisfactory', 'Plenty'),
+                                                                       parent_states = list(c("Inadequate", "Adequate"),
                                                                                             c('Severe', 'Significant', 'Minor'),
-                                                                                            c('Consuming', 'Moderate', 'Negligible')
+                                                                                            c('Significant', 'Moderate', 'Negligible')
                                                                        ))
 
 
@@ -1922,12 +1974,30 @@ Agricultural_management_efficiency_at_late_stage_tmp <- make_gRain_CPT(parent_ef
 Agricultural_management_efficiency_at_late_stage_values <- Agricultural_management_efficiency_at_late_stage_tmp$values
 Agricultural_management_efficiency_at_late_stage_levels <- Agricultural_management_efficiency_at_late_stage_tmp$levels
 Agricultural_management_efficiency_at_late_stage <- cptable (~Agricultural_management_efficiency_at_late_stage|
-                                                               Available_soil_nutrients_at_late_stage:
+                                                               nutrient_supply_adequacy_at_late_stage:
                                                                Pest_and_desease_impact_at_late_stage:
                                                                Weeds_impact_at_late_stage,
                                                              values = Agricultural_management_efficiency_at_late_stage_values,levels = Agricultural_management_efficiency_at_late_stage_levels)
 
 ### Cropping_systems_efficiency_at_late_stage ####
+
+### nutrient_supply_adequacy_at_development_stage ####
+
+nutrient_supply_adequacy_at_late_stage_tmp <- make_gRain_CPT(parent_effects = list(c(1,2,3), c(4,3,2,1)),
+                                                            parent_weights = c(2,1),
+                                                            b = 1.25,
+                                                            child_prior = c(0.5, 0.5),
+                                                            child_states = c("Inadequate", "Adequate"),
+                                                            parent_states = list(c('Deficient','Satisfactory', 'Plenty'),
+                                                                                 c('Sorghum', 'Maize','Teff', 'Rice')))
+
+nutrient_supply_adequacy_at_late_stage_values <- nutrient_supply_adequacy_at_late_stage_tmp$values
+nutrient_supply_adequacy_at_late_stage_levels <- nutrient_supply_adequacy_at_late_stage_tmp$levels
+nutrient_supply_adequacy_at_late_stage <- cptable (~nutrient_supply_adequacy_at_late_stage|
+                                                    Available_soil_nutrients_at_late_stage:
+                                                    Crop_type,
+                                                  values = nutrient_supply_adequacy_at_late_stage_values,levels = nutrient_supply_adequacy_at_late_stage_levels)
+
 
 ### Water_supply_adequacy_at_late_stage ####
 
@@ -2178,7 +2248,7 @@ net <- compileCPT(list(
   Agricultural_management_efficiency_at_late_stage,
   Local_constraints_at_late_stage,
   # Effectiveness_of_agricultural_management_at_late_stage, 
-  Water_supply_adequacy_at_late_stage 
+  Water_supply_adequacy_at_late_stage, 
   # Cropping_systems_efficiency_at_late_stage 
   #Crop_type,
   #Intercropping,
@@ -2188,6 +2258,10 @@ net <- compileCPT(list(
   #Available_soil_nutrients_at_initial_stage,
   #Pest_and_desease_impact_at_initial_stage,
   #Weeds_impact_at_initial_stage
+  nutrient_supply_adequacy_at_initial_stage,
+  nutrient_supply_adequacy_at_development_stage,
+  nutrient_supply_adequacy_at_mid_stage,
+  nutrient_supply_adequacy_at_late_stage
 ))
 
 ## 2) Graphical Independence Network ####

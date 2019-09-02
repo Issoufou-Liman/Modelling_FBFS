@@ -78,11 +78,12 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{May 30, 2019}
+    \date{Fuulbana 01, 2019}
 
 % \documentclass{article} https://tex.stackexchange.com/questions/60209/how-to-add-an-extra-level-of-sections-with-headings-below-subsubsection
 \usepackage{hyperref}
 \usepackage{caption}
+
 \captionsetup{skip=0pt}
 \makeatletter
 % Editing the default numbering style
@@ -171,7 +172,7 @@ The modelling concept is based on two different probabilistic approaches, the MC
 
 \begin{figure}[!htbp]
 
-{\centering \includegraphics[width=1\linewidth,]{figures/Modelling_FBFS_conceptual_framework} 
+{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig2-1} 
 
 }
 
@@ -196,7 +197,7 @@ The literature review covered most of the flood-based livelihood network databas
 
 \begin{figure}[!htbp]
 
-{\centering \includegraphics[width=1\linewidth,]{figures/Modelling_FBFS_approach_overview} 
+{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig3-1} 
 
 }
 
@@ -209,14 +210,14 @@ The literature review covered most of the flood-based livelihood network databas
 \hypertarget{III31}{%
 \subsubsection{Making conditional probability tables (CPTs)}\label{III31}}
 
-As mentioned in section \ref{III1}, BNs are complex model in which influence between child and parent nodes are represented by arcs whereas the strength of that influence is represented by the conditional probabilities. Conditional probability tables (CPTs) are stochastic matrix storing these probabilities to portray the strength of the association between the states of a child node conditional on the probabilities of the states of its parents (e.g.~probability of drought risk (available soil water node) knowing that rainfall is above normal (rainfall amount node)).\textsuperscript{\protect\hyperlink{ref-Scutari_and_Denis_2015}{23},\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31}} Specifying CPTs manually can be difficult particularly for complex nodes with many states and parents.\textsuperscript{\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31}} For example, a three states node with only three parents, each of which can assume 5 states, will require probability estimations for 375 possible situations. The make\_CPT function from the decisionSupport package in R provides a shortcut for deriving CPTs relating a child node to its parents.\textsuperscript{\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{32}} The function requires the prior probability distribution of the child node, the child node sensitivity relative to the parents, the parents' effects, and the weight of influence of each parent to create the full CPT\textsuperscript{\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{32}} using the likelihood method.\textsuperscript{\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31}} Estimates of all these parameters are elicited from the experts. The likelihood method is rooted in Bayes' theorem but focuses on the likelihood instead of conditional probability. The former is easier to estimate than the latter, because expert only need to worry about a limited number of values to estimate.\textsuperscript{\protect\hyperlink{ref-Whitney_et_al_2018a}{30},\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31}} For a node of interest, the method assumes the conditional probability of a given child state to be the product of the prior probability of that child state and its likelihood given the states of the parents of the node. Since the prior can also be easily estimated by the expert, the method substantially facilitates expert elicitation. With further mathematical simplifications,\textsuperscript{\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31}} the expert only needs to provide few easier to estimate parameters for calculating the full CPT. These are the prior distribution of the child node, the base of the logarithm, a weight factor for the child node states, and a weight factor for the parent nodes states respectively corresponding to child prior, child node sensitivity, child state ranking, and the parents' effects in the make\_CPT function.\textsuperscript{\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31},\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{32}}
+As mentioned in section \ref{III1}, BNs are complex model in which influence between child and parent nodes are represented by arcs whereas the strength of that influence is represented by the conditional probabilities. Conditional probability tables (CPTs) are stochastic matrix storing these probabilities to portray the strength of the association between the states of a child node conditional on the probabilities of the states of its parents (e.g.~probability of drought risk (available soil water node) knowing that rainfall is above normal (rainfall amount node)).\textsuperscript{\protect\hyperlink{ref-Scutari_and_Denis_2015}{23},\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31}} Specifying CPTs manually can be difficult particularly for complex nodes with many states and parents.\textsuperscript{\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31}} For example, a three states node with only three parents, each of which can assume 5 states, will require probability estimations for 375 possible situations. The \texttt{make\_CPT} function from the decisionSupport package in R provides a shortcut for deriving CPTs relating a child node to its parents.\textsuperscript{\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{32}} The function requires the prior probability distribution of the child node, the child node sensitivity relative to the parents, the parents' effects, and the weight of influence of each parent to create the full CPT\textsuperscript{\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{32}} using the likelihood method.\textsuperscript{\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31}} Estimates of all these parameters are elicited from the experts. The likelihood method is rooted in Bayes' theorem but focuses on the likelihood instead of conditional probability. The former is easier to estimate than the latter, because expert only need to worry about a limited number of values to estimate.\textsuperscript{\protect\hyperlink{ref-Whitney_et_al_2018a}{30},\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31}} For a node of interest, the method assumes the conditional probability of a given child state to be the product of the prior probability of that child state and its likelihood given the states of the parents of the node. Since the prior can also be easily estimated by the expert, the method substantially facilitates expert elicitation. With further mathematical simplifications,\textsuperscript{\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31}} the expert only needs to provide few easier to estimate parameters for calculating the full CPT. These are the prior distribution of the child node, the base of the logarithm, a weight factor for the child node states, and a weight factor for the parent nodes states respectively corresponding to child prior, child node sensitivity, child state ranking, and the parents' effects in the \texttt{make\_CPT} function.\textsuperscript{\protect\hyperlink{ref-Hansson_and_Sjokvist_2013}{31},\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{32}}
 
 \hypertarget{III32}{%
 \subsubsection{The models and the modelling interface}\label{III32}}
 
-The make\_CPT routines were automated and interfaced with the cptable function from the gRain package,\textsuperscript{\protect\hyperlink{ref-Hojsgaard_2012}{33}} which provides architecture for computer readable graphical models, to formalise the BNs following the experts' causal reasoning. The posterior distributions of the 3645 parameters BNs was then used as synthetic inputs to feed the MC model using a routine that recursively accounts for each state of the node farming constraints at run time. This is equivalent to sampling over all possible farming constraint scenarios. Technically, we used MC particle filters\textsuperscript{\protect\hyperlink{ref-Kitagawa_2016}{34}--\protect\hyperlink{ref-Scutari_2010}{36}} to generate the probabilities of farming constraints conditional on different combination of the states of variables involved in the BNs. The farming constraint was then used as a loss factor along with the other quantitative yield metrics (see section \ref{III1}) to feed the MC model (Figure \ref{fig:fig2}).
+The \texttt{make\_CPT} routines were automated and interfaced with the \texttt{cptable} function from the \texttt{gRain} package,\textsuperscript{\protect\hyperlink{ref-Hojsgaard_2012}{33}} which provides architecture for computer readable graphical models, to formalise the BNs following the experts' causal reasoning. The posterior distributions of the 3645 parameters BNs was then used as synthetic inputs to feed the MC model using a routine that recursively accounts for each state of the node farming constraints at run time. This is equivalent to sampling over all possible farming constraint scenarios. Technically, we used MC particle filters\textsuperscript{\protect\hyperlink{ref-Kitagawa_2016}{34}--\protect\hyperlink{ref-Scutari_2010}{36}} to generate the probabilities of farming constraints conditional on different combination of the states of variables involved in the BNs. The farming constraint was then used as a loss factor along with the other quantitative yield metrics (see section \ref{III1}) to feed the MC model (Figure \ref{fig:fig2}).
 
-The BNs were programmed to provide the 90\% confidence probability distribution, the minimal, the maximal, and the median values of the farming constraint factor. Note that the probability distributions of the node farming constraints were chosen, at each stage of crop development, based on reasonable bounds for skewness and kurtosis via visual observation supported by bootstrapping.\textsuperscript{\protect\hyperlink{ref-Delignette-Muller_and_Dutang_2015}{37}} We fitted several candidate distributions using the fitdist function from the fitdistrplus package\textsuperscript{\protect\hyperlink{ref-Delignette-Muller_and_Dutang_2015}{37}} from which we chose the best fitting distribution. Note also that the remaining parameters (i.e.~the minimal, maximal and median values) required by the decisionSupport's mcSimulation function,\textsuperscript{\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{32}} which was used to conduct the MC simulation, were simply computed from the fitted distribution using the fitdist function and other facilities provided by the rriskDistributions package.\textsuperscript{\protect\hyperlink{ref-Belgorodski_et_al_2017}{38}} The same parameters were derived for the remaining MC nodes by the experts and cross-checked against their corresponding rainfed agriculture metrics for the same areas.
+The BNs were programmed to provide the 90\% confidence probability distribution, the minimal, the maximal, and the median values of the farming constraint factor. Note that the probability distributions of the node farming constraints were chosen, at each stage of crop development, based on reasonable bounds for skewness and kurtosis via visual observation supported by bootstrapping.\textsuperscript{\protect\hyperlink{ref-Delignette-Muller_and_Dutang_2015}{37}} We fitted several candidate distributions using the \texttt{fitdist} function from the \texttt{fitdistrplus} package\textsuperscript{\protect\hyperlink{ref-Delignette-Muller_and_Dutang_2015}{37}} from which we chose the best fitting distribution. Note also that the remaining parameters (i.e.~the minimal, maximal and median values) required by the decisionSupport's \texttt{mcSimulation} function,\textsuperscript{\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{32}} which was used to conduct the MC simulation, were simply computed from the fitted distribution using the \texttt{fitdist} function and other facilities provided by the \texttt{rriskDistributions} package.\textsuperscript{\protect\hyperlink{ref-Belgorodski_et_al_2017}{38}} The same parameters were derived for the remaining MC nodes by the experts and cross-checked against their corresponding rainfed agriculture metrics for the same areas.
 
 \hypertarget{IV}{%
 \section{Result}\label{IV}}
@@ -228,7 +229,7 @@ The overview of the model is presented in Figure \ref{fig:fig4} as mentioned in 
 
 \begin{figure}[!htbp]
 
-{\centering \includegraphics[width=1\linewidth,]{figures/Modelling_FBFS_model_overview} 
+{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig4-1} 
 
 }
 
@@ -251,7 +252,7 @@ FBFS are possible solutions to the increasing rainfall variability and drought i
 
 \begin{figure}[!htbp]
 
-{\centering \includegraphics[width=1\linewidth,]{figures/Modelling_FBFS_Avail_soil_water} 
+{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig5-1} 
 
 }
 
@@ -271,7 +272,7 @@ A study was conducted to understand the effects of soil type, manure application
 
 }
 
-\caption{Effect of soil types, manure, and flood water on the available soil water content in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig6}
+\caption{Effect of soil types, manure, and flood water on the available soil water content in FBFS in Kisumu (Kenya) and Tigray (Ethiopia). For each block, the 10 bars represent the 10 model runs}\label{fig:fig6}
 \end{figure}
 
 Under clayey soils without manure application, drought risk and normal soil water conditions are unlikely, with similar level of certainty, contrary to waterlogging when, at least, the desired amount of flood is expected. In years with potentially too little floods, the chances of waterlogging and normal soil water conditions are nearly equally likely with probabilities slightly below 0.5 against a chance over 10 for drought. The uncertainty is relatively higher when little amount of flood is expected. Supplementary manure application increases the chance of waterlogging with higher certainty when too much flood is expected. The chances of normal condition are seen reduced with lower certainty when a desired amount of flood is expected. In a nutshell, manure application for water management in FBFS with clayey soils may not be necessary when a least of desired flood amount is expected. Crops supporting anaerobic conditions (e.g.~rice) are recommended unless when too little flood is predicted.
@@ -291,11 +292,11 @@ Apart from their substantial contribution to food security, FBFS also provide ex
 \hypertarget{IV222}{%
 \paragraph{Materials and Method}\label{IV222}}
 
-We used the model as described in section \ref{III3} to simulate the biomass yield at both the initial and late stage of crop development. In this lumped assessment, all possible scenarios across the different nodes specified in the BNs were considered. With the 3 states for each of the 4 nodes describing the farming constraints at different development stages (section \ref{III1}), and the 4 metrics considered (i.e.~exploitable yield gap, exploitable yield gap loss due to constraints, actual exploited yield gap, and expected actual yield), the model simulation produced 324 (324 = 3\emph{3}3*4) results corresponding to the space of possibilities. Only a few of these results are presented here to showcase the model. We selected the initial and the late stages of crop development along with the worst, the medium, and best cases scenario to respectively show the biomass accumulation over time, and the effect of varying farming constraints on crop development.
+We used the model as described in section \ref{III3} to simulate the biomass yield at both the initial and late stage of crop development. In this lumped assessment, all possible scenarios across the different nodes specified in the BNs were considered. With the 3 states for each of the 4 nodes describing the farming constraints at different development stages (section \ref{III1}), and the 4 metrics considered (i.e.~exploitable yield gap, exploitable yield gap loss due to constraints, actual exploited yield gap, and expected actual yield), the model simulation produced 324 (\(324 = 3\times3\times3\times4\)) results corresponding to the space of possibilities. Only a few of these results are presented here to showcase the model. We selected the initial and the late stages of crop development along with the worst, the medium, and best cases scenario to respectively show the biomass accumulation over time, and the effect of varying farming constraints on crop development.
 
 \begin{figure}[!htbp]
 
-{\centering \includegraphics[width=1\linewidth,]{figures/Modelling_FBFS_Monte_carlo_model} 
+{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig7-1} 
 
 }
 
@@ -305,7 +306,7 @@ We used the model as described in section \ref{III3} to simulate the biomass yie
 \hypertarget{IV223}{%
 \paragraph{Results and Discussions}\label{IV223}}
 
-The simulated actual biomass yield along with other yield metrics are presented in Figure \ref{fig:fig7} and Figure \ref{fig:fig8}. As it can be seen there are clearly important risks in FBFS practice in the study areas. In general yield / yield gain vary according to farming constraints with relatively higher chance of low biomass with increasing farming constraints. While the variability is substantial with time and varying level of farming constraints, the distributions have not changed much.
+The simulated actual biomass yield along with other yield metrics are presented in Figure \ref{fig:fig7} and Figure \ref{fig:fig9}. As it can be seen there are clearly important risks in FBFS practice in the study areas. In general yield / yield gain vary according to farming constraints with relatively higher chance of low biomass with increasing farming constraints. While the variability is substantial with time and varying level of farming constraints, the distributions have not changed much.
 
 Based on the 90\% confidence intervals, the exploitable yield gap, the actual exploited yield gap, and the expected yield can nearly double between high and low farming constraints contrary to the yield opportunity loss. These have also exhibited interesting change with time. Zero chances of yield opportunity loss, which seems to have tied distribution and little change with time, are plausible with minimal farming constraints. However, there seems to be more of possibilities for high gains than there are for high losses in terms of exploitable yield gaps, and this has not much changed with time. In a nutshell, based on the 90\% confidence interval, there are possibilities for substantial increases in biomass yields biomass yield regardless of the level of the farming constraints. This increase, however, seems to be more important moving from high to medium level of constraints than it is between the medium and the low level.
 
@@ -315,16 +316,7 @@ Based on the 90\% confidence intervals, the exploitable yield gap, the actual ex
 
 }
 
-\caption{Expected biomass yield and other important yield-related metrics at initial stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig8}
-\end{figure}
-
-\begin{figure}[!htbp]
-
-{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig9-1} 
-
-}
-
-\caption{Expected biomass yield and other important yield-related metrics at late stage of crop development in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig9}
+\caption{Simulated biomass yield metrics in FBFS in Kisumu (Kenya) and Tigray (Ethiopia).}\label{fig:fig8}
 \end{figure}
 
 \hypertarget{IV23}{%
@@ -338,11 +330,11 @@ Many important risk factors for farmers (e.g.~pest and diseases, weeds) are ofte
 \hypertarget{IV232}{%
 \paragraph{Materials and Methods}\label{IV232}}
 
-To assess the effect of pests, diseases, weeds, the available soil water and crop type on grain yield, we queried the model based on these variables and simulate, for each query, the grain yield of rice and sorghum under FBFS settings in Kisumu county of Kenya and Tigray region in Ethiopia. Each query was run 1000 times as in the mcSimulation function.\textsuperscript{\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{32}} For each of the 4 treatments, we selected the 2 extremes states of the corresponding node in BNs to derive a sequence of all possible combinations. These were then used as evidence to query the posterior distribution of the node farming constraint in the BNs. Scenarios were assumed at the mid stage of crop development. The results of the BN queries were used to provide customized estimates of the node farming constraints to the MC model as described in section \ref{III32} The simulated grain yield data were then analysed accounting for uncertainty in estimates.
+To assess the effect of pests, diseases, weeds, the available soil water and crop type on grain yield, we queried the model based on these variables and simulate, for each query, the grain yield of rice and sorghum under FBFS settings in Kisumu county of Kenya and Tigray region in Ethiopia. Each query was run 1000 times as in the \texttt{mcSimulation} function.\textsuperscript{\protect\hyperlink{ref-Luedeling_and_Goehring_2018}{32}} For each of the 4 treatments, we selected the 2 extremes states of the corresponding node in BNs to derive a sequence of all possible combinations. These were then used as evidence to query the posterior distribution of the node farming constraint in the BNs. Scenarios were assumed at the mid stage of crop development. The results of the BN queries were used to provide customized estimates of the node farming constraints to the MC model as described in section \ref{III32} The simulated grain yield data were then analysed accounting for uncertainty in estimates.
 
 \begin{figure}[!htbp]
 
-{\centering \includegraphics[width=1\linewidth,]{figures/Modelling_FBFS_Farming_Constraints} 
+{\centering \includegraphics{Modelling_FBFS_files/figure-latex/fig10-1} 
 
 }
 
@@ -355,6 +347,12 @@ To assess the effect of pests, diseases, weeds, the available soil water and cro
 The results of the model simulations are presented in Figure \ref{fig:fig9}. Yield function seems to have kept the right-skewed gamma distribution shape, meaning that crop yield in the study area is characterized by relatively higher frequency of low values. In general, chances of yield gain above 100 tons are pretty low or inexistence despite the ranges of uncertainty from this value.
 
 Under drought risk conditions and controlled pest and diseases, rice seems to experience higher yield reduction when weeds are not appropriately managed. With proper weeds removal, it is rather sorghum that seems to be more exposed to yield loss. In both crops, the ranges of yield losses seem to shrink with weed reduction. This means rice is likely to be more sensitive to weeds than sorghum when they are grown under drought and minor pest and diseases. This trend seems to have not much changed with the severity of pest and disease. Nonetheless, sorghum might be generally more exposed to yield loss regardless of the level of weed whereas both crop yield distributions become relatively leptokurtic, owing the narrow range of yield possibility. In general sorghum performed better under drought than rice
+
+\begin{verbatim}
+##            used  (Mb) gc trigger   (Mb)  max used   (Mb)
+## Ncells  8558332 457.1   17172207  917.1  17172207  917.1
+## Vcells 16803486 128.3  580299436 4427.4 674968456 5149.7
+\end{verbatim}
 
 \begin{figure}[!htbp]
 
@@ -430,7 +428,7 @@ Rice and sorghum yield in the study area are characterized by high frequency of 
 15. Erkossa, T., Langan, S. J. \& Hagos, F. Constraints to the development, operation and maintenance of spate irrigation schemes in Ethiopia. in \emph{Proceedings of the workshop on flood-based farming for food security and adaption to climate change in ethiopia: Potential and challenges} (ed. Erkossa, Teklu; Hagos, Fitsum; Lefore, N.) 5--22 (International Water Management Institute, 2014).
 
 \leavevmode\hypertarget{ref-Hardaker_et_al_2015}{}%
-16. Hardaker, J. B., Anderson, J. R., Lien, G. \& Huirne, R. B. \emph{Coping with Risk in Agriculture: Applied Decision Analysis}. 289 (CABI Publishing, 2015).
+16. Hardaker, J. B., Anderson, J. R., Lien, G. \& Huirne, R. B. M. \emph{Coping with Risk in Agriculture: Applied Decision Analysis}. 289 (CABI Publishing, 2015).
 
 \leavevmode\hypertarget{ref-Jax_and_Setala_2005}{}%
 17. Jax, K. \& Setälä, H. Function and "Functioning" in Ecology: What Does It Mean? \emph{Oikos} \textbf{111}, 641--648 (2005).
