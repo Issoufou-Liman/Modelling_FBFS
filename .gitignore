@@ -2,7 +2,4 @@
 .Rhistory
 .RData
 .Ruserdata
-.Modelling_FBFS_cache/**
-.Modelling_FBFS_files/**
-.Modelling_FBFS_Supplement_cache/**
-.Modelling_FBFS_Supplement_files/**
+Modelling_FBFS.log
