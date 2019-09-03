@@ -1313,7 +1313,7 @@ p1 <- ggplot(data = ssp, aes(x=L1, y = value, fill = variable))+
     # strip.text.x = element_text(margin = margin(0,0,0,0, "cm")),
     # plot.tag.position = c(1, 0.9),
     # plot.tag = element_text(hjust=0),
-    axis.text = element_text(size = plot_font_size)
+    axis.text = element_text(size = plot_font_size+2)
   )
 
 p2 = ggplot(data = titres, aes(x=1, y = 1, label = variable, fill=variable))+ 
@@ -1635,7 +1635,7 @@ The simulated actual biomass yield along with other yield metrics are presented 
 
 Based on the 90% confidence intervals, the exploitable yield gap, the actual exploited yield gap, and the expected yield can nearly double between high and low farming constraints contrary to the yield opportunity loss. These have also exhibited interesting change with time. Zero chances of yield opportunity loss, which seems to have tied distribution and little change with time, are plausible with minimal farming constraints.  However, there seems to be more of possibilities for high gains than there are for high losses in terms of exploitable yield gaps, and this has not much changed with time. In a nutshell, based on the 90% confidence interval, there are possibilities for substantial increases in biomass yields biomass yield regardless of the level of the farming constraints. This increase, however, seems to be more important moving from high to medium level of constraints than it is between the medium and the low level. 
 
-```{r case study 2 Results rds, eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
+```{r case study 2 Results rds, eval=FALSE, include = FALSE, echo = FALSE, cache = FALSE}
 
 ## Obversed and potential grain yield for various rainfed crops near kisumu county and tigray region ####
 source("data_files/yield.R")
@@ -1811,8 +1811,8 @@ model_function <- function(x){
     ##############################################################################################
   exploitable_yield_gap_loss_due_to_constraints_at_initial_stage <- ifelse(exploitable_yield_gap_loss_due_to_constraints_at_initial_stage <= exploitable_yield_gap_at_initial_stage, exploitable_yield_gap_loss_due_to_constraints_at_initial_stage, exploitable_yield_gap_at_initial_stage) # because exploitable_yield_gap_loss_due_to_constraints_at_initial_stage cannot exceed the exploitable_yield_gap_at_initial_stage itself.
     ##############################################################################################
-  actual_exploited_yield_gap_at_initial_stage <- exploitable_yield_gap_at_initial_stage - exploitable_yield_gap_loss_due_to_constraints_at_initial_stage
-  expected_actual_yield_at_initial_stage <- actual_exploited_yield_gap_at_initial_stage + x[, 10]
+  actually_exploited_yield_gap_at_initial_stage <- exploitable_yield_gap_at_initial_stage - exploitable_yield_gap_loss_due_to_constraints_at_initial_stage
+  expected_actual_yield_at_initial_stage <- actually_exploited_yield_gap_at_initial_stage + x[, 10]
   
   ##############################################################################################
   expected_actual_yield_at_initial_stage <- ifelse(expected_actual_yield_at_initial_stage > attainable_yield_at_initial_stage, attainable_yield_at_initial_stage, expected_actual_yield_at_initial_stage) # becuase yield expectation cannot go beyond the attainable limit.
@@ -1822,7 +1822,7 @@ model_function <- function(x){
     # attainable_yield_at_initial_stage = attainable_yield_at_initial_stage,
     exploitable_yield_gap_at_initial_stage = exploitable_yield_gap_at_initial_stage,
     exploitable_yield_gap_loss_due_to_constraints_at_initial_stage = exploitable_yield_gap_loss_due_to_constraints_at_initial_stage,
-    actual_exploited_yield_gap_at_initial_stage = actual_exploited_yield_gap_at_initial_stage,
+    actually_exploited_yield_gap_at_initial_stage = actually_exploited_yield_gap_at_initial_stage,
     expected_actual_yield_at_initial_stage=expected_actual_yield_at_initial_stage)
   
   # dev stage
@@ -1832,13 +1832,13 @@ model_function <- function(x){
       ##############################################################################################
   exploitable_yield_gap_loss_due_to_constraints_at_development_stage <- ifelse(exploitable_yield_gap_loss_due_to_constraints_at_development_stage <= exploitable_yield_gap_at_development_stage, exploitable_yield_gap_loss_due_to_constraints_at_development_stage, exploitable_yield_gap_at_development_stage) # because exploitable_yield_gap_loss_due_to_constraints_at_development_stage cannot exceed the exploitable_yield_gap_at_development_stage itself.
     ##############################################################################################
-  actual_exploited_yield_gap_at_development_stage <- exploitable_yield_gap_at_development_stage - exploitable_yield_gap_loss_due_to_constraints_at_development_stage
-  # expected_actual_yield_at_development_stage <- actual_exploited_yield_gap_at_development_stage + (expected_actual_yield_at_initial_stage * x[, 15])
-    expected_actual_yield_at_development_stage <- actual_exploited_yield_gap_at_development_stage + (expected_actual_yield_at_initial_stage * x[, 15])
+  actually_exploited_yield_gap_at_development_stage <- exploitable_yield_gap_at_development_stage - exploitable_yield_gap_loss_due_to_constraints_at_development_stage
+  # expected_actual_yield_at_development_stage <- actually_exploited_yield_gap_at_development_stage + (expected_actual_yield_at_initial_stage * x[, 15])
+    expected_actual_yield_at_development_stage <- actually_exploited_yield_gap_at_development_stage + (expected_actual_yield_at_initial_stage * x[, 15])
 
   dev_stage = list(exploitable_yield_gap_at_development_stage = exploitable_yield_gap_at_development_stage,
                    exploitable_yield_gap_loss_due_to_constraints_at_development_stage = exploitable_yield_gap_loss_due_to_constraints_at_development_stage,
-                   actual_exploited_yield_gap_at_development_stage = actual_exploited_yield_gap_at_development_stage,
+                   actually_exploited_yield_gap_at_development_stage = actually_exploited_yield_gap_at_development_stage,
                    expected_actual_yield_at_development_stage = expected_actual_yield_at_development_stage)
   
   # mid stage
@@ -1847,12 +1847,12 @@ model_function <- function(x){
   ##############################################################################################
   exploitable_yield_gap_loss_due_to_constraints_at_mid_stage <- ifelse(exploitable_yield_gap_loss_due_to_constraints_at_mid_stage <= exploitable_yield_gap_at_mid_stage, exploitable_yield_gap_loss_due_to_constraints_at_mid_stage, exploitable_yield_gap_at_mid_stage) # because exploitable_yield_gap_loss_due_to_constraints_at_mid_stage cannot exceed the exploitable_yield_gap_at_mid_stage itself.
     ##############################################################################################
-  actual_exploited_yield_gap_at_mid_stage <- exploitable_yield_gap_at_mid_stage - exploitable_yield_gap_loss_due_to_constraints_at_mid_stage
-  expected_actual_yield_at_mid_stage <-  actual_exploited_yield_gap_at_mid_stage + (expected_actual_yield_at_development_stage * x[, 17])
+  actually_exploited_yield_gap_at_mid_stage <- exploitable_yield_gap_at_mid_stage - exploitable_yield_gap_loss_due_to_constraints_at_mid_stage
+  expected_actual_yield_at_mid_stage <-  actually_exploited_yield_gap_at_mid_stage + (expected_actual_yield_at_development_stage * x[, 17])
   
   mid_stage = list(exploitable_yield_gap_at_mid_stage = exploitable_yield_gap_at_mid_stage,
                    exploitable_yield_gap_loss_due_to_constraints_at_mid_stage = exploitable_yield_gap_loss_due_to_constraints_at_mid_stage,
-                   actual_exploited_yield_gap_at_mid_stage = actual_exploited_yield_gap_at_mid_stage,
+                   actually_exploited_yield_gap_at_mid_stage = actually_exploited_yield_gap_at_mid_stage,
                    expected_actual_yield_at_mid_stage = expected_actual_yield_at_mid_stage)
   
   # late stage
@@ -1861,23 +1861,23 @@ model_function <- function(x){
    ##############################################################################################
   exploitable_yield_gap_loss_due_to_constraints_at_late_stage <- ifelse(exploitable_yield_gap_loss_due_to_constraints_at_late_stage <= exploitable_yield_gap_at_late_stage, exploitable_yield_gap_loss_due_to_constraints_at_late_stage, exploitable_yield_gap_at_late_stage) # because exploitable_yield_gap_loss_due_to_constraints_at_late_stage cannot exceed the exploitable_yield_gap_at_late_stage itself.
     ##############################################################################################
-  actual_exploited_yield_gap_at_late_stage <- exploitable_yield_gap_at_late_stage - exploitable_yield_gap_loss_due_to_constraints_at_late_stage
-  expected_actual_yield_at_late_stage <-  actual_exploited_yield_gap_at_late_stage + (expected_actual_yield_at_mid_stage * x[,19])
+  actually_exploited_yield_gap_at_late_stage <- exploitable_yield_gap_at_late_stage - exploitable_yield_gap_loss_due_to_constraints_at_late_stage
+  expected_actual_yield_at_late_stage <-  actually_exploited_yield_gap_at_late_stage + (expected_actual_yield_at_mid_stage * x[,19])
   
   late_stage = list(exploitable_yield_gap_at_late_stage = exploitable_yield_gap_at_late_stage,
                     exploitable_yield_gap_loss_due_to_constraints_at_late_stage = exploitable_yield_gap_loss_due_to_constraints_at_late_stage,
-                    actual_exploited_yield_gap_at_late_stage = actual_exploited_yield_gap_at_late_stage,
+                    actually_exploited_yield_gap_at_late_stage = actually_exploited_yield_gap_at_late_stage,
                     expected_actual_yield_at_late_stage = expected_actual_yield_at_late_stage)
   
   # grain yield
-  actual_exploited_yield_gap = actual_exploited_yield_gap_at_late_stage * x[, 20]
+  actually_exploited_yield_gap = actually_exploited_yield_gap_at_late_stage * x[, 20]
   exploitable_yield_gap = exploitable_yield_gap_at_late_stage * x[, 20]
   expected_actual_yield = expected_actual_yield_at_late_stage * x[, 20]
   exploitable_yield_gap_loss_due_to_constraints = exploitable_yield_gap_loss_due_to_constraints_at_mid_stage * x[, 20]
   
   grain_yield = list(exploitable_yield_gap = exploitable_yield_gap, 
                      exploitable_yield_gap_loss_due_to_constraints = exploitable_yield_gap_loss_due_to_constraints,
-                     actual_exploited_yield_gap = actual_exploited_yield_gap,
+                     actually_exploited_yield_gap = actually_exploited_yield_gap,
                      expected_actual_yield = expected_actual_yield)
   
   
@@ -1922,10 +1922,10 @@ p = ggplot_mc_dens(ssp,
 
 gg_data <- p$data
 
-saveRDS(gg_data, paste0("output_files", "/", "Modelling_FBFS_model_predictions_Case_study_2.rds"))
+# saveRDS(gg_data, paste0("output_files", "/", "Modelling_FBFS_model_predictions_Case_study_2.rds"))
 
-y_scaleFUN <- function(x) sprintf("%.2f", x)
-x_scaleFUN <- function(x) sprintf("%.1f", x)
+# y_scaleFUN <- function(x) sprintf("%.1f", x)
+# x_scaleFUN <- function(x) sprintf("%.1f", x)
 
 scale_fun <- function(gg_obj, new_data, split_column, facet_column) {
   if (!is.null(new_data)){
@@ -1942,76 +1942,81 @@ scale_fun <- function(gg_obj, new_data, split_column, facet_column) {
                           guide = 'none', drop = FALSE)
     })
     p_i = p %+% p_data +
-      scale_x_continuous(
-        labels = y_scaleFUN, 
-        expand = c(0,0)
-      )+
-      scale_y_continuous(
-        labels = x_scaleFUN, 
-        expand = c(0,0)
-      )+
+      # scale_x_continuous(
+      #   # labels = y_scaleFUN,
+      #   breaks = function(x) breaksFUN (x)[-1],
+      #   expand = c(0,0)
+      # )+
+      # scale_y_continuous(
+      #   # labels = x_scaleFUN,
+      #   breaks = breaksFUN,
+      #   expand = c(0,0)
+      # )+
       my_fill+
-      my_theme + 
-      theme(axis.title = element_blank(),
-            plot.subtitle=element_text(color='darkgray'))+
+      my_theme +
       labs(subtitle = gsub("_", " ", gsub("initial_stage.|at_initial_stage|dev_stage.|at_development_stage|mid_stage.|at_mid_stage|late_stage.|at_late_stage|grain_yield.", "", i)))
-    p_i +     scale_x_continuous(
-      labels = x_scaleFUN, 
-      expand = c(0,0)
-    )+
-      scale_y_continuous(
-        labels = y_scaleFUN, 
-        expand = c(0,0))
+    # p_i +     scale_x_continuous(
+    #   # labels = x_scaleFUN, 
+    #   expand = c(0,0)
+    # )+
+    #   scale_y_continuous(
+    #     # labels = y_scaleFUN, 
+    #     expand = c(0,0))
+    p_i + theme(axis.title = element_blank(),
+                axis.text = element_text(size = plot_font_size+2),
+                plot.subtitle=element_text(size = plot_font_size+2, face="bold.italic", color='dimgrey'),
+                strip.text.x = element_text(margin = margin(t=1, b = 1))
+            )
   }, simplify = FALSE, USE.NAMES = TRUE)
 }
 
-grid_fun <- function(gg_list) {
-  tmp <- 1:length(gg_list)
-  names(tmp) <- names(gg_list)
-  sapply(tmp, function(i){
-    if (i == 1){
-      gg_list[[i]] +
-        my_theme+
-        theme(
-          # strip.background = element_rect(fill='lightgoldenrodyellow'),
-          plot.title = element_blank(),
-          axis.title = element_blank(),
-          plot.margin=unit(c(1, 1, 0, 0), "pt"),
-          strip.text = element_text(colour = 'black'),
-          axis.text = element_text(size = plot_font_size),
-          strip.text.x = element_text(margin = margin(t=1, b = 1)),
+# grid_fun <- function(gg_list) {
+#   tmp <- 1:length(gg_list)
+#   names(tmp) <- names(gg_list)
+#   sapply(tmp, function(i){
+#     if (i == 1){
+#       gg_list[[i]] +
+#         my_theme+
+#         theme(
+#           # strip.background = element_rect(fill='lightgoldenrodyellow'),
+#           plot.title = element_blank(),
+#           axis.title = element_blank(),
+#           # plot.margin=unit(c(0, 0, 0, 0), "pt"),
+#           # plot.margin=unit(c(2, 1, 1, 1), "pt"),
+#           strip.text = element_text(colour = 'black'),
+#           axis.text = element_text(size = plot_font_size+2),
+#           strip.text.x = element_text(margin = margin(t=1, b = 1))
+#         )
+#     } else {
+#       gg_list[[i]]+ guides(fill = FALSE)+
+#         my_theme +
+#         theme(
+#           plot.title = element_blank(),
+#           strip.text = element_blank(),
+#           strip.background = element_blank(),
+#           # plot.margin=unit(c(5, 1, 0, 0), "pt"),
+#           # panel.border = element_rect(fill=NA, size = 0.05),
+#           # panel.grid.major = element_line(size = 0.05),
+#           # panel.grid.minor = element_line(size = 0.02),
+#           axis.title = element_blank(),
+#           axis.text = element_text(size = plot_font_size+2),
+#           strip.text.x = element_text(margin = margin(t=1, b = 1)),
+#           )
+#     }
+#   }, simplify = FALSE, USE.NAMES = TRUE)
+# }
 
-        )
-    } else {
-      gg_list[[i]]+ guides(fill = FALSE)+
-        my_theme +
-        theme(
-          plot.title = element_blank(),
-          strip.text = element_blank(),
-          strip.background = element_blank(),
-          plot.margin=unit(c(5, 1, 0, 0), "pt"),
-          # panel.border = element_rect(fill=NA, size = 0.05),
-          # panel.grid.major = element_line(size = 0.05),
-          # panel.grid.minor = element_line(size = 0.02),
-          axis.title = element_blank(),
-          axis.text = element_text(size = plot_font_size),
-          strip.text.x = element_text(margin = margin(t=1, b = 1)),
-          )
-    }
-  }, simplify = FALSE, USE.NAMES = TRUE)
-}
-
-limits_fun <- function(gg_list, facet_column){
-  sapply(gg_list, function(i){
-    gg_data <- i$data
-    ids <- unique(gg_data[[facet_column]])
-    names(ids) <- ids
-    sapply(ids, function(j){
-      tmp <- gg_data[gg_data[[facet_column]] == j, 'y']
-      range(tmp)
-    })
-  }, simplify = F)
-}
+# limits_fun <- function(gg_list, facet_column){
+#   sapply(gg_list, function(i){
+#     gg_data <- i$data
+#     ids <- unique(gg_data[[facet_column]])
+#     names(ids) <- ids
+#     sapply(ids, function(j){
+#       tmp <- gg_data[gg_data[[facet_column]] == j, 'y']
+#       range(tmp)
+#     })
+#   }, simplify = F)
+# }
 ## Biomass yield at initial stage ####
 dat <- gg_data[grepl("initial_stage.", gg_data$L5), ]
 dat$L5 <- factor(dat$L5, levels = unique(dat$L5))
@@ -2025,7 +2030,8 @@ names(tmp) <- names(dat)
 dat <- do.call(rbind, dat)
 
 dat$L4 <- factor(dat$L4, levels = unique(dat$L4))
-p1 <- grid_fun(scale_fun(gg_obj = p, new_data = dat, split_column = 'L5', facet_column = 'L4'))
+# p1 <- grid_fun(scale_fun(gg_obj = p, new_data = dat, split_column = 'L5', facet_column = 'L4'))
+p1 <- scale_fun(gg_obj = p, new_data = dat, split_column = 'L5', facet_column = 'L4')
 
 labeller0 <- unique(gg_data$L4)
 labeller1 <- gsub(pattern = 'at_initial_stage', replacement = '', labeller0)
@@ -2037,59 +2043,72 @@ names(labeller1) <- labeller0
 
 ## facet_wrap with ribbon ####
 
-x_limits <- list(c(-0.50, 4.00), 
-                 c(-0.10, 10.00), 
-                 c(-0.50, 4.00),
-                 c(-0.75, 4.00))
+# # x_limits <- list(c(-0.50, 4.00), 
+# #                  c(-0.10, 7.50), 
+# #                  c(-0.50, 3.00),
+# #                  c(-0.75, 3.00))
+# x_limits <- list(function(x) c(min(x, na.rm = TRUE), 3.0),
+#                  function(x) c(min(x, na.rm = TRUE), 6),
+#                  function(x) c(min(x, na.rm = TRUE), 3.0),
+#                  function(x) c(min(x, na.rm = TRUE), 3.0))
+# 
+# x_breaks <- list(seq(0.00, 10.00, by=2.00),
+#                  seq(0.00, 6, by=2),
+#                  seq(0.00, 10.00, by=2.00),
+#                  seq(0.00, 10.00, by=2.00))
+# 
+# y_breaks <- list(seq(0.00, 1.25, by=0.62),
+#                  seq(0.00, 35, by=17.5),
+#                  seq(0.00, 2.50, by=1.25),
+#                  seq(0.00, 2.25, by=1.12))
 
-x_breaks <- list(seq(0.00, 4.00, by=1.00),
-                 seq(0.00, 10.00, by=5.00),
-                 seq(0.00, 4.00, by=1.00),
-                 seq(0.00, 4.00, by=1.00))
+x_breaks <- list(function (x) seq(0.00, max(x, na.rm = TRUE), by=2.00),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=2.00),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=2.00),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=2.00))
+
+y_breaks <- list(function (x) seq(0.00, max(x, na.rm = TRUE), by=0.62),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=17.5),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=1.25),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=1.12))
 
 tmp <- 1:length(p1)
 names(tmp) <- names(p1)
 p1 <- sapply(X = tmp, function(i) {
-  p_i <- p1[[i]] + 
-    # geom_line(aes(y = y))+
-    # geom_ribbon(aes(ymin = 0, ymax = y, fill = color), alpha = 0.5) +
+  p_i <- p1[[i]] +
     aes(x, y, fill = color, color = color)+
-    scale_fill_identity(NULL, labels = p1[[1]]$data$color_equiv, 
+    scale_fill_identity(NULL, labels = p1[[1]]$data$color_equiv,
                         breaks = p1[[1]]$data$color, guide = "legend", drop = FALSE)+
-    scale_color_identity(NULL, labels = p1[[1]]$data$color_equiv, 
+    scale_color_identity(NULL, labels = p1[[1]]$data$color_equiv,
                          breaks = p1[[1]]$data$color, guide = "legend", drop = FALSE)+
-    facet_wrap(.~L4, nrow= 1, labeller = as_labeller(labeller1), scales = "free_x")+
-    theme(legend.position = "none")
-  if (i==2){
-    p_i <- p_i +
-      scale_x_continuous(breaks = x_breaks[[i]], limits = x_limits[[i]], labels = x_scaleFUN)+
-      scale_y_continuous(labels = x_scaleFUN) # use only 1 digit for this one to fit the figures on grid.
-    p_i
+    facet_wrap(.~L4, nrow= 1, labeller = as_labeller(labeller1))+
+    scale_x_continuous(breaks = x_breaks[[i]])+
+    scale_y_continuous(breaks = y_breaks[[i]]) +
+    theme(legend.position = "none",
+          plot.margin=unit(c(1, 2.5, 1, 1), "pt"))
+  if(i == 1){
+      p_i <- p_i + theme(strip.text = element_text(size = plot_font_size+1,  face = 'bold'))
   } else {
-      if (i == 1){
-        p_i <- p_i +
-          scale_x_continuous(breaks = x_breaks[[i]], limits = x_limits[[i]], labels = x_scaleFUN)+
-          scale_y_continuous(breaks = c(0, 0.5, 1), labels = y_scaleFUN) # making some space for this one as labels overlap.
-      } else {
-        p_i <- p_i +
-          scale_x_continuous(breaks = x_breaks[[i]], limits = x_limits[[i]], labels = x_scaleFUN)
-      }
-    p_i
+    p_i <- p_i + theme(strip.text = element_blank())
   }
+  return(p_i)
 }, simplify = FALSE, USE.NAMES = T)
-
 
 p1$ncol=1
 
-p1$top = grid::textGrob("The green and red colors, respectively, are values inside and outside the 90% confidence interval. Values on x-axis are in t/ha.",
-                        x=1, y=0, hjust=1, vjust=1,
-                        gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size-2,fontface="italic", col="black"))
+# p1$top = grid::textGrob("The green and red colors, respectively, are values inside and outside the 90% confidence interval. In x-axis
+# are simulated yield values in t/ha and y-axis represent their density. FC stands for farming constraint and
+# the indices i, ii, iiii, respectively,represent crop at initial, developement and late stages.",
+#                         # x=1, y=0, hjust=0.5, vjust=0.5,
+#                         x=1, hjust=0, vjust = 0.5,
+#                         # x=1, hjust=1, vjust = 1,
+#                         gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size,fontface="italic", col="black"))
 
-p1$left = grid::textGrob("Density", rot = 90,  
-                         gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size, col="black"))
+# p1$left = grid::textGrob("Density", rot = 90,  
+#                          gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size, col="black"))
 
 p1$bottom <-  grid::textGrob("Biomass yield at initial stage of crop development", 
-                             gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size,  col="black"))
+                             gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size+2,  col="black"))
 
 grid.newpage()
 ga = do.call("grid.arrange", p1)
@@ -2106,7 +2125,7 @@ ggsave(plot=g1, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield
 dat <- gg_data[grepl("late_stage.", gg_data$L5), ]
 dat$L5 <- factor(dat$L5, levels = unique(dat$L5))
 
-dat$facet_query <- paste(dat$L1, dat$L2, dat$L3, dat$L4, sep = " / ")
+dat$facet_query <- paste(dat$L1, " / ",  dat$L2, " /\n", dat$L3, " / ", dat$L4, sep = '')
 dat$facet_query <- gsub(pattern = 'Local_constraints_', replacement = "{bold('FC'", dat$facet_query)
 dat$facet_query <- gsub(pattern = 'at_late_stage', replacement = "[italic(iiii)]", dat$facet_query)
 
@@ -2114,6 +2133,11 @@ dat$facet_query <- gsub(pattern = 'at_mid_stage', replacement = "[italic(iii)]",
 dat$facet_query <- gsub(pattern = 'at_development_stage', replacement = "[italic(ii)]", dat$facet_query)
 dat$facet_query <- gsub(pattern = 'at_initial_stage', replacement = "[italic(i)]", dat$facet_query)
 dat$facet_query <- gsub(pattern = '=', replacement = "==", dat$facet_query)
+
+dat$facet_query <- gsub(pattern = 'Low', replacement = "L", dat$facet_query)
+dat$facet_query <- gsub(pattern = 'Medium', replacement = "M", dat$facet_query)
+dat$facet_query <- gsub(pattern = 'High', replacement = "H", dat$facet_query)
+
 dat$facet_query <- gsub(pattern = '/', replacement = ")} / ", dat$facet_query)
 dat$facet_query <- paste0(dat$facet_query, ")}")
 
@@ -2138,41 +2162,72 @@ dat <- do.call(rbind, dat)
 
 ## facet_wrap with ribbon ####
 
-x_limits <- list(c(-2.50, 20.00),
-                 c(-0.50, 15.00),
-                 c(-2.00, 20.00),
-                 c(-3.00, 30.00))
+# # x_limits <- list(c(-2.50, 20.00),
+# #                  c(-0.50, 15.00),
+# #                  c(-2.00, 20.00),
+# #                  c(-3.00, 30.00))
+# x_limits <- list(function(x) c(min(x, na.rm = TRUE), 20),
+#                  function(x) c(min(x, na.rm = TRUE), 15),
+#                  function(x) c(min(x, na.rm = TRUE), 20),
+#                  function(x) c(min(x, na.rm = TRUE), 30))
+# 
+# 
+x_breaks <- list(function (x) seq(0.00, max(x, na.rm = TRUE), by=10.00),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=10.00),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=10.00),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=20.00))
 
-x_breaks <- list(seq(0.00, 20.00, by=10.00),
-                 seq(0.00, 15.00, by=5.00),
-                 seq(0.00, 20.00, by=10.00),
-                 seq(0.00, 30.00, by=10.00))
+y_breaks <- list(function (x) seq(0.00, max(x, na.rm = TRUE), by=0.09),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=2.55),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=0.19),
+                 function (x) seq(0.00, max(x, na.rm = TRUE), by=0.07))
 
-p1 <- grid_fun(scale_fun(gg_obj = p, new_data = dat, split_column = 'L5', facet_column = 'facet_query'))
+p1 <- scale_fun(gg_obj = p, new_data = dat, split_column = 'L5', facet_column = 'facet_query')
 
 tmp <- 1:length(p1)
 names(tmp) <- names(p1)
-p1 <- sapply(X = tmp, function(i) {
-  p = p1[[i]] + 
-    # geom_line(aes(y = y))+
-    # geom_ribbon(aes(ymin = 0, ymax = y, fill = color), alpha = 0.5) +
-    aes(x, y, fill = color, color = color)+
-    scale_fill_identity(NULL, labels = p1[[1]]$data$color_equiv, 
-                        breaks = p1[[1]]$data$color, guide = "legend", drop = FALSE)+
-    scale_color_identity(NULL, labels = p1[[1]]$data$color_equiv, 
-                         breaks = p1[[1]]$data$color, guide = "legend", drop = FALSE)+
-    facet_wrap(.~facet_query, nrow= 1, labeller = label_parsed, scales = "free_x")+
-    scale_x_continuous(breaks = x_breaks[[i]], limits = x_limits[[i]], labels = x_scaleFUN)+
-    scale_y_continuous(labels = y_scaleFUN)+
-        theme(legend.position = "none")
-  if (i==1){
-    p = p +
-      theme(strip.text = element_text(size =5.75))
-    # + scale_y_continuous(breaks = c(0.00, 0.15))
-  }
-  return(p)
-}, simplify = FALSE, USE.NAMES = T)
+# p1 <- sapply(X = tmp, function(i) {
+#   p_i = p1[[i]] + 
+#     # geom_line(aes(y = y))+
+#     # geom_ribbon(aes(ymin = 0, ymax = y, fill = color), alpha = 0.5) +
+#     aes(x, y, fill = color, color = color)+
+#     scale_fill_identity(NULL, labels = p1[[1]]$data$color_equiv, 
+#                         breaks = p1[[1]]$data$color, guide = "legend", drop = FALSE)+
+#     scale_color_identity(NULL, labels = p1[[1]]$data$color_equiv, 
+#                          breaks = p1[[1]]$data$color, guide = "legend", drop = FALSE)+
+#     facet_wrap(.~facet_query, nrow= 1, labeller = label_parsed)+
+#     # scale_x_continuous(breaks = x_breaks[[i]], limits = x_limits[[i]], labels = x_scaleFUN)+
+#     # scale_y_continuous(labels = y_scaleFUN)+
+#         theme(legend.position = "none")
+#   if (i==1){
+#     p_i = p_i +
+#       theme(strip.text = element_text(size = 6))
+#     # + scale_y_continuous(breaks = c(0.00, 0.15))
+#   }
+#   p_i + scale_x_continuous(breaks = x_breaks[[i]])+
+#     scale_y_continuous(breaks = y_breaks[[i]])+
+#     theme(plot.margin=unit(c(1, 1, 1, 1), "pt"))
+# }, simplify = FALSE, USE.NAMES = T)
 
+p1 <- sapply(X = tmp, function(i) {
+  p_i <- p1[[i]] +
+    aes(x, y, fill = color, color = color)+
+    scale_fill_identity(NULL, labels = p1[[1]]$data$color_equiv,
+                        breaks = p1[[1]]$data$color, guide = "legend", drop = FALSE)+
+    scale_color_identity(NULL, labels = p1[[1]]$data$color_equiv,
+                         breaks = p1[[1]]$data$color, guide = "legend", drop = FALSE)+
+    facet_wrap(.~facet_query, nrow= 1, labeller = label_parsed)+
+    scale_x_continuous(breaks = x_breaks[[i]])+
+    scale_y_continuous(breaks = y_breaks[[i]]) +
+    theme(legend.position = "none",
+          plot.margin=unit(c(1, 2.5, 1, 1), "pt"))
+    if(i == 1){
+      p_i <- p_i + theme(strip.text = element_text(size = plot_font_size-1,  face = 'bold'))
+    } else {
+    p_i <- p_i + theme(strip.text = element_blank())
+  }
+  return(p_i)
+}, simplify = FALSE, USE.NAMES = T)
 
 p1$ncol=1
 
@@ -2180,11 +2235,11 @@ p1$ncol=1
 #                         x=1, y = 0, hjust=1, vjust= 1,
 #                         gp = gpar(fontfamily=plots_font_family, fontsize=plot_font_size-3, fontface = "italic", col="black"))
 
-p1$left = grid::textGrob("Density", rot = 90,
-                         gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size,  col="black"))
+# p1$left = grid::textGrob("Density", rot = 90,
+#                          gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size,  col="black"))
 
 p1$bottom <-  grid::textGrob("Biomass yield at late stage of crop development",
-                             gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size,  col="black"))
+                             gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size+2,  col="black"))
 
 grid.newpage()
 ga = do.call("grid.arrange", p1)
@@ -2194,15 +2249,41 @@ g2 <- gTree(children = gList(ga, gb))
 
 ggsave(plot=g2, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_late_stage.png", width = max_plots_width_in, 
        height =max_plots_height_in/2.5, units = "in", dpi = min_plots_res)
+```
 
+```{r case study 2 Results:Biomass yield, include = FALSE, echo = FALSE, cache = FALSE}
+
+g <- list(g1,g2)
+
+g$ncol=1
+
+g$top = grid::textGrob("The green and red colors, respectively, are values inside and outside the 90% confidence interval. In x-axis are simulated yield values
+in t/ha and y-axis represent their density. FC = farming constraint, H = High, M = Medium, L = Low. The indices i, ii, iii, iiii,
+respectively, indicate crop at initial, developement, mid and late stages.",
+                        # x=1, y=0, hjust=0.5, vjust=0.5,
+                        # x=1, hjust=0, vjust = 0.5,
+                        # x=1, hjust=1, vjust = 1,
+                        x=0, hjust=0, vjust = 0.5,
+                        gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size,fontface="italic", col="black"))
+
+grid.newpage()
+ga = do.call("grid.arrange", g)
+gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
+               gp=gpar(lwd=1, fill=NA, col="lightgray"))
+g1 <- gTree(children = gList(ga, gb))
+
+ggsave(plot=g1, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_Initial_and_late_stage.png", width = max_plots_width_in,
+       height =2*max_plots_height_in/2.25, units = "in", dpi = min_plots_res
+)
 ```
 
 ```{r fig8,echo=FALSE,fig.width=max_plots_width_in,fig.height=2*max_plots_height_in/2.25,dpi=min_plots_res,fig.cap="Simulated biomass yield metrics in FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
 
-g <- grid.arrange(g1,g2)
-ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_Initial_and_late_stage.png", width = max_plots_width_in, 
-       height =2*max_plots_height_in/2.25, units = "in", dpi = min_plots_res
-)
+# g <- grid.arrange(g1,g2)
+g <- grid.arrange(g1)
+# ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_Initial_and_late_stage.png", width = max_plots_width_in, 
+#        height =2*max_plots_height_in/2.25, units = "in", dpi = min_plots_res
+# )
 ```
 
 ### Quantitative grain yield variability and relative performance of Rice and Sorghum under constraint at mid-stage of crop development in flood-based Agriculture. {#IV23}
@@ -3181,7 +3262,7 @@ p1 = ggplot_mc_dens(ssp,
                     
                     # colorQuantile = c("GRAY46", "lavender", "lavender", "lavender", "lavender", "lavender", "GRAY47"),
                     colorProbability = c(1.00,    0.95,  0.75,     0.55,         0.45,     0.25,     0.05))
-rm(ssp); gc()
+rm(ssp); gc(verbose = FALSE)
 ssp <- p1$data
 
 ssp <- ssp[ssp$L6=="grain_yield.expected_actual_yield", ]
@@ -3201,14 +3282,30 @@ ssp <- ssp[(ssp$L6 == "grain_yield.expected_actual_yield")&
 ssp$L5 <- gsub("Local_constraints_at_initial_stage=High", "{bold('FC'[italic(i)]==High)}", ssp$L5)
 ssp$L5 <- gsub("Local_constraints_at_initial_stage=Low", "{bold('FC'[italic(i)]==Low)}", ssp$L5)
 
+ssp$L5 <- gsub(pattern = 'Low', replacement = "L", ssp$L5)
+ssp$L5 <- gsub(pattern = 'Medium', replacement = "M", ssp$L5)
+ssp$L5 <- gsub(pattern = 'High', replacement = "H", ssp$L5)
+
 ssp$L4 <- gsub("Local_constraints_at_development_stage=High", "{bold('FC'[italic(ii)]==High)}", ssp$L4)
 ssp$L4 <- gsub("Local_constraints_at_development_stage=Low", "{bold('FC'[italic(ii)]==Low)}", ssp$L4)
+
+ssp$L4 <- gsub(pattern = 'Low', replacement = "L", ssp$L4)
+ssp$L4 <- gsub(pattern = 'Medium', replacement = "M", ssp$L4)
+ssp$L4 <- gsub(pattern = 'High', replacement = "H", ssp$L4)
 
 ssp$L3 <- gsub("Local_constraints_at_mid_stage=High", "{bold('FC'[italic(iii)]==High)}", ssp$L3)
 ssp$L3 <- gsub("Local_constraints_at_mid_stage=Low", "{bold('FC'[italic(iii)]==Low)}", ssp$L3)
 
+ssp$L3 <- gsub(pattern = 'Low', replacement = "L", ssp$L3)
+ssp$L3 <- gsub(pattern = 'Medium', replacement = "M", ssp$L3)
+ssp$L3 <- gsub(pattern = 'High', replacement = "H", ssp$L3)
+
 ssp$L2 <- gsub("Local_constraints_at_late_stage=High", "{bold('FC'[italic(iiii)]==High)}", ssp$L2)
 ssp$L2 <- gsub("Local_constraints_at_late_stage=Low", "{bold('FC'[italic(iiii)]==Low)}", ssp$L2)
+
+ssp$L2 <- gsub(pattern = 'Low', replacement = "L", ssp$L2)
+ssp$L2 <- gsub(pattern = 'Medium', replacement = "M", ssp$L2)
+ssp$L2 <- gsub(pattern = 'High', replacement = "H", ssp$L2)
 
 ssp$Pest_and_desease_impact_at_mid_stage <- factor(ssp$Pest_and_desease_impact_at_mid_stage, levels = unique(ssp$Pest_and_desease_impact_at_mid_stage))
 ssp$Weeds_impact_at_mid_stage <- factor(ssp$Weeds_impact_at_mid_stage, levels = unique(ssp$Weeds_impact_at_mid_stage))
@@ -3224,6 +3321,8 @@ labellers <- labeller(
                                            Severe = "Pest and desease impact = Severe"),
   Weeds_impact_at_mid_stage = c(Negligible = "Weeds impact = Negligible",
                                 Significant = "Weeds impact = Significant"),
+  Available_soil_water_at_mid_stage = c(`Drought risk` = "D",
+                                        `Waterlogging risk` = "W"),
   L5 = label_parsed,
   L4 = label_parsed,
   L3 = label_parsed,
@@ -3231,7 +3330,7 @@ labellers <- labeller(
 )
 ```
 
-```{r fig11,echo=FALSE, cache.lazy = FALSE, warning=FALSE,message=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/1.5,dpi=min_plots_res,fig.cap="Effect of Pest and diseases, weeds, and soil water on grain yield of rice and sorghum under FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+```{r case study 3 results plot, eval=TRUE,include = FALSE, echo = FALSE, cache = FALSE}
 # p1 <- ggplot (data = ssp, aes(x, fill = interaction(color, Crop_type), color = interaction(color, Crop_type)))+
 p1 <- ggplot (data = ssp[ssp$color=='green', ], aes(x, fill = Crop_type, color = Crop_type))+
   # geom_density_ridges(scale=1, size=0.05)+
@@ -3258,13 +3357,13 @@ p1 <- ggplot (data = ssp[ssp$color=='green', ], aes(x, fill = Crop_type, color =
     legend.box.margin=margin(-40,-53,0, 0),
     legend.key.width = unit(0.25/1.5, "cm"),
     legend.key.height = unit(0.05, "cm"),
-    strip.text = element_text(size = plot_font_size-2.5, face = 'bold'),
+    strip.text = element_text(size = plot_font_size, face = 'bold'),
     strip.text.x = element_text(margin = margin(t=3, b = 3)),
-    axis.text = element_text(size = plot_font_size),
+    axis.text = element_text(size = plot_font_size+2),
     axis.text.x = element_text(hjust = 0.5),
     axis.text.y = element_text(hjust = 0.5),
     axis.ticks.length = unit(0.25, "mm"),
-    plot.margin=unit(c(4, 1, 1, 1), "pt"),
+    plot.margin=unit(c(4, 1, 1, 1), "pt")
   )
 
 
@@ -3283,7 +3382,7 @@ insets <- plyr::dlply(
   function(d){
     annotation_custom2(
       grob = ggplotGrob(ggplot(data.frame(x=d$Crop_type, y=d$x))+
-                          geom_boxplot(aes(x=x, y=y, fill=x, color=x), alpha=0.1, lwd=0.0005, outlier.size = 0.05)+
+                          geom_boxplot(aes(x=x, y=y, fill=x, color=x), alpha=0.3, lwd=0.005, outlier.size = 0.05)+
                           my_theme+
                           theme(
                             # plot.background=element_rect(fill='lightgoldenrodyellow', color = "gray"),
@@ -3291,7 +3390,7 @@ insets <- plyr::dlply(
                             plot.background=element_rect(fill='white', color = "white"),
                             panel.border = element_rect(size = 0.025),
                             legend.position = 'none',
-                            axis.text.x = element_text(size=plot_font_size, margin = margin(c(0.5,0,0,0), unit = 'mm')),
+                            axis.text.x = element_text(size=plot_font_size+1, margin = margin(c(0.5,0,0,0), unit = 'mm')),
                             axis.ticks.length.x = unit(-0.5, "mm"),
                             # axis.ticks.margin=unit(0.5, "cm"),
                             axis.text.y = element_blank(),
@@ -3317,15 +3416,19 @@ insets <- plyr::dlply(
   }
 )
 rm(ssp); gc(verbose=FALSE)
+```
+
+```{r fig11,echo=FALSE, cache.lazy = FALSE, warning=FALSE,message=FALSE,fig.width=max_plots_width_in,fig.height=max_plots_height_in/1.5,dpi=min_plots_res,fig.cap="Effect of Pest and diseases, weeds, and soil water on grain yield of rice and sorghum under FBFS in Kisumu (Kenya) and Tigray (Ethiopia)."}
+
 p1 <- p1+insets
 
 p1 <- list(p1)
 p1$ncol=1
-p1$top = grid::textGrob("Values on the x-axis of the subplots (boxplots) are the ranges of simulated grain yield in tons per hectare.Those on the y-axis of the main plots are the scaled density 
-(along a gradient of farming constraint).Those on the x-axis of the main plots are values in the boxplots truncated in the near zero probability (scaled density). 
-FC stands for farming constraint and the indices i, ii, iii, iiii, respectively, represent crop at initial, developement, mid and late stages.",
-                        x=0,hjust=0, vjust = 0.5,
-                        gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size-2,fontface="italic", col="black"))
+p1$top = grid::textGrob("The x-axis of the sub and main plots, respectively, are the the ranges of simulated grain yield in tons/ha and the 90% confidence.
+The y-axis of the main plots are the scaled density. FC = farming constraint, H = High, M = Medium, L = Low, D = Drought risk,
+W = Waterlogging risk. The indices i, ii, iiii, respectively, indicate crop at initial, developement and late stages.",
+                        x=0, hjust=0, vjust = 0.5,
+                        gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size,fontface="italic", col="black"))
 grid.newpage()
 ga = do.call("grid.arrange", p1)
 gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
@@ -3334,7 +3437,7 @@ g <- gTree(children = gList(ga, gb))
 grid.draw(g)
 
 ggsave(plot=g, device='png', filename = "figures/Modelling_FBFS_grain_yield.png", width = max_plots_width_in, 
-       height=max_plots_height_in, units="in", dpi=min_plots_res
+       height=max_plots_height_in/1.5, units="in", dpi=min_plots_res
 )
 ```
 
