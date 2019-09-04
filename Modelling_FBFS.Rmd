@@ -1017,8 +1017,9 @@ net <- bnlearn::model2network("[Soil_type][Manure_application][Soil_water_holdin
 legende <- bnlearn::nodes(net)
 ```
 
-```{r case study 1 methods rds 2, eval=FALSE,include=FALSE,echo=FALSE, cache=FALSE}
+```{r case study 1 methods rds 2, eval=TRUE,include=FALSE,echo=FALSE, cache=FALSE}
 net <- decisionSupportExtra::extract_bn(bn = network_bn_fit, string_model = net)
+if (!dir.exists("output_files")) {dir.create("output_files")}
 saveRDS(net, paste0("output_files", "/", "Modelling_FBFS_BNs_Case_study_1.rds"))
 ```
 
@@ -1635,7 +1636,7 @@ The simulated actual biomass yield along with other yield metrics are presented 
 
 Based on the 90% confidence intervals, the exploitable yield gap, the actual exploited yield gap, and the expected yield can nearly double between high and low farming constraints contrary to the yield opportunity loss. These have also exhibited interesting change with time. Zero chances of yield opportunity loss, which seems to have tied distribution and little change with time, are plausible with minimal farming constraints.  However, there seems to be more of possibilities for high gains than there are for high losses in terms of exploitable yield gaps, and this has not much changed with time. In a nutshell, based on the 90% confidence interval, there are possibilities for substantial increases in biomass yields biomass yield regardless of the level of the farming constraints. This increase, however, seems to be more important moving from high to medium level of constraints than it is between the medium and the low level. 
 
-```{r case study 2 Results rds, eval=FALSE, include = FALSE, echo = FALSE, cache = FALSE}
+```{r case study 2 Results rds, eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
 
 ## Obversed and potential grain yield for various rainfed crops near kisumu county and tigray region ####
 source("data_files/yield.R")
@@ -2296,7 +2297,7 @@ Many important risk factors for farmers (e.g. pest and diseases, weeds) are ofte
 
 To assess the effect of pests, diseases, weeds, the available soil water and crop type on grain yield, we queried the model based on these variables and simulate, for each query, the grain yield of rice and sorghum under FBFS settings in Kisumu county of Kenya and Tigray region in Ethiopia. Each query was run 1000 times as in the `mcSimulation` function [@Luedeling_and_Goehring_2018].  For each of the 4 treatments, we selected the 2 extremes states of the corresponding node in BNs to derive a sequence of all possible combinations. These were then used as evidence to query the posterior distribution of the node farming constraint in the BNs. Scenarios were assumed at the mid stage of crop development. The results of the BN queries were used to provide customized estimates of the node farming constraints to the MC model as described in section \@ref(III32) The simulated grain yield data were then analysed accounting for uncertainty in estimates.
 
-```{r case study 3 methods rds 1, eval=FALSE,include=FALSE, echo=FALSE,cache=FALSE}
+```{r case study 3 methods rds 1, eval=TRUE,include=FALSE, echo=FALSE,cache=FALSE}
 
 ##Farming constraints partial  ####
 
@@ -2700,7 +2701,7 @@ evidence_list_sorghum <- evidence_list[!evidence_list_rice]
 evidence_list_rice <- evidence_list[evidence_list_rice]
 ```
 
-```{r case study 3 results rds 2, eval=FALSE, include = FALSE, echo = FALSE, cache = FALSE}
+```{r case study 3 results rds 2, eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
 
 ## Running the MC similation ####
 model_function <- function(x){
