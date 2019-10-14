@@ -130,8 +130,12 @@ The promises of spate irrigation (a variant of FBFS) compared to rainfed agricul
 
 The study areas, namely the Kisumu County and the Tigray region respectively in Kenya and Ethiopia, are located within relatively low-lying lands with differences regarding the management of agronomic flooding and other agricultural practices (Figure \@ref(fig:fig1)). While FBFS in Kisumu mainly source their water from permanent reservoirs via inundation canals, those in Tigray mostly obtain their water from ephemeral rivers where farmers are required to divert important amounts of spate flow within a relatively short period of time.
 
-```{r fig1, echo=FALSE, out.width = '100%', fig.cap="Differences in the practices of FBFS in Kisumu County (Kenya) and Tigray region (Ethiopia)."}
-knitr::include_graphics("figures/Modelling_FBFS_study_area.png")
+```{r study-area,echo=FALSE,include=FALSE}
+source("source_files/study_area_map.R")
+```
+
+```{r fig1, echo=FALSE,out.width='100%',fig.cap="Differences in the practices of FBFS in Kisumu County (Kenya) and Tigray region (Ethiopia)."}
+knitr::include_graphics("figures/Modelling_FBFS_study_area_2.png")
 ```
 
 Communities in the two study areas employ specific strategies for flood and land management (Figure \@ref(fig:fig1)). These differences were addressed by a stratified sampling frame applied during field work. In the Tigray region (Ethiopia), three schemes including Tsige’a (39.59967° N, 12.79827° E), Harosha (39.62788° N, 12.31102° E), and Dayu (39.60545° N, 12.47372° E) were sampled to capture different flood water diversion strategies. While the flood is diverted using improved water diversion in Tsige’a, traditional and modern ones are found respectively in Harosha and Dayu. Here, traditional flood water diversions are to be understood as physical infrastructures (e.g. deflecting spurs, soil bunds) constructed by the farmers across flood channels using locally available materials. In modern ones, concrete infrastructures (e.g. diversion weirs) designed by engineers replace those in traditional diversion. The improved diversion type consisted in integrating both farmers and engineer knowledge in designing the infrastructures. In Kisumu county (Kenya), where five areas (Awach Kano (0.22762° S, 34.95432° E), East Kano (0.14700° S, 34.93436° E), West Kano (0.18358° S, 34.81306° E), Out-growers (0.18822° S, 34.89974° E), East Nyankach (0.27578° S, 34.97058° E)) were considered, different situations are encountered. In Awach Kano, water is acquired via simple gravity flow from the Awach river, whereas in East Kano and West Kano it is acquired by large pumps from Nyando River and Lake Victoria, respectively. It worth mentioning that the East and West Kano schemes are conventional irrigation schemes managed by the Kenyan National Irrigation Board (NIB), even though they share many properties with FBFS. The scheme of the so called Out-growers is also fed via gravity as in the case of Awach Kano from the river Nyando, but it differs from the other locations in that it also serves as a safe disposal for excessive water in East Kano. In East Nyankach, water is obtained through runoff harvesting via various household ponds and water tanks. These differences have important implications for water supply, social organization, and crops grown under FBFS (Figure \@ref(fig:fig1)). For example, risks related to water supply may be more prominent in the Out-growers’ scheme compared to the schemes managed by the NIB. While the water sources and acquisition procedures vary under rice-based systems in Kisumu (i.e. Awach Kano, East Kano, West Kano, Out-growers), cultural practices are similar. In these areas, rice is sown (after tillage and flooding) in monocultures during floods, followed by various types of flood recession crops that are intercropped depending on the farmer and water availability (Figure \@ref(fig:fig1)). In Tigray, however, crops (mainly Maize, Sorghum, Teff) are mostly sown based on rainfall to later be irrigated using flood water (Figure \@ref(fig:fig1)).
@@ -2914,21 +2918,21 @@ mc_nodes_upper_average_actu_biomass_yield <- observed_actual_grain_yield[observe
 
 mc_nodes_lower_average_actu_biomass_yield <- guess_decisionSupport_estimates (data = list(mc_nodes_lower_average_actu_biomass_yield, 
                                                                                           # harvest_index = harvest_index,
-                                                                                          stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('gamma', 4),
+                                                                                          stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('unif', 4),
                                                                               percentiles = c(0.025, 0.5, 0.975), plot = FALSE, show.output = FALSE)
 rownames(mc_nodes_lower_average_actu_biomass_yield$marginal) <- paste0('lower_average_Actual_yield_', rownames(mc_nodes_lower_average_actu_biomass_yield$marginal))
 
 
 mc_nodes_mid_average_actu_biomass_yield <- guess_decisionSupport_estimates (data = list(mc_nodes_mid_average_actu_biomass_yield, 
                                                                                         # harvest_index = harvest_index,
-                                                                                        stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('gamma', 4),
+                                                                                        stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('unif', 4),
                                                                             percentiles = c(0.025, 0.5, 0.975), plot = FALSE, show.output = FALSE)
 rownames(mc_nodes_mid_average_actu_biomass_yield$marginal) <- paste0('mid_average_Actual_yield_', rownames(mc_nodes_mid_average_actu_biomass_yield$marginal))
 
 
 mc_nodes_upper_average_actu_biomass_yield <- guess_decisionSupport_estimates (data = list(mc_nodes_upper_average_actu_biomass_yield, 
                                                                                           # harvest_index = harvest_index,
-                                                                                          stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('gamma', 4),
+                                                                                          stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('unif', 4),
                                                                               percentiles = c(0.025, 0.5, 0.975), plot = FALSE, show.output = FALSE)
 rownames(mc_nodes_upper_average_actu_biomass_yield$marginal) <- paste0('upper_average_Actual_yield_', rownames(mc_nodes_upper_average_actu_biomass_yield$marginal))
 mc_nodes_average_actu_biomass_yield <- list(mc_nodes_lower_average_actu_biomass_yield, mc_nodes_mid_average_actu_biomass_yield, mc_nodes_upper_average_actu_biomass_yield)
@@ -3078,21 +3082,21 @@ mc_nodes_upper_average_actu_biomass_yield <- observed_actual_grain_yield[observe
 
 mc_nodes_lower_average_actu_biomass_yield <- guess_decisionSupport_estimates (data = list(mc_nodes_lower_average_actu_biomass_yield, 
                                                                                           # harvest_index = harvest_index,
-                                                                                          stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('gamma', 4),
+                                                                                          stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('unif', 4),
                                                                               percentiles = c(0.025, 0.5, 0.975), plot = FALSE, show.output = FALSE)
 rownames(mc_nodes_lower_average_actu_biomass_yield$marginal) <- paste0('lower_average_Actual_yield_', rownames(mc_nodes_lower_average_actu_biomass_yield$marginal))
 
 
 mc_nodes_mid_average_actu_biomass_yield <- guess_decisionSupport_estimates (data = list(mc_nodes_mid_average_actu_biomass_yield, 
                                                                                         # harvest_index = harvest_index,
-                                                                                        stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('gamma', 4),
+                                                                                        stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('unif', 4),
                                                                             percentiles = c(0.025, 0.5, 0.975), plot = FALSE, show.output = FALSE)
 rownames(mc_nodes_mid_average_actu_biomass_yield$marginal) <- paste0('mid_average_Actual_yield_', rownames(mc_nodes_mid_average_actu_biomass_yield$marginal))
 
 
 mc_nodes_upper_average_actu_biomass_yield <- guess_decisionSupport_estimates (data = list(mc_nodes_upper_average_actu_biomass_yield, 
                                                                                           # harvest_index = harvest_index,
-                                                                                          stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('gamma', 4),
+                                                                                          stage_ratio = stage_ratio), fun=guess_biomass_yield, distr = rep('unif', 4),
                                                                               percentiles = c(0.025, 0.5, 0.975), plot = FALSE, show.output = FALSE)
 rownames(mc_nodes_upper_average_actu_biomass_yield$marginal) <- paste0('upper_average_Actual_yield_', rownames(mc_nodes_upper_average_actu_biomass_yield$marginal))
 mc_nodes_average_actu_biomass_yield <- list(mc_nodes_lower_average_actu_biomass_yield, mc_nodes_mid_average_actu_biomass_yield, mc_nodes_upper_average_actu_biomass_yield)
