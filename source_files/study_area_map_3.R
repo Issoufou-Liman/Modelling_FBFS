@@ -320,25 +320,31 @@ jn <- grid.arrange(
                  x=0.5, y=0.3, hjust=0.5, vjust = 0.5,
                  gp = gpar(fontfamily='serif',fontsize=13.65,fontface="bold.italic", col="blue")),
   jn,
-  grid::textGrob("
-Note: Agricultural practices are mainly homogeneous within study regions. The term 'out-growers' refers to farmers outside the scope of the Kenyan national irrigation
-board. Traditional flood water diversions are physical infrastructure, such as deflecting spurs or soil bunds that are constructed by farmers across flood channels
-using locally available materials. Modern diversion structures, such as diversion weirs, are usually designed by engineers and made of concrete. The improved diversion
-type constitutes an integration of farmer and engineer knowledge.",
-                 x = 0.01, y=0.75, hjust=0, vjust = 0.5,
-                 gp = gpar(fontfamily='serif',fontsize=7.3,fontface="italic", col="black")),
-  heights=unit(c(1, 5, 2.5), 'null')
+#   grid::textGrob("
+# Note: Agricultural practices are mainly homogeneous within study regions. The term 'out-growers' refers to farmers outside the scope of the Kenyan national irrigation
+# board. Traditional flood water diversions are physical infrastructure, such as deflecting spurs or soil bunds that are constructed by farmers across flood channels
+# using locally available materials. Modern diversion structures, such as diversion weirs, are usually designed by engineers and made of concrete. The improved diversion
+# type constitutes an integration of farmer and engineer knowledge.",
+#                  x = 0.01, y=0.75, hjust=0, vjust = 0.5,
+#                  gp = gpar(fontfamily='serif',fontsize=7.3,fontface="italic", col="black")),
+  # heights=unit(c(1, 5, 2.5), 'null')
+heights=unit(c(1, 5), 'null')
+
   
 )
 
 # ggsave(plot = jn, filename = 'figures/test_grid.png', device = 'png', dpi = 300, height = ((7/2)+(3.76/2))/2.75, width = (6.58/2)*2.1)
+# ggsave(plot = jn, filename = 'figures/test_grid.png', device = 'png', dpi = 300, height = ((7/2)+(3.76/2))/4.25, width = (6.58/2)*2.1)
 
-instt <- grid.arrange(inst, jn, heights=unit(c(7/2+3.76/2, ((7/2)+(3.76/2))/2.75), 'in'))
+# instt <- grid.arrange(inst, jn, heights=unit(c(7/2+3.76/2, ((7/2)+(3.76/2))/2.75), 'in'))
+instt <- grid.arrange(inst, jn, heights=unit(c(7/2+3.76/2, ((7/2)+(3.76/2))/4.25), 'in'))
 
 
 insttt <- gTree(children = gList(instt, grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
                                                gp=gpar(lwd=2, fill="NA", col="darkgray"))))
 
 # ggsave(insttt , filename = 'figures/Modelling_FBFS_study_area_test.png', width = 8.76, height = 8.75)
-ggsave(plot = insttt, filename = 'figures/Modelling_FBFS_study_area_4.png', device = 'png', dpi = 300, height = (((7/2)+(3.76/2))+(((7/2)+(3.76/2))/2.75)), width = (6.58/2)*2.1)
+# ggsave(plot = insttt, filename = 'figures/Modelling_FBFS_study_area_4.png', device = 'png', dpi = 300, height = (((7/2)+(3.76/2))+(((7/2)+(3.76/2))/2.75)), width = (6.58/2)*2.1)
+ggsave(plot = insttt, filename = 'figures/Modelling_FBFS_study_area_4.png', device = 'png', dpi = 300, height = (((7/2)+(3.76/2))+(((7/2)+(3.76/2))/4.25)), width = (6.58/2)*2.1)
+ggsave(plot = insttt, filename = 'figures/Modelling_FBFS_study_area_4.pdf', device = 'pdf', dpi = 300, height = (((7/2)+(3.76/2))+(((7/2)+(3.76/2))/4.25)), width = (6.58/2)*2.1)
 

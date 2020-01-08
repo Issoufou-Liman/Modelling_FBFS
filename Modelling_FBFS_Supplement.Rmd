@@ -127,6 +127,10 @@ export_fun <- function(export, output_dir = "figures"){
   paste0(output_dir, '/', export, ".png")
 }
 
+export_fun_tiff <- function(export, output_dir = "figures"){
+  paste0(output_dir, '/', export, ".tif")
+}
+
 my_theme <- theme_bw(base_size = plot_font_size, 
                      base_family = plots_font_family) +
   theme(panel.grid.minor = element_blank(),
@@ -203,6 +207,29 @@ png(export_fun(export = "Modelling_FBFS_Suppl_Farming_Constraints_BNs_plot"),
      res = min_plots_res,
      units = 'in',
      # compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/3.5,
+     pointsize = 12)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/3.5, max_plots_width_in), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
+
+lapply(1:length(legende), function(i) {
+  legend(legend_pos[i], legend = legende[[i]], text.width = text_width_ext[i]*strwidth(legende[[i]][which.max(nchar(legende[[i]]))]), 
+         cex=0.5, ncol = 1,
+         bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=legend_bg,
+         title = legend_title[i], title.col = 'lightgreen', inset=inset[[i]])
+})
+dev.off()
+
+#-----------> tif
+tiff(export_fun_tiff(export = "figure_s1"),
+     res = min_plots_res,
+     units = 'in',
+     compression = plots_compression,
      width = max_plots_width_in, 
      height = max_plots_height_in/3.5,
      pointsize = 12)
@@ -330,6 +357,31 @@ lapply(1:length(legende), function (i){
 })
 
 dev.off()
+
+#-----------> tiff
+
+tiff(export_fun_tiff(export = "figure_s2"),
+     res = min_plots_res,
+     units = 'in',
+     compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/2.5,
+     pointsize = 11)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/3, max_plots_width_in), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
+
+lapply(1:length(legende), function (i){
+  legend(legend_pos[i], legend = legende[[i]], text.width = 0.57*strwidth(legende[[i]][which.max(nchar(legende[[i]]))]), 
+         cex=0.55, ncol = ncol_leg[i],
+         bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=legend_bg,
+         title = legend_title[i], title.col = 'lightgreen', inset=inset[[i]])
+})
+
+dev.off()
 ```
 
 ```{r fig2, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the amount of flood at the farming plot level in FBFS in Kenya and Ethiopia."}
@@ -397,6 +449,30 @@ legend('topleft', legend = legende, text.width = 0.65*strwidth(legende[which.max
        title = 'Legend', title.col = 'lightgreen', inset=c(0.04, 0.06))
 
 dev.off()
+
+#-----------> tif
+
+tiff(export_fun_tiff(export = "figure_s3"),
+     res = min_plots_res,
+     units = 'in',
+     compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/2,
+     pointsize = 10.5)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/2, max_plots_width_in), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
+
+legend('topleft', legend = legende, text.width = 0.65*strwidth(legende[which.max(nchar(legende))]), 
+       cex=0.65, ncol = 2,
+       bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=legend_bg,
+       title = 'Legend', title.col = 'lightgreen', inset=c(0.04, 0.06))
+
+dev.off()
+
 ```
 
 ```{r fig3, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the available soil water content in FBFS in Kenya and Ethiopia."}
@@ -493,6 +569,30 @@ legend('topleft', legend = legende, text.width = 0.725*strwidth(legende[which.ma
        title = 'Legend', title.col = 'lightgreen', inset=c(0.04, 0.09))
 
 dev.off()
+
+# ---------> tif
+
+tiff(export_fun_tiff(export = "figure_s4"),
+     res = min_plots_res,
+     units = 'in',
+     compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/2.5,
+     pointsize = 12)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/2.5, max_plots_width_in*1.5), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
+
+legend('topleft', legend = legende, text.width = 0.725*strwidth(legende[which.max(nchar(legende))]), 
+       cex=0.725, ncol = 1,
+       bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg = legend_bg,
+       title = 'Legend', title.col = 'lightgreen', inset=c(0.04, 0.09))
+
+dev.off()
+
 ```
 
 ```{r fig4, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the available nutrients in FBFS in Kenya and Ethiopia."}
@@ -546,6 +646,32 @@ png(export_fun(export = "Modelling_FBFS_Agricultural_management_efficiency_BNs_p
      res = min_plots_res,
      units = 'in',
      # compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/1.5,
+     pointsize = 14)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/2, max_plots_width_in*1.5), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
+
+lapply(1:length(legende), function(i) {
+  legend(legend_pos[i], legend = legende[[i]], text.width = 0.45*strwidth(legende[[i]][which.max(nchar(legende[[i]]))]), 
+         cex=0.4, ncol = 1,
+         bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=legend_bg,
+         title = legend_title[i], title.col = 'lightgreen', inset=inset[[i]])
+  
+})
+
+dev.off()
+
+# ---------> tif
+
+tiff(export_fun_tiff(export = "figure_s5"),
+     res = min_plots_res,
+     units = 'in',
+     compression = plots_compression,
      width = max_plots_width_in, 
      height = max_plots_height_in/1.5,
      pointsize = 14)
@@ -649,6 +775,31 @@ lapply(1:length(legende), function(i) {
   
 })
 dev.off()
+
+# ---------> tif
+
+tiff(export_fun_tiff(export = "figure_s6"),
+     res = min_plots_res,
+     units = 'in',
+     compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/4,
+     pointsize = 12)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+graphviz_chart_bn (x = net, type = "barprob", layout = "dot", draw.levels = TRUE,abbreviate=FALSE,
+                   grid = TRUE, scale = c(max_plots_height_in/2, max_plots_width_in*1.5), col = "black", bg = "transparent",
+                   text.col = "black", bar.col = "green", strip.bg = "lightyellow")
+
+lapply(1:length(legende), function(i) {
+  legend(legend_pos[i], legend = legende[[i]], text.width = text_width_ext[i]*strwidth(legende[[i]][which.max(nchar(legende[[i]]))]), 
+         cex=0.55, ncol = 1,
+         bty="o", box.lwd=1, box.col='lightyellow', xjust=1, yjust=1, bg=legend_bg,
+         title = legend_title[i], title.col = 'lightgreen', inset=inset[[i]])
+  
+})
+dev.off()
 ```
 
 ```{r fig6, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model of the effectiveness of cropping options in FBFS in Kenya and Ethiopia."}
@@ -663,7 +814,7 @@ The local BNs described above were connected to form a single BN accounting for 
 
 The inclusion of the farming constraint variable in the MC models requires its quantitative description capturing all possible scenarios for the variable. For each scenario, these estimates include the range of variable values spanning the 90% confidence interval and its probability distribution as required by the [mcSimulation](https://www.rdocumentation.org/packages/decisionSupport/versions/1.103.8/topics/mcSimulation) function [@Luedeling_Goehring_et_al_2019, see also the main paper]. We generated the probabilities of the variable from the BN based on the query of interest. The resulting data were used to compute the lower bound, the median and the upper bound of the 90% confidence interval, and to estimate the shape of the best-fitting probability distribution given several candidate distributions and the ranges of skewness and kurtosis (Cellen and Fray graph, also skewness-kurtosis plot) of the generated data [@Cullen_and_Frey_1999; @Delignette-Muller_and_Dutang_2015]. The probability distribution of the variable at the four crop development stages was assessed via visual observation of the Cullen and Fray graph (see example for the initial stage of crop development in Figure \@ref(fig:fig7)). 
 
-```{r Cullen and Frey graph, include=FALSE, eval=FALSE}
+```{r Cullen and Frey graph, include=FALSE, eval=TRUE}
 
 obs_geom_size = 2
 boot_geom_size = 0.01
@@ -676,7 +827,7 @@ plot_subtitle_size = 10
 strip_text_size = 10
 legend_text_size = 6
 
-p1 <- ggplot_descdist_bn(bn=network_bn_fit, node = "Local_constraints_at_initial_stage", 
+p1 <- ggplot_descdist_bn(bn=network_bn_fit, node = "Local_constraints_at_initial_stage", title="Farming constraints at initial stage", subtitle = "Cullen and Frey graph",
                    obs_geom_size = obs_geom_size, boot_geom_size = boot_geom_size, dist_geom_pts_size = dist_geom_pts_size,
                    dist_geom_line_size = dist_geom_line_size, axis_text_size = axis_text_size, axis_title_size = axis_title_size,
                    plot_title_size = plot_title_size, plot_subtitle_size = plot_subtitle_size,
@@ -688,13 +839,21 @@ ggsave(plot=p1, device = 'png', filename = "figures/Local_constraints_at_initial
        width = max_plots_width_in, 
        height =max_plots_height_in/2.5, units = "in", dpi = min_plots_res
 )
+
+#--------------> tif
+
+ggsave(plot=p1, device = 'tiff', filename = "figures/figure_s7.tif", 
+       width = max_plots_width_in, 
+       height =max_plots_height_in/2.5, units = "in", dpi = min_plots_res,
+       compression = plots_compression
+)
 ```
 
 ```{r fig7,echo=FALSE, out.width = '100%',fig.cap="Cullen and Frey graph showing the bounds for skewness and kurtosis and the best fitting distribution of three states of the variable ‘farming constraint’ derived from the joint distribution of a Bayesian network used to feed a Monte Carlo model as part of a mixed crop model for flood-based farming systems in Kisumu (Kenya) and Tigray (Ethiopia). The Bayesian network describes the variable farming constraint at 4 crop development stages (i.e. initial, development, mid-season, and late stages). This figure provides an example for the initial stage."}
 knitr::include_graphics("figures/Local_constraints_at_initial_stage_ggplot_distributions.png")
 ```
 
-```{r quantile and probability plots, include=FALSE, eval=FALSE}
+```{r quantile and probability plots, include=FALSE, eval=TRUE}
 
 fit_Local_constraints_at_initial_stage <- fit_node_states_distr (bn = network_bn_fit, 
                                                                  node = "Local_constraints_at_initial_stage", 
@@ -721,6 +880,12 @@ p1 <- gg_plotdist(fit_Local_constraints_at_initial_stage, title = "Farming_const
 ggsave(plot=p1, device = 'png', filename = "figures/Local_constraints_at_initial_stage_fitted_distribution.png", 
        width = max_plots_width_in, 
        height =max_plots_height_in/2.5, units = "in", dpi = min_plots_res
+)
+#---------> tif 
+ggsave(plot=p1, device = 'tiff', filename = "figures/figure_s8.tif", 
+       width = max_plots_width_in, 
+       height =max_plots_height_in/2.5, units = "in", dpi = min_plots_res,
+       compression = plots_compression
 )
 ```
 
@@ -760,6 +925,28 @@ png(export_fun(export = "Modelling_FBFS_Monte_carlo_model"),
      res = min_plots_res,
      units = 'in',
      # compression = plots_compression,
+     width = max_plots_width_in, 
+     height = max_plots_height_in/2,
+     pointsize = 12)
+
+par(font = plots_font, family = plots_font_family, lwd=plots_lwd)
+
+
+
+graphviz_plot_net(net5, shape="ellipse", layout = "dot", cex = 0.5, plot_bg = 'white', highlit_some_nodes = highlit_some_nodes,
+                  highlit_some_nodes_col = highlit_some_nodes_col,
+                   abbreviate = FALSE, node_col = "black", edge_col = 'black',node_lwd = 1, edge_lwd = 1.5, 
+                  textCol = "black", split_labels_accross_lines = FALSE,
+                  #   leg_w =strwidth("1,000,000,000,000,000,000,000,000,000") ,leg_cex = 0.75,
+                  leg_w =strwidth("1,000,000,000") ,leg_cex = 0.75)
+dev.off()
+
+#----------> tif
+
+tiff(export_fun_tiff(export = "figure_s9"),
+     res = min_plots_res,
+     units = 'in',
+     compression = plots_compression,
      width = max_plots_width_in, 
      height = max_plots_height_in/2,
      pointsize = 12)

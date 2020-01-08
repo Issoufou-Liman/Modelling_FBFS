@@ -1369,6 +1369,9 @@ g <- gTree(children = gList(ga, gb))
 ggsave(plot=g, device = 'png', filename = "figures/Modelling_FBFS_factor_of_soil_water.png", width = max_plots_width_in, 
        height =max_plots_height_in/3, units = "in", dpi = min_plots_res
 )
+ggsave(plot=g, device = 'pdf', filename = "figures/Modelling_FBFS_factor_of_soil_water.pdf", width = max_plots_width_in, 
+       height =max_plots_height_in/3, units = "in", dpi = min_plots_res
+)
 ```
 
 ```{r fig6, echo=FALSE,out.width='100%',fig.cap="Effect of soil type, manure, and flood water on available soil water in flood-based farming systems in the Tigray region of Ethiopia and Kisumu County in Kenya. Each block represents 10 possible outcomes of the corresponding query. Each query was run 1000 times."}
@@ -2319,6 +2322,9 @@ g1 <- gTree(children = gList(ga, gb))
 ggsave(plot=g1, device = 'png', filename = "figures/Modelling_FBFS_biomass_yield_Initial_and_late_stage.png", width = max_plots_width_in,
        height =2*max_plots_height_in/2.15, units = "in", dpi = min_plots_res
 )
+ggsave(plot=g1, device = 'pdf', filename = "figures/Modelling_FBFS_biomass_yield_Initial_and_late_stage.pdf", width = max_plots_width_in,
+       height =2*max_plots_height_in/2.15, units = "in", dpi = min_plots_res
+)
 ```
 
 ```{r fig8, echo=FALSE,out.width='100%',fig.cap="Simulated biomass yield metrics for flood-based farming systems in the Tigray region of Ethiopia and Kisumu County in Kenya."}
@@ -2536,7 +2542,7 @@ dev.off()
 \end{tikzpicture}
 };
 \tcbsetmacrotowidthofnode{\mywidth}{EffWeeding2}
-\node[BnsBarplotTitleStyle, minimum width=\mywidth](EffWeeding1)[above=0pt of EffWeeding2]{Effectiveness of Weeding};
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](EffWeeding1)[above=0pt of EffWeeding2]{Effectiveness of weeding};
 %%%%
 
 %%%%
@@ -3422,6 +3428,9 @@ g <- gTree(children = gList(ga, gb))
 grid.draw(g)
 
 ggsave(plot=g, device='png', filename = "figures/Modelling_FBFS_grain_yield_violin_LOW.png", width = max_plots_width_in, 
+       height=max_plots_height_in/1.25, units="in", dpi=min_plots_res
+)
+ggsave(plot=g, device='pdf', filename = "figures/Modelling_FBFS_grain_yield_violin_LOW.pdf", width = max_plots_width_in, 
        height=max_plots_height_in/1.25, units="in", dpi=min_plots_res
 )
 ```
