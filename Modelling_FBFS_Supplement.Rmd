@@ -1,57 +1,41 @@
 ---
-title: "Modelling Risk and Uncertainty in Flood-based Farming Systems – Supplementary Materials."
+title: "Modelling Risk and Uncertainty in Flood-based Farming Systems using a Knowledge-based Approach."
 author:
-- affiliation: ICRAF,KU
-  email: issoufoul@gmail.com
+- name: Issoufou, Liman Harou
+  email: 
+    issoufoul@gmail.com;
+    L.issoufou@cgiar.org
+  affiliation: KU,ICRAF
   footnote: Corresponding Author
-  name: Issoufou Liman
-- affiliation: ICRAF,ZEF
+- name: Cory Whitney
   email: cory.whitney@uni-bonn.de
-  name: Cory Whitney
-- affiliation: KU
+  affiliation: INRES
+- name: James Kungu
   email: kungu.james@ku.ac.ke
-  name: James Kungu
-- affiliation: INRES
+  affiliation: KU
+- name: Eike Luedeling
   email: luedeling@uni-bonn.de
-  name: Eike Luedeling
+  affiliation: INRES
 address:
-- address: Kenyatta University, Department of Environmental Sciences
+- address: Kenyatta University, Department of Environmental Sciences, P.O. Box 43844 00100 Nairobi, Kenya
   code: KU
-- address: World Agroforestry Centre (ICRAF), United Nations Avenue, Gigiri, P. O.
-    Box 30677-00100, Nairobi, Kenya
+- address: World Agroforestry Centre (ICRAF), United Nations Avenue, Gigiri, P.O. Box 30677-00100, Nairobi, Kenya
   code: ICRAF
-- address: University of Bonn, Department of Horticultural Sciences, Auf dem Hügel
-    6, D-53121, Bonn, Germany
+- address: University of Bonn, Department of Horticultural Sciences, Auf dem Hügel 6, D-53121, Bonn, Germany
   code: INRES
-- address: Center for Development research (ZEF), University of Bonn, Genscherallee
-    3, D-53113, Bonn, Germany
+- address: Center for Development research (ZEF), University of Bonn, Genscherallee 3, D-53113, Bonn, Germany
   code: ZEF
+header-includes:
+    - \usepackage{setspace}\setstretch{1.5}
+bibliography: ./referencing_files/bibliographie.bib
+csl: ./referencing_files/environmental-modelling-and-software.csl
+geometry: margin=1in
+note: Replication files are available on the author's Github account (http://github.com/Issoufou-Liman).
+abstract: Crop models support agricultural decisions under various agricultural conditions. However, problems related to the scope of application, data availability, system complexity, or system-specific settings make many models applicable only with far-reaching and often questionable assumptions. In this paper, we used Decision Theory and participatory methods to address these challenges in a complex system where data and resources are limited. The resulting generic models is customizable and solution-oriented, and it accounts for all important variables and their interactions, as determined by local and foreign experts as well as relevant literature. We describe how such a probabilistic model can be developed and customized to specific situations based on case studies related to flood-based farming systems in Ethiopia and Kenya. Bayesian networks, describing stochastic system components, are used to generate inputs for a Monte Carlo model that simulates plausible ranges of expected grain and biomass yields at various stages of crop development.
+Keywords: Flood-based farming systems, crop modelling, customized decision support tools, uncertainty, Bayesian Networks, Monte Carlo Simulation.
 output:
   bookdown::pdf_book:
     base_format: rticles::elsevier_article
-    fig_caption: yes
-    keep_tex: yes
-    latex_engine: xelatex
-    number_sections: yes
-    toc: yes
-    toc_depth: 5
-bibliography: ./referencing_files/bibliographie.bib
-csl: ./referencing_files/scientific-reports.csl
-documentclass: article
-fontfamily: mathpazo
-fontsize: 12pt
-geometry: margin=1in
-link-citations: yes
-linkcolor: blue
-note: Replication files are available on the author's Github account (http://github.com/Issoufou-Liman).
-abstract: Modelling the performance of crops grown under specific conditions is an important strategy to support agricultural decisions. Towards this end, many crop models are being used to inform agricultural policies. However, many of these models are applied beyond a reasonable scope of application, mainly because they are either designed for other settings, they fail to capture system complexity, or because some of their data requirements are not within reach. This work attempts to address these challenges by deriving a crop model using a set of probabilistic methods rooted in Decision Theory. We transparently use all available sources of information and consider all relevant uncertainties using participatory analysis. The transdisciplinary process results in a model where all important variables and their interactions, as determined by calibrated experts and relevant literature, are used to simulate the plausible ranges of expected grain and biomass yield at various stages of crop development. System components are described using individual Bayesian networks, in which expert knowledge is used to specify causal relationships among important variables along with their probability distributions. These Bayesian networks, along with other quantitative variables, are used as inputs to Monte Carlo models that simulate the plausible performance of crops. Our objective is to develop a customizable solution-oriented approach to crop modelling in settings where data and resources are limited. We describe how such a model can be developed and provide some applications in three case studies focusing on flood-based farming systems. The case studies illustrate the scope of such a model by assessing the performance of a cropping system, individual crops, or other factors of high agricultural importance across the Tigray region of Ethiopia and Kisumu County of Kenya. The present supporting material provides further details on some of the aspects briefly described in the main paper. These aspects, mainly, are the different modules and sub-modules that make up the generic model. Still, this material will only give a general idea about the model. The full model is provided as reproductible code in two repositories available on GitHub. [The first one](https://github.com/Issoufou-Liman/decisionSupportExtra) is a package describing all functions used for various purposes such as translating the expert-elicited data into computer graphical models, extracting local Bayesian networks, sampling from the joint distribution of these Bayesian networks based on a specific query, constructing estimates (as defined in the `decisionSupport` package) from Bayesian networks for Monte Carlo simulations, or plotting the results. [The second](https://github.com/Issoufou-Liman/Modelling_FBFS) is an Rmarkdown folder containing the necessary ingredients to reproduce the main paper and these supplementary materials.
-spacing: double
-subparagraph: yes
-Keywords: Flood-based farming systems, crop modelling, customized decision support tools, uncertainty, Bayesian Networks, Monte Carlo Simulation.
-urlcolor: blue
-header-includes: 
-  \usepackage{float} \floatplacement{figure}{H} 
-  \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
 ---
 
 ```{r, include=FALSE}

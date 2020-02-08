@@ -1,10 +1,34 @@
-library(ggsn)
-library(magick)
-library(rgdal)
-library(raster)
-library(gridExtra)
-afr <- readOGR("data_files/shapefiles/Africa.shp")
+source('source_files/north_arrow_and_scalebar.R')
 
+## some common plots specifications
+
+legend_bg <- adjustcolor( "yellow", alpha.f = 0.15)
+plots_lwd <- 0.5
+min_plots_width_in <- 2.63
+max_plots_width_in <- 7.5
+max_plots_height_in <- 8.75
+min_plots_res <- 300
+plots_compression <- "lzw"
+plots_font_family <- 'serif' # 'sans'
+plots_font <- 1 # 2
+plot_font_size <- 10
+
+## exporting the plot to file.####
+export_fun <- function(export, output_dir = "figures"){
+  paste0(output_dir, '/', export, ".png")
+}
+
+my_theme0 <- theme_minimal()+
+  theme(
+    plot.background = element_rect(fill = 'white', colour = 'lightgrey'),
+    plot.margin = margin(t=1, r=1,b=-1, l=-1),
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    axis.ticks = element_blank()
+  )
+my_theme1 <- theme(
+  axis.title = element_blank()
+)
 ## Tigray #####
 
 Ethiopia_L1 <- getData("GADM", country="ETH", level=1, path = 'data_files/shapefiles')
@@ -22,395 +46,240 @@ Tigray_localities <- sapply(Tigray_localities, function (i) {
 Tigray_localities <- do.call(rbind, Tigray_localities)
 Tigray_localities$Place <- rownames(Tigray_localities)
 
-inst00 <- ggplot()+
-  geom_path(data=fortify(afr), aes(x=long, y= lat, group=group), size = 0.1, colour='black')+
-  
-  geom_polygon(data=fortify(Ethiopia_L0), aes(x=long, y= lat, group=group), fill='red', size = 0.05, colour='red')+
-  theme_minimal()+
-  my_theme +
-  theme(
-    # axis.text = element_text(size = 8),
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    # axis.title = element_text(size = 12, face = 'bold'),
-    axis.title = element_blank(),
-    strip.text = element_text(size = 8, face = "bold"),
-    legend.text = element_text(family = 'serif', face = 'bold', size = 8),
-    plot.title = element_text(size = 14, face = 'bold', color = 'black'),
-    plot.subtitle = element_text(size = 12, face = 'italic', color = 'blue'))+
-  scale_x_continuous(expand = c(0,0))+
-  scale_y_continuous(expand = c(0,0))+
-  coord_equal()+
-  # labs(x='Long', y='Lat')+
-  # labs(subtitle='')+
-  theme(axis.title = element_blank())+
-  theme(plot.margin = margin(t=1, r=1, b=-1, l=-1))
-###########################
-
 inst0 <- ggplot()+
   geom_path(data=fortify(Ethiopia_L0), aes(x=long, y= lat, group=group), size = 0.1, colour='black')+
   
   geom_polygon(data=fortify(Tigray), aes(x=long, y= lat, group=group), size = 0.05, fill='red', colour='red')+
-
-  geom_point(data = Tigray_localities[2, ], aes(x = Long, y = Lat))+
+  
   geom_text(data = Tigray_localities[2, ], aes(x = Long, y = Lat, label = Place),
             position = position_nudge(y = -0.7),
-            hjust=0.5, vjust=1, size=3)+
-  theme_minimal()+
-  my_theme +
-  theme(
-    axis.text = element_blank(),
-    # axis.text = element_text(size = 8),
-    axis.ticks = element_blank(),
-    
-    # axis.title = element_text(size = 12, face = 'bold'),
-    axis.title = element_blank(),
-    strip.text = element_text(size = 8, face = "bold"),
-    legend.text = element_text(family = 'serif', face = 'bold', size = 8),
-    plot.title = element_text(size = 14, face = 'bold', color = 'black'),
-    plot.subtitle = element_text(size = 12, face = 'italic', color = 'blue'))+
+            hjust=0.5, vjust=1, size=3.5)+
   scale_x_continuous(expand = c(0,0))+
   scale_y_continuous(expand = c(0,0))+
   coord_equal()+
-  theme(axis.title = element_blank())+
-  theme(plot.margin = margin(t=1, r=1,b=-1, l=-1))
-###########################
+  my_theme0
 
-inst <- ggplot()+
-  geom_polygon(data=fortify(Tigray), aes(x=long, y= lat, group=group), size = 0.25, fill='white', colour='black')+
-  # geom_polygon(data=fortify(Tigray), aes(x=long, y= lat, group=group), size = 0.25, fill='white', colour='black')+
-  # scalebar(location="bottomright", y.min=-0.2, y.max=0, 
-  #                 x.min=34, x.max=35, dist=.1, dd2km = TRUE, model='WGS84',
-  #                 st.dist=.04, transform=TRUE)+
-  scalebar(data=fortify(Tigray), dist = 50, dist_unit = "km",
-           transform = TRUE, model = "WGS84", anchor=c(x=38.5, y=12.25+0.2), 
-           height=0.03, st.dist=0.05, st.size=2, border.size =0.25)+
-  north(data=fortify(Tigray), scale = 0.2, anchor=c(x=37.25, y=14.85))+
-  
-  # geom_point(data = Tigray_localities[1, ], aes(x = Long, y = Lat))+
-  # geom_text(data = Tigray_localities[1, ], aes(x = Long, y = Lat, label = ""),
-  #           position = position_nudge(y = -0.425),
-  #           hjust=0.5, vjust=1, size=10, alpha=1)+ # used only to make rooms for inset maps
-  # geom_text(data = Tigray_localities[1, ], aes(x = Long, y = Lat, label = "Tigray region, Ethiopia"),
-  #           position = position_nudge(y = 0.05),
-  #           hjust=0.5, vjust=0, size=3)+
-  theme_minimal()+
-  my_theme +
-  theme(axis.text = element_text(size = 8),
-        axis.title = element_text(size = 12, face = 'bold'),
-        strip.text = element_text(size = 8, face = "bold"),
-        legend.text = element_text(family = 'serif', face = 'bold', size = 8),
-        plot.background = element_rect(fill = 'lightgrey', colour = 'lightgrey'),
-        plot.title = element_text(size = 14, face = 'bold', color = 'black'),
-        plot.subtitle = element_text(size = 12, face = 'italic', color = 'blue'))+
-  scale_x_continuous(expand = c(0,0))+
-  scale_y_continuous(expand = c(0,0))+
-  coord_equal()+
-  # labs(subtitle='Tigray, region, Ethiopia')+
-  theme(axis.title = element_blank())+
-  theme(plot.margin = margin(t=0, b=0))
-
-inst <- inst +
-  annotation_custom(
-    grob = ggplotGrob(inst0+
-                        theme(panel.grid = element_blank(),
-                              plot.background = element_rect(fill = 'white'),
-                              panel.border = element_blank()
-                        )),
-    xmin = 37.5,
-    xmax = 38.5,
-    ymin = 12.25+0.2,
-    ymax = 13.25+0.2
-  )+
-  annotation_custom(
-    grob = ggplotGrob(inst00+
-                        theme(panel.grid = element_blank(),
-                              plot.background = element_rect(fill = 'white'),
-                              panel.border = element_blank()
-                        )),
-    xmin = 36.4,
-    xmax = 37.5,
-    ymin = 12.3,
-    ymax = 13.25
-  )
 
 source('source_files/schemes.R')
+inst <- readRDS('data_files/ggmaps/Tigray_ggmap.rds')
 
-inst <- inst+
-  geom_point(data = data.frame(Tigray_localities), aes(x = coords.x1, y = coords.x2, colour = SchemeName))+
-  geom_text(data = data.frame(Tigray_localities), aes(x = coords.x1, y = coords.x2, label = SchemeName_short),
-            position = position_nudge(y = 0.05),
-            hjust=0.5, vjust=0, size=3)
+fmt_dcimals <- function(decimals=0){
+  # return a function responpsible for formatting the 
+  # axis labels with a given number of decimals 
+  function(x) as.character(round(x,decimals))
+}
+inst <- inst +
+  coord_equal()+
+  scalebar(x.min = min(inst$data$lon), x.max = max(inst$data$lon),
+           y.min = min(inst$data$lat), y.max = max(inst$data$lat),
+           dist = 20, dist_unit = "km",
+           transform = TRUE, model = "WGS84", anchor=c(x=39.8, y=12.155), 
+           height=0.02, st.dist=0.015, st.size=3, border.size =0.25)+
+  north(x.min = min(inst$data$lon), x.max = max(inst$data$lon),
+        y.min = min(inst$data$lat), y.max = max(inst$data$lat),
+        scale = 0.2, anchor=c(x=40.075, y=12.34))+
   
-  
+  geom_point(data = data.frame(Tigray_localities), aes(x = coords.x1, y = coords.x2), color = 'red', size = 2, alpha = 0.5)+
+  geom_text(data = data.frame(Tigray_localities), aes(x = coords.x1, y = coords.x2, label = SchemeName),
+            alpha = 0.8,
+            position = position_nudge(y = -0.02),
+            hjust=0, vjust=1, size=3.5)+
+  scale_x_continuous(expand = c(0.005, 0.005))+
+  scale_y_continuous(expand = c(0.005, 0.005))+
+  my_theme1+
+  ggmap::inset(ggplotGrob(inst0), xmin = 39.19-0.01, xmax = 39.59-0.01, ymin = 12.55+0.025, ymax = 13.05+0.025)
 
 img_list <- list.files('data_files/images/', full.names = T, pattern = 'Tigray')
 top <- c('Cropping systems', 'Water diversion', 'Tillage')
 
 f <- function(img_list){
   lapply(img_list, function(i){
-    out <- image_ggplot(image_read(i))
+    out <- image_ggplot(image_read(i))+
+      theme(plot.margin = margin(l=1, r=1))
   })
 } 
 
 img_list <- f(img_list)
-img_list <- lapply(1:length(img_list), function(i){
-  out <- ggplotGrob(img_list[[i]] + theme(plot.margin = margin(r=1, l=1)))
-  top <- grobTree(rectGrob(gp=gpar(fill="bisque4", col="white"), height=1.25), 
-                  grid::textGrob(top[i], hjust=0.5, vjust = 0.5,
-                                 gp = gpar(fontfamily='serif',fontsize=13,fontface="bold", col="black")))
-  arrangeGrob(top,out, 
-              layout_matrix = rbind(
-                rep(1,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10)
-                
-              ))
-})
-
-# img_list$layout_matrix = matrix(c(NA, 1, 2, 3), ncol = 2)
-img_list$ncol = 3
+img_list$nrow = 1
 img_list <- do.call(grid.arrange, img_list)
-img_list <- list(ggplotGrob(inst), img_list)
-img_list$layout_matrix = rbind(
-  c(1,1,1),
-  c(1,1,1),
-  c(1,1,1),
-  c(1,1,1),
-  c(1,1,1),
-  c(2,2,2),
-  c(2,2,2),
-  c(2,2,2)
+top0 <-   grobTree(rectGrob(gp=gpar(fill="NA", col="lightgray")), 
+                   grid::textGrob('Common agricultural practices in Tigray (d)',
+                         x=0.04, y=0.7, hjust=0, vjust = 1,
+                         gp = gpar(fontfamily='serif',fontsize=12,fontface="bold.italic", col="blue")))
+top <- lapply(top, function(i) grobTree(rectGrob(gp=gpar(fill="bisque4", col="lightgray")), 
+                grid::textGrob(i, hjust=0.5, vjust = 0.5,
+                               gp = gpar(fontfamily='serif',fontsize=10,fontface="bold", col="black"))))
+
+top$ncol=3
+top <- do.call(grid.arrange, top)
+top <- grid.arrange(top0, top,ncol=1)
+img_list <- grid.arrange(top, img_list, heights=unit(c(1,2.5), 'null'))
+
+img_list <- gTree(children = gList(img_list, grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
+                                                       gp=gpar(lwd=2, fill="NA", col="white"))))
+
+inst <- grid.arrange(
+  grid::textGrob("Sampled areas Tigray region, Ethiopia (b)",
+                 x=0.04, y=0.7, hjust=0, vjust = 1,
+                 gp = gpar(fontfamily='serif',fontsize=12,fontface="bold.italic", col="blue")),
+  inst,
+  heights=unit(c(1,10), 'null')
 )
-img_list$top <- grid::textGrob("Tigray region, Ethiopia",
-                               x=0.04, hjust=0, vjust = 0.50,
-                               gp = gpar(fontfamily='serif',fontsize=12,fontface="italic", col="blue"))
-inst_Tigray <- do.call(grid.arrange, img_list)
+inst_Tigray <- grid.arrange(inst, img_list, heights=unit(c(7/2, 3.76/2), 'in'))
 
 inst_Tigray <- gTree(children = gList(grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
-                                         gp=gpar(lwd=1, fill="lightgray", col="white")), inst_Tigray))
+                                                gp=gpar(lwd=1, fill="lightgray", col="white")), inst_Tigray))
+#############################################
 
 ## Kisumu #####
 
-Ethiopia_L1 <- getData("GADM", country="KEN", level=1, path = 'data_files/shapefiles')
-Ethiopia_L0 <- aggregate(Ethiopia_L1)
-Tigray <- Ethiopia_L1 [Ethiopia_L1$NAME_1 == "Kisumu", ]
-writeOGR(Tigray, 'data_files/shapefiles', "Kisumu", driver="ESRI Shapefile", overwrite_layer=TRUE)
+Kenya_L1 <- getData("GADM", country="KEN", level=1, path = 'data_files/shapefiles')
+Kenya_L0 <- aggregate(Kenya_L1)
+Kisumu <- Kenya_L1 [Kenya_L1$NAME_1 == "Kisumu", ]
+writeOGR(Kisumu, 'data_files/shapefiles', "Kisumu", driver="ESRI Shapefile", overwrite_layer=TRUE)
 
-Tigray_localities <- list(Kisumu = Tigray, Kenya=Ethiopia_L0)
-Tigray_localities <- sapply(Tigray_localities, function (i) {
+Kisumu_localities <- list(Kisumu=Kisumu, Kenya=Kenya_L0)
+Kisumu_localities <- sapply(Kisumu_localities, function (i) {
   out=as.data.frame(coordinates(rgeos::gCentroid(i)))
   names(out)<- c('Long', 'Lat')
   out
 }, simplify = FALSE
 )
-Tigray_localities <- do.call(rbind, Tigray_localities)
-Tigray_localities$Place <- rownames(Tigray_localities)
-
-inst00 <- ggplot()+
-  geom_path(data=fortify(afr), aes(x=long, y= lat, group=group), size = 0.1, colour='black')+
-  
-  geom_polygon(data=fortify(Ethiopia_L0), aes(x=long, y= lat, group=group), fill='red', size = 0.05, colour='red')+
-  
-  # geom_point(data = Tigray_localities[2, ], aes(x = Long, y = Lat), alpha=0.5)+
-  # geom_text(data = Tigray_localities[2, ], aes(x = Long, y = Lat, label = Place),
-  #           position = position_nudge(y = -0.5),
-  #           hjust=0.5, vjust=1, size=4, alpha=0.8)+
-  theme_minimal()+
-  #my_line_theme+
-  my_theme +
-  theme(
-    # axis.text = element_text(size = 8),
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    # axis.title = element_text(size = 12, face = 'bold'),
-    axis.title = element_blank(),
-    strip.text = element_text(size = 8, face = "bold"),
-    legend.text = element_text(family = 'serif', face = 'bold', size = 8),
-    plot.title = element_text(size = 14, face = 'bold', color = 'black'),
-    plot.subtitle = element_text(size = 12, face = 'italic', color = 'blue'))+
-  scale_x_continuous(expand = c(0,0))+
-  scale_y_continuous(expand = c(0,0))+
-  coord_equal()+
-  # labs(x='Long', y='Lat')+
-  # labs(subtitle='')+
-  theme(axis.title = element_blank())+
-  theme(plot.margin = margin(t=1, r=1, b=-1, l=-1))
-###########################
+Kisumu_localities <- do.call(rbind, Kisumu_localities)
+Kisumu_localities$Place <- rownames(Kisumu_localities)
 
 inst0 <- ggplot()+
-  geom_path(data=fortify(Ethiopia_L0), aes(x=long, y= lat, group=group), size = 0.1, colour='black')+
-  geom_polygon(data=fortify(Tigray), aes(x=long, y= lat, group=group), size = 0.05, fill='red', colour='red')+
-  geom_point(data = Tigray_localities[2, ], aes(x = Long, y = Lat))+
-  geom_text(data = Tigray_localities[2, ], aes(x = Long, y = Lat, label = Place),
-            position = position_nudge(y = -0.7),
-            hjust=0.5, vjust=1, size=3)+
-  theme_minimal()+
-  #my_line_theme+
-  my_theme +
-  theme(
-    axis.text = element_blank(),
-    # axis.text = element_text(size = 8),
-    axis.ticks = element_blank(),
-    
-    # axis.title = element_text(size = 12, face = 'bold'),
-    axis.title = element_blank(),
-    strip.text = element_text(size = 8, face = "bold"),
-    legend.text = element_text(family = 'serif', face = 'bold', size = 8),
-    plot.title = element_text(size = 14, face = 'bold', color = 'black'),
-    plot.subtitle = element_text(size = 12, face = 'italic', color = 'blue'))+
-  scale_x_continuous(expand = c(0,0))+
-  scale_y_continuous(expand = c(0,0))+
-  coord_equal()+
-  theme(axis.title = element_blank())+
-  theme(plot.margin = margin(t=1, r=1,b=-1, l=-1))
-###########################
-
-inst <- ggplot()+
-  geom_polygon(data=fortify(Tigray), aes(x=long, y= lat, group=group), size = 0.25, fill='white', colour='black')+
-  # geom_polygon(data=fortify(Tigray), aes(x=long, y= lat, group=group), size = 0.25, fill='white', colour='black')+
-  # scalebar(location="bottomright", y.min=-0.2, y.max=0, 
-  #                 x.min=34, x.max=35, dist=.1, dd2km = TRUE, model='WGS84',
-  #                 st.dist=.04, transform=TRUE)+
-  scalebar(data=fortify(Tigray), dist = 20, dist_unit = "km",
-           transform = TRUE, model = "WGS84", anchor=c(x=35.075, y=-0.55), 
-           height=0.03, st.dist=0.05, st.size=2.5, border.size =0.25)+
-  north(data=fortify(Tigray), scale = 0.32, anchor=c(x=35.44, y=0.03))+
+  geom_path(data=fortify(Kenya_L0), aes(x=long, y= lat, group=group), size = 0.1, colour='black')+
   
-  # geom_point(data = Tigray_localities[1, ], aes(x = Long, y = Lat))+
-  geom_text(data = Tigray_localities[1, ], aes(x = Long, y = Lat, label = ""),
-            position = position_nudge(y = -0.425),
-            hjust=0.5, vjust=1, size=10, alpha=1)+ # used only to make rooms for inset maps
-  # geom_text(data = Tigray_localities[1, ], aes(x = Long, y = Lat, label = "Tigray region, Ethiopia"),
-  #           position = position_nudge(y = 0.05),
-  #           hjust=0.5, vjust=0, size=3)+
-  theme_minimal()+
-  #my_line_theme+
-  my_theme +
-  theme(axis.text = element_text(size = 8),
-        axis.title = element_text(size = 12, face = 'bold'),
-        strip.text = element_text(size = 8, face = "bold"),
-        legend.text = element_text(family = 'serif', face = 'bold', size = 8),
-        plot.background = element_rect(fill = 'lightgrey', colour = 'lightgrey'),
-        plot.title = element_text(size = 14, face = 'bold', color = 'black'),
-        plot.subtitle = element_text(size = 12, face = 'italic', color = 'blue'))+
+  geom_polygon(data=fortify(Kisumu), aes(x=long, y= lat, group=group), size = 0.05, fill='red', colour='red')+
+  
+  geom_text(data = Kisumu_localities[2, ], aes(x = Long, y = Lat, label = Place),
+            position = position_nudge(y = -0.7),
+            hjust=0.5, vjust=1, size=3.5)+
   scale_x_continuous(expand = c(0,0))+
   scale_y_continuous(expand = c(0,0))+
   coord_equal()+
-  # labs(x='Long', y='Lat')+
-  # labs(subtitle='Kisumu, County, Kenya')+
-  theme(axis.title = element_blank())+
-  theme(plot.margin = margin(t=0, b=0))
+  my_theme0
 
-inst <- inst +
-  annotation_custom(
-    grob = ggplotGrob(inst0+
-                        theme(panel.grid = element_blank(),
-                              plot.background = element_rect(fill = 'white'),
-                              panel.border = element_blank()
-                        )),
-    xmin = 35.09,
-    xmax = 35.35-0.01,
-    ymin = -0.72,
-    ymax = -0.15
-  )+
-  annotation_custom(
-    grob = ggplotGrob(inst00+
-                        theme(panel.grid = element_blank(),
-                              plot.background = element_rect(fill = 'white'),
-                              panel.border = element_blank()
-                        )),
-    xmin = 34.42,
-    xmax = 34.7,
-    ymin = -0.73,
-    ymax = -0.15
-  )
 
 source('source_files/schemes.R')
+inst <- readRDS('data_files/ggmaps/Kisumu_ggmap.rds')
 
-inst <- inst+
-  geom_point(data = data.frame(Kisumu_localities), aes(x = coords.x1, y = coords.x2, colour = SchemeName))+
-  geom_text(data = data.frame(Kisumu_localities), aes(x = coords.x1, y = coords.x2, label = SchemeName_short),
-            position = position_nudge(y = -0.03),
-            hjust=0.5, vjust=0, size=3)+
-  theme(legend.spacing.x = unit(0, 'mm'))
+inst <- inst +
+  coord_equal()+
+  scalebar(x.min = min(inst$data$lon), x.max = max(inst$data$lon),
+           y.min = min(inst$data$lat), y.max = max(inst$data$lat),
+           dist = 10, dist_unit = "km",
+           transform = TRUE, model = "WGS84", anchor=c(x=35, y=-0.416), 
+           height=0.02, st.dist=0.015, st.size=3, border.size =0.25)+
+  north(x.min = min(inst$data$lon), x.max = max(inst$data$lon),
+        y.min = min(inst$data$lat), y.max = max(inst$data$lat),
+        scale = 0.2, anchor=c(x=35.125, y=-0.325))+
+  
+  scale_x_continuous(labels = fmt_dcimals(1), expand = c(0.005, 0.005))+
+  scale_y_continuous(labels = fmt_dcimals(1), expand = c(0.005, 0.005))
 
+inst <-  inst +
+  geom_point(data = data.frame(Kisumu_localities), aes(x = coords.x1, y = coords.x2), color = 'red', size = 2, alpha = 0.5)+
+  geom_text(data = data.frame(Kisumu_localities), aes(x = coords.x1, y = coords.x2, label = SchemeName),
+            alpha = 0.8,
+            position = position_nudge(y = -0.01),
+            hjust=0, vjust=1, size=3.5)+
+  scale_x_continuous(expand = c(0.005, 0.005))+
+  scale_y_continuous(expand = c(0.005, 0.005))+
+  my_theme1+
+  ggmap::inset(ggplotGrob(inst0), xmin = 34.675-0.038, xmax = 34.9-0.038, ymin = -0.2+0.025, ymax = 0+0.0055)
 
-
-img_list <- list.files('data_files/images', full.names = T, pattern = 'Kisumu')
+img_list <- list.files('data_files/images/', full.names = T, pattern = 'Kisumu')
 top <- c('Cropping systems', 'Water diversion', 'Tillage')
 
-f <- function(img_list){
-  lapply(img_list, function(i){
-    out <- image_ggplot(image_read(i))
-  })
-} 
-
 img_list <- f(img_list)
-img_list <- lapply(1:length(img_list), function(i){
-  out <- ggplotGrob(img_list[[i]] + theme(plot.margin = margin(r=1, l=1)))
-  top <- grobTree(rectGrob(gp=gpar(fill="bisque4", col="white"), height=1.25), 
-                  grid::textGrob(top[i], hjust=0.5, vjust = 0.5,
-                                 gp = gpar(fontfamily='serif',fontsize=13,fontface="bold", col="black")))
-  arrangeGrob(top,out, 
-              layout_matrix = rbind(
-                rep(1,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10),
-                rep(2,10)
-                
-              ))
-})
-
-# img_list$layout_matrix = matrix(c(NA, 1, 2, 3), ncol = 2)
-img_list$ncol = 3
+img_list$nrow = 1
 img_list <- do.call(grid.arrange, img_list)
-img_list <- list(ggplotGrob(inst), img_list)
-img_list$layout_matrix = rbind(
-  c(1,1,1),
-  c(1,1,1),
-  c(1,1,1),
-  c(1,1,1),
-  c(1,1,1),
-  c(2,2,2),
-  c(2,2,2),
-  c(2,2,2)
+top0 <-   grobTree(rectGrob(gp=gpar(fill="NA", col="lightgray")), 
+                   grid::textGrob('Common agricultural practices in Kisumu (c)',
+                                  x=0.04, y=0.7, hjust=0, vjust = 1,
+                                  gp = gpar(fontfamily='serif',fontsize=12,fontface="bold.italic", col="blue")))
+top <- lapply(top, function(i) grobTree(rectGrob(gp=gpar(fill="bisque4", col="lightgray")), 
+                                        grid::textGrob(i, hjust=0.5, vjust = 0.5,
+                                                       gp = gpar(fontfamily='serif',fontsize=10,fontface="bold", col="black"))))
+
+top$ncol=3
+top <- do.call(grid.arrange, top)
+top <- grid.arrange(top0, top,ncol=1)
+img_list <- grid.arrange(top, img_list, heights=unit(c(1,2.5), 'null'))
+
+img_list <- gTree(children = gList(img_list, grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
+                                                       gp=gpar(lwd=2, fill="NA", col="white"))))
+
+inst <- grid.arrange(
+  grid::textGrob("Sampled areas Kisumu County, Kenya (a)",
+                 x=0.04, y=0.7, hjust=0, vjust = 1,
+                 gp = gpar(fontfamily='serif',fontsize=12,fontface="bold.italic", col="blue")),
+  inst,
+  heights=unit(c(1,10), 'null')
 )
-img_list$top <- grid::textGrob("Kisumu County, Kenya",
-                               x=0.04, hjust=0, vjust = 0.50,
-                               gp = gpar(fontfamily='serif',fontsize=12,fontface="italic", col="blue"))
-inst_Kisumu <- do.call(grid.arrange, img_list)
+inst_Kisumu <- grid.arrange(inst, img_list, heights=unit(c(7/2, 3.76/2), 'in'))
 
 inst_Kisumu <- gTree(children = gList(grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
                                                 gp=gpar(lwd=1, fill="lightgray", col="white")), inst_Kisumu))
-
-
-
-
+#############################################
 inst <- grid.arrange(inst_Kisumu, inst_Tigray, ncol=2)
 
 inst <- gTree(children = gList(inst, grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
                                                gp=gpar(lwd=2, fill="NA", col="darkgray"))))
-# inst <- grid.arrange(inst)
-# 
-# inst <- grid.arrange(inst)
-ggsave(inst , filename = 'figures/Modelling_FBFS_study_area_2.png', width = 8.76, height = 5.84)
+
+schemes <- rbind(
+  c('Sampled areas', "Original design idea", "Diversion type", "Water Source", 'Water Source hydrology', "Water acquisition"),
+  c('East Kano', 'Engineers', "Modern", "Nyando River", 'Permanent', 'Pump'),
+  c('West Kano', 'Engineers', "Modern", "Lake Victoria", "Permanent", "Pump"),
+  c("Ahero out-growers", "Farmers", 'Traditional', "Nyando River, East Kano", 'Permanent', 'Gravity'),
+  c("Awach out-growers", "Farmers", "Traditional", "Awach river", 'Permanent', 'Gravity'),
+  c("East Nyankach", 'Farmers', 'Modern and Traditional', 'Runoff harvesting', 'Ephemeral', 'Household pond/roof'),
+  c("Tsige'a (Guguf)", "Farmers and engineers", "Improved", "Dry Wadis", 'Ephemeral','Gravity'),
+  c("Dayu (Gerjele)", "Engineers", "Modern", "Dry Wadis", 'Ephemeral', "Gravity"),
+  c("Harosha (Tumuga)", "Farmers", "Traditional", "Dry Wadis", 'Ephemeral', "Graviy")
+)
+schemes <- tableGrob(schemes,
+                     theme=ttheme_minimal(base_size =7.3,
+                                          core=list(bg_params = list(fill = 'white', col=c('lightgrey')),
+                                                    fg_params=list(fontface=3, fontsize=6.3, rot=0)),
+                                          colhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
+                                          rowhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
+                                          padding = unit(c(1, 1), "mm")),
+                     rows = NULL)
+
+areas <- c("Study region", "Kisumu", "Tigray")
+areas <- tableGrob(areas,
+                   theme=ttheme_minimal(base_size =7.3,
+                                        core=list(bg_params = list(fill = 'white', col=c('lightgrey')),
+                                                  fg_params=list(fontface=3, fontsize=6.3, rot=0)),
+                                        colhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
+                                        rowhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
+                                        padding = unit(c(1, 1), "mm")),
+                   rows = NULL)
+
+jn <- gtable_combine(areas, schemes)
+jn$widths <- rep(max(jn$widths), length(jn$widths)) # make column widths equal
+
+jn$layout[1:6 , c("t", "b")] <- list(c(1, 2, 7), c(1, 6, 9))
+
+jn <- grid.arrange(
+  grid::textGrob("Characteristics of the sampled schemes (e)",
+                 x=0.5, y=0.3, hjust=0.5, vjust = 0.5,
+                 gp = gpar(fontfamily='serif',fontsize=12,fontface="bold.italic", col="blue")),
+  jn,
+heights=unit(c(1, 5), 'null')
+
+  
+)
+
+instt <- grid.arrange(inst, jn, heights=unit(c(7/2+3.76/2, ((7/2)+(3.76/2))/4.25), 'in'))
+
+
+insttt <- gTree(children = gList(instt, grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
+                                               gp=gpar(lwd=2, fill="NA", col="darkgray"))))
+
+ggsave(plot = insttt, filename = 'figures/Modelling_FBFS_study_area.png', device = 'png', dpi = 300, height = (((7/2)+(3.76/2))+(((7/2)+(3.76/2))/4.25)), width = (6.58/2)*2.1)
+ggsave(plot = insttt, filename = 'figures/Modelling_FBFS_study_area.pdf', device = 'pdf', dpi = 300, height = (((7/2)+(3.76/2))+(((7/2)+(3.76/2))/4.25)), width = (6.58/2)*2.1)
+

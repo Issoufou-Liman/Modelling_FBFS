@@ -1,4 +1,5 @@
-# blindly copied from ggss and sf packages, all credit to theses packages
+# blindly copied from ggsn and sf packages, all credits to these packages.
+
 NA_crs_ = structure(list(epsg = NA_integer_, proj4string = NA_character_), class = "crs")
 #' @name st_bbox
 #' @param x object of class \code{bbox}

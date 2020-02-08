@@ -1,0 +1,152 @@
+```{tikz fig2-plot,echo=FALSE,include=FALSE,fig.path='figures/',fig.ext='pdf',cache=FALSE,engine.opts=list(engine='xetex', template="latex/tikz2pdf.tex")}
+
+%% Beginning of Approach Overview %%%%
+
+\begin{tikzpicture}[node distance=1mm and 10mm]
+
+%%% Beginning of nodes layout %%%%
+
+\node [ModelsStyle, ultra thick,  draw = RedBnsBulletsColor, fill = white] (BnsStar) {\textbf{Bayesian}\\ \textbf{Networks}\\ \textbf{engine}};
+
+\node [ModelsStyle, ultra thick, draw = BlueMcBulletsColor, fill = white] (McsStar) [right=0.005cm of BnsStar] {\textbf{Monte}\\ \textbf{Carlo}\\ \textbf{engine}};
+
+\begin{scope}[on background layer]
+\node (ModelStartsBoxFrame) [BnsStyle, yscale=2, fit=(McsStar)(BnsStar)] {};
+\end{scope}
+
+\node [ApproachNodesStyle, align = center] (ImportantIssues)[left= of ModelStartsBoxFrame]{Identification of important issues and causality};
+
+\node [ApproachNodesStyle] (ResearchQuestionsFirst)[below= of ImportantIssues]{Updates of research questions and objectives};
+
+\node [ApproachNodesStyle] (ImportantIssuesRefinitionFirst)[below= of ResearchQuestionsFirst]{Refined list of important issues and causality};
+
+\node [ApproachNodesStyle] (MetricsEstimationFirst)[below= of ImportantIssuesRefinitionFirst]{Estimation of metrics};
+
+\node [ApproachNodesStyle] (ImportantIssuesRefinitionSecond)[below= of MetricsEstimationFirst]{Refined list of important issues and causality};
+
+\node [ApproachNodesStyle] (MetricsEstimationSecond)[below= of ImportantIssuesRefinitionSecond]{Estimation of metrics};
+
+\node [ApproachNodesStyle] (ResearchQuestionsSecond)[above= of ImportantIssues]{Updates of research questions and objectives};
+
+\node [ApproachNodesStyle] (HighLevelConcepts)[above= of ResearchQuestionsSecond]{High level concepts of FBFS};
+
+\node [ApproachNodesStyle] (PrimaryExperts)[above= of HighLevelConcepts]{Identification of primary experts};
+
+\node [ApproachNodesStyle] (ResearchDrafting) [above= of PrimaryExperts] {Drafting of research questions and objectives};
+
+\node [ApproachNodesStyle] (ConceptsDefinition)[above= of ResearchDrafting]{Concept definition};
+
+\node [fill = McDomainColor, draw=McDomainColor] (ModelDevelopmentSequenceTopCheckPoint)[above= 0pt of ConceptsDefinition]{};
+
+\node [fill = McDomainColor, draw=McDomainColor] (ModelDevelopmentSequenceBottomCheckPoint) [below= 0pt of MetricsEstimationSecond]{};
+
+ \begin{scope}[on background layer]
+\node (ModelDevelopmentSequence)[McBox, fit=(ModelDevelopmentSequenceTopCheckPoint)(ImportantIssues)(ResearchQuestionsFirst)(ImportantIssuesRefinitionFirst)(MetricsEstimationFirst)(ImportantIssuesRefinitionSecond)(MetricsEstimationSecond)(ResearchQuestionsSecond)(HighLevelConcepts)(PrimaryExperts)(ResearchDrafting)(ConceptsDefinition)(McsStar)(BnsStar)(ModelStartsBoxFrame)(ModelDevelopmentSequenceBottomCheckPoint)] {};
+\end{scope}
+
+\begin{scope}[on background layer]
+\node (ModelStartsBoxFrame)[ellipse, draw=white, fill = white, inner sep = 0pt, fit=(McsStar)(BnsStar)] {};
+\end{scope}
+
+\tcbsetmacrotowidthofnode{\mywidth}{ModelDevelopmentSequence}
+
+\node [ApproachTitlesStyle, text width=2*\NodeTextWidth] (ModelDevelopmentApproach)[above= of ModelDevelopmentSequence|-ModelDevelopmentSequenceTopCheckPoint, minimum width = \mywidth, text height = 1cm]{\textbf{Model development approach}};
+
+\node [ApproachNodesStyle] (LiteratureReview)[left= of ResearchDrafting]{Literature review};
+
+\node [draw=none] (FakeNode) at ($(ResearchQuestionsSecond)!0.5!(HighLevelConcepts)$) {};
+
+\node [ApproachNodesStyle] (HighLevelDiscussions) at(FakeNode-|LiteratureReview) {High level discussions with experts};
+
+\node [TransitionalNodesStyle] (LeadingQuestions2Experts) at ($(LiteratureReview)!0.5!(HighLevelDiscussions)$) {\itshape\uline{Leading questions to primary experts}};
+
+\node [draw=none] (FakeNode) at ($(ResearchQuestionsFirst)!0.5!(ImportantIssues)$) {};
+
+\node [ApproachNodesStyle] (FarmersFGD) at (FakeNode-|LiteratureReview) {Focus group discussions with farmers};
+
+\node [TransitionalNodesStyle] (LeadingQuestions2Farmers) at ($(HighLevelDiscussions)!0.5!(FarmersFGD)$) {\itshape\uline{Leading questions to farmers}};
+
+\node [draw=none] (FakeNode) at ($(ImportantIssuesRefinitionFirst)!0.5!(MetricsEstimationFirst)$) {};
+
+\node [ApproachNodesStyle] (LocalExpertsMeetings) at (FakeNode-|LiteratureReview) {Local expert meetings};
+
+\node [TransitionalNodesStyle] (Guidance2Expert) at ($(FarmersFGD)!0.5!(LocalExpertsMeetings)$) {\itshape\uline{Guidance and checklist for expert meetings}};
+
+\node [draw=none] (FakeNode) at ($(ImportantIssuesRefinitionSecond)!0.5!(MetricsEstimationSecond)$) {};
+
+\node [ApproachNodesStyle] (IndividualFarmerInterviews) at (FakeNode-|LiteratureReview) {Individual farmer interviews};
+
+\node [TransitionalNodesStyle] (Guidance2Farmers) at ($(LocalExpertsMeetings)!0.5!(IndividualFarmerInterviews)$) {\itshape\uline{Guidance and checklist for farmer interviews}}; 
+
+\node [fill = BnsDomainColor, draw=BnsDomainColor] (DataCollectionSequenceTopCheckPoint) at (ModelDevelopmentSequenceTopCheckPoint-|LiteratureReview){};
+
+\node [fill = BnsDomainColor, draw=BnsDomainColor](DataCollectionSequenceBottomCheckPoint) at (ModelDevelopmentSequenceBottomCheckPoint-|LiteratureReview){};
+
+\tcbsetmacrotoheightofnode{\myheight}{ModelDevelopmentSequence}
+
+\begin{scope}[on background layer]
+\node (DataCollectionSequence)[BnsBox, minimum height = \myheight, fit=(DataCollectionSequenceTopCheckPoint)(LiteratureReview)(HighLevelDiscussions)(LeadingQuestions2Experts)(FarmersFGD)(LeadingQuestions2Farmers)(LocalExpertsMeetings)(Guidance2Expert)(Guidance2Farmers)(IndividualFarmerInterviews)(DataCollectionSequenceBottomCheckPoint)] {};
+\end{scope}
+
+\tcbsetmacrotowidthofnode{\mywidth}{DataCollectionSequence}
+
+\node [ApproachTitlesStyle, text width=2*\NodeTextWidth] (DataCollectionApproach)[above= of DataCollectionSequence|-DataCollectionSequenceTopCheckPoint, minimum width = \mywidth, text height = 1cm]{\textbf{Data collection approach}};
+
+% \node [draw = black, fill=black] (ClipCheckFirst) at (DataCollectionSequenceBottomCheckPoint-|DataCollectionApproach.west) {};
+
+% \node [draw = black, fill=black] (ClipCheckSecond) at (ModelDevelopmentApproach.east){};
+
+% \clip (ClipCheckFirst) rectangle (ClipCheckSecond){};
+
+% \draw (DataCollectionSequence.south west) rectangle (ModelDevelopmentSequence.north east);
+
+% \draw (ClipCheckFirst) rectangle (ClipCheckSecond){};
+
+
+
+% \draw (ClipCheckFirst.south east) rectangle (ClipCheckSecond.north west);
+
+%%% End of nodes layout %%%%
+
+%%% Beginning of arrows layout %%%%
+
+\draw[thickarrow] (ImportantIssues.east) -- (ModelStartsBoxFrame);
+\draw[thickarrow] (ResearchQuestionsFirst.east) -- (ModelStartsBoxFrame);
+\draw[thickarrow] (ImportantIssuesRefinitionFirst.east) -- (ModelStartsBoxFrame);
+\draw[thickarrow] (MetricsEstimationFirst.east) -- (ModelStartsBoxFrame);
+\draw[thickarrow] (ImportantIssuesRefinitionSecond.east) -- (ModelStartsBoxFrame);
+\draw[thickarrow] (MetricsEstimationSecond.east) -- (ModelStartsBoxFrame);
+\draw[thickarrow] (ResearchQuestionsSecond.east) -- (ModelStartsBoxFrame);
+\draw[thickarrow] (HighLevelConcepts.east) -- (ModelStartsBoxFrame);
+\draw[thickarrow] (PrimaryExperts.east) -- (ModelStartsBoxFrame);
+\draw[thickarrow] (ResearchDrafting.east) -- (ModelStartsBoxFrame);
+\draw[thickarrow] (ConceptsDefinition.east) -- (ModelStartsBoxFrame);
+
+\draw[thickarrow] (IndividualFarmerInterviews.east) -- (ImportantIssuesRefinitionSecond.west);
+\draw[thickarrow] (IndividualFarmerInterviews.east) -- (MetricsEstimationSecond.west);
+\draw[thickarrow] (HighLevelDiscussions.east) -- (ResearchQuestionsSecond.west);
+\draw[thickarrow] (HighLevelDiscussions.east)-- (HighLevelConcepts.west);
+\draw[thickarrow] (FarmersFGD.east) -- (ResearchQuestionsFirst.west);
+\draw[thickarrow] (FarmersFGD.east) -- (ImportantIssues.west);
+\draw[thickarrow] (LocalExpertsMeetings.east) -- (ImportantIssuesRefinitionFirst.west);
+\draw[thickarrow] (LocalExpertsMeetings.east) -- (MetricsEstimationFirst.west);
+
+\draw[thickarrow] (LiteratureReview.east) -- (ConceptsDefinition.west);
+\draw[thickarrow] (LiteratureReview.east) -- (ResearchDrafting.west);
+\draw[thickarrow] (LiteratureReview.east) -- (PrimaryExperts.west);
+
+\draw[thickarrow] ([xshift=3mm]LiteratureReview.south west) -- ([xshift=3mm]HighLevelDiscussions.north west);
+\draw[thickarrow] ([xshift=3mm]HighLevelDiscussions.south west) -- ([xshift=3mm]FarmersFGD.north west);
+\draw[thickarrow] ([xshift=3mm]FarmersFGD.south west) -- ([xshift=3mm]LocalExpertsMeetings.north west);
+\draw[thickarrow] ([xshift=3mm]LocalExpertsMeetings.south west) -- ([xshift=3mm]IndividualFarmerInterviews.north west);
+
+%%% End of nodes layout %%%%
+
+\draw [ultra thick, lightgray](current bounding box.north west) rectangle (current bounding box.south east);
+
+\end{tikzpicture}
+
+%% End of Approach Overview %%%%
+
+```
+

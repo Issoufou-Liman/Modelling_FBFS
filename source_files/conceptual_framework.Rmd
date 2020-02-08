@@ -1,0 +1,223 @@
+```{tikz fig3-plot,echo=FALSE,include=FALSE,eval=TRUE,fig.path='figures/',fig.ext='pdf',cache=FALSE,eval=TRUE,engine.opts=list(engine='xetex',template="latex/tikz2pdf.tex")}
+%% Beginning of Conceptual framework %%%%
+
+\begin{tikzpicture}[node distance=0.5cm]
+
+%%% Beginning of nodes layout %%%%
+
+\begin{scope}[FitnodesStyle]
+
+\node [McStyleSub, text width=5.5cm] (QuantitativeFarmlandProfileSub) {
+  \begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item  available flood
+  \item  available soil water
+  \item  available soil nutrients
+  \item  farming efficiency
+  \item  pest / disease impact
+  \item  etc.
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node [McStyle] (QuantitativeFarmlandProfileSup)[ above=of QuantitativeFarmlandProfileSub] {
+  \begin{varwidth}{\textwidth}
+  \begin{center}
+  Quantitative farmland profile
+  \end{center}
+  \begin {BlackMcBullets}
+  \item  farming constraints
+  \end {BlackMcBullets}
+  \end{varwidth}
+};
+
+\node (QuantitativeFarmlandProfile) [draw,fit=(QuantitativeFarmlandProfileSup) (QuantitativeFarmlandProfileSub)] {};
+
+\tcbsetmacrotowidthofnode{\mywidth}{QuantitativeFarmlandProfileSub}
+% \tcbsetmacrotoheightofnode{\myheight}{QuantitativeFarmlandProfileSub}
+
+% \draw [BraceStyle]
+%        ($(QuantitativeFarmlandProfileSub.north west)+(\mywidth pt, 0pt)$) -- ($(QuantitativeFarmlandProfileSub.north east)+(-\mywidth pt, 0pt)$);
+
+\draw[BraceStyle] (QuantitativeFarmlandProfileSub.north west) -- (QuantitativeFarmlandProfileSub.north east);
+
+
+\end{scope}
+
+\node (McDomainSubNodes)[above=of QuantitativeFarmlandProfile, text centered,
+                         align=center, fill=white, draw=white] {MC modelling domain};
+
+\node [draw=none, fill=none] (PlaceModelOutput) at (QuantitativeFarmlandProfileSub.east){};
+
+\node [McStyle, text width=6.7cm] (ModelOutput) [below right= of PlaceModelOutput] {
+  \begin{varwidth}{\textwidth}
+  \begin{center}
+  Quantitative model output for qualitative states
+  \end{center}
+  \begin {BlackMcBullets}
+  \item  actual yield (biomass, grain)
+  \item exploitable yield gap
+  \item expected actual yield
+  \item etc.
+  \end {BlackMcBullets}
+  \end{varwidth}
+};
+
+\tcbsetmacrotowidthofnode{\mywidth}{ModelOutput}
+% \tcbsetmacrotoheightofnode{\myheight}{QuantitativeFarmlandProfile}
+
+\node [McStyle, minimum width = \mywidth, text width=6.7cm] (HistoricalYield) at (QuantitativeFarmlandProfileSup.east-|ModelOutput) {
+  \begin{varwidth}{\textwidth}
+  \begin{center}
+  Historical quantitative yield metrics
+  \end{center}
+  \begin {BlackMcBullets}
+  \item  yield potential
+  \item attainable yield potential
+  \item average actual yield
+  \item etc.
+  \end {BlackMcBullets}
+  \end{varwidth}
+};
+
+\node [McStyle, minimum width=6cm, text width = 3cm, draw=none, fill=none] (SamplingEngine) [left=of QuantitativeFarmlandProfile, text centered]{};
+
+\node [text centered,
+       align=center, fill=white, draw=white] (ModellingInterfaceDomainSubNodes) at (SamplingEngine|-McDomainSubNodes) {Modelling interface};
+
+\begin{scope}[FitnodesStyle]
+
+\node [McStyle, text width=5.5cm] (QualitativeFarmlandProfileSub)[left=of SamplingEngine, align = left] {
+  \begin{varwidth}{\textwidth}
+  \begin{center}
+  Qualitative farmland profile
+  \end{center}
+  \begin {BlackMcBullets}
+  \item  water supply adequacy
+  \item management efficiency
+  \item cropping system
+  \end {BlackMcBullets}
+  \end{varwidth}
+};
+
+\tcbsetmacrotowidthofnode{\mywidth}{QualitativeFarmlandProfileSub}
+% \tcbsetmacrotoheightofnode{\myheight}{QualitativeFarmlandProfileSub}
+
+% \draw [BraceStyle]
+%        ($(QualitativeFarmlandProfileSub.south east)+(\mywidth pt, 0pt)$) -- ($(QualitativeFarmlandProfileSub.south west)+(-\mywidth pt, 0pt)$);
+
+\draw[BraceStyle] (QualitativeFarmlandProfileSub.south east) -- (QualitativeFarmlandProfileSub.south west);
+
+\node [McStyleSub] (ConstraintChance) [below=of QualitativeFarmlandProfileSub]{
+  \begin{center}
+  Chance of farming constraints
+  \end{center}
+};
+
+\node (QualitativeFarmlandProfile)[draw,fit=(QualitativeFarmlandProfileSub) (ConstraintChance)] {};
+
+\end{scope}
+
+\node [BnsStyle, text width=5.28cm] (FarmManagement)[left=of QualitativeFarmlandProfile] {
+  \begin{varwidth}{\textwidth}
+  \begin{center}
+  Farm management
+  \end{center}
+  \begin {BlackBnsBullets}
+  \item water management BN
+  \item management BN
+  \item etc.
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+
+\node [BnsStyle, text width=4.4cm] (BioticFactors) [above=of FarmManagement] {
+  \begin{varwidth}{\textwidth}
+  \begin{center}
+  Biotic factors
+  \end{center}
+  \begin {BlackBnsBullets}
+  \item pest / disease BN
+  \item crop BN
+  \item etc.
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\tcbsetmacrotowidthofnode{\mywidth}{BioticFactors}
+\tcbsetmacrotoheightofnode{\myheight}{BioticFactors}
+
+\node [BnsStyle, text width=4.4cm, minimum height = \myheight] (AbioticFactors)[below=of FarmManagement] {
+  \begin{varwidth}{\textwidth}
+  \begin{center}
+  Abiotic Factors
+  \end{center}
+  \begin {BlackBnsBullets}
+  \item climate BN
+  \item soil BN
+  \item etc.
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+
+
+\node [text centered,
+       align=center, fill=white, draw=white] (BnsDomainSubNodes) at (QualitativeFarmlandProfile|-ModellingInterfaceDomainSubNodes) {BN modelling domain};
+
+\node [fill=none, draw=none] (BnsDomainTopCheckPoint) at (BioticFactors.north) {};
+
+\node [fill=none, draw=none] (BnsDomainBottomCheckPoint) at (AbioticFactors.south) {};
+
+\node [fill=none, draw=none] (BnsDomainLeftCheckPoint) [left=0pt of FarmManagement] {};
+
+\node [fill=ModellingInterfaceDomainColor, draw=ModellingInterfaceDomainColor] (ModellingInterfaceDomainTopCheckPoint) at (BnsDomainTopCheckPoint-|ModellingInterfaceDomainSubNodes) {};
+
+\node [fill=ModellingInterfaceDomainColor, draw=ModellingInterfaceDomainColor] (ModellingInterfaceDomainBottomCheckPoint) at (BnsDomainBottomCheckPoint-|ModellingInterfaceDomainSubNodes) {};
+
+\node [fill=McDomainColor, draw=McDomainColor] (MCDomainTopCheckPoint) at (ModellingInterfaceDomainTopCheckPoint-|McDomainSubNodes) {};
+
+\node [fill=McDomainColor, draw=McDomainColor] (MCDomainBottomCheckPoint) at (ModellingInterfaceDomainBottomCheckPoint-|McDomainSubNodes) {};
+
+\begin{scope}[on background layer]
+\node (McBoxFrame)[McBox,fit=(MCDomainTopCheckPoint)(McDomainSubNodes)(QuantitativeFarmlandProfile)(HistoricalYield) (ModelOutput)(MCDomainBottomCheckPoint)] {};
+\end{scope}
+
+\begin{scope}[on background layer]
+\node (ModellingInterfaceBoxFrame)[ModellingInterfaceBox, fit=(ModellingInterfaceDomainTopCheckPoint)(ModellingInterfaceDomainSubNodes)(SamplingEngine)(ModellingInterfaceDomainBottomCheckPoint)][left=0cm of McBoxFrame] {};
+\end{scope}
+
+\begin{scope}[on background layer]
+\node (BnsInterfaceBoxFrame)[BnsBox,fit=(BnsDomainTopCheckPoint)(BnsDomainSubNodes)(BioticFactors)(FarmManagement)(AbioticFactors)(QualitativeFarmlandProfile) (ConstraintChance)(BnsDomainBottomCheckPoint)(BnsDomainLeftCheckPoint)] [left=0cm of ModellingInterfaceBoxFrame] {};
+\end{scope}
+
+
+%%% End of nodes layout %%%%
+%%% Beginning of arrows layout %%%%
+
+\draw[dashes] (BnsDomainSubNodes) -- (ModellingInterfaceDomainSubNodes);
+\draw[dashedarrow] (ModellingInterfaceDomainSubNodes) -- (McDomainSubNodes);
+\draw[thickarrow] (BioticFactors) -- (QualitativeFarmlandProfile);
+\draw[thickarrow] (AbioticFactors) -- (QualitativeFarmlandProfile);
+\draw[thickarrow] (FarmManagement) -- (QualitativeFarmlandProfile);
+\draw[dashedarrow] (QualitativeFarmlandProfileSub) -- (QuantitativeFarmlandProfile);
+%\draw[dashedarrow] (SamplingEngine) -- (QuantitativeFarmlandProfile);
+\draw[thickes] (QuantitativeFarmlandProfile.south) -- ([yshift=1cm]QuantitativeFarmlandProfile|-ModelOutput.south);
+
+% This is a hack which may not work with scaling
+\shadedraw [decoration=Koch snowflake, top color=BnsDomainColor, bottom color=McDomainColor, draw=white] decorate{decorate{ decorate{ decorate{ decorate{ decorate{
+  ([yshift=-1mm]QualitativeFarmlandProfile-|ModellingInterfaceDomainSubNodes.west) -- ++(60:4.2)  -- ++(300:4.2) -- ++(180:4.2)}}}}}};
+
+\node [McStyle, minimum width=6cm, text width = 3cm, text=black, draw=none, fill=none] (SamplingEngine) [left=of QuantitativeFarmlandProfile, text centered]{\huge Random sampling engine};
+
+\draw[thickarrow] ([yshift=1cm]QuantitativeFarmlandProfile|-ModelOutput.south) -- ([yshift=1cm]ModelOutput.south west);
+\draw[thickarrow] (HistoricalYield) -- (ModelOutput);
+\draw [ultra thick, lightgray](current bounding box.north west) rectangle (current bounding box.south east);
+%%% End of arrows layout %%%%
+
+\end{tikzpicture}
+
+%% End of Conceptual framework %%%%
+
+```

@@ -1,0 +1,362 @@
+```{tikz fig4-plot,echo=FALSE,eval=TRUE,include=FALSE,fig.path='figures/',fig.ext='pdf',cache=FALSE,eval=TRUE,engine.opts=list(engine='xetex',template="latex/tikz2pdf.tex")}
+
+%% Beginning of Overview Detailed Model %%%%
+
+\begin{tikzpicture}[node distance = 0.5cm]
+
+\node[BnsMultipartStyle] (UpStreamInfluence){
+\nodepart{one}
+On and off-site influence
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item upstream abstraction
+  \item rainfall occurrence
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node[BnsMultipartStyle] (FarmerNegotiations)[right= of UpStreamInfluence]{
+\nodepart{one}
+Farmer negotiations
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item institutional arrangements
+  \item infrastructure maintenance
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node[BnsMultipartStyle] (FloodingSystem)[right= of FarmerNegotiations]{
+\nodepart{one}
+Flooding system
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item type of water diversion
+  \item sediment load
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node[CloudyBnsStyle, draw=white, fill=white, text width=5cm] (FloodReachingPlot)[below = of FarmerNegotiations]{
+Amount of flood reaching the plot
+};
+
+\node[BnsMultipartStyle] (OtherWaterFactors)[left= of FloodReachingPlot]{
+\nodepart{one}
+Other factors
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item additional rainfall
+  \item evaporation
+  \item soil water holding capacity
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node[CloudyBnsStyle, draw=white, fill=white, text width=3cm] (AvailableSoilWater) [below right= of OtherWaterFactors]{
+Available soil water
+};
+
+\node[CloudyBnsStyle, draw=white, fill=white, text width=3cm] (WaterSupplyAdequacy) [right= of FloodReachingPlot]{
+Water supply adequacy
+};
+
+\node[draw=none, fill=none] (CropAndCroppingSystems) [below=5.39cm of UpStreamInfluence] {};
+
+\node[BnsMultipartStyle] (CropAndCroppingSystems) [below=5.39cm of UpStreamInfluence] {
+\nodepart{one}
+Crop and cropping systems
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item crop type
+  \item crop variety
+  \item intercropping
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node[CloudyBnsStyle, draw=white, fill=white, text width=3cm] (EffectivenessOfCroppingOptions) [below right =of CropAndCroppingSystems]{
+Effectiveness of cropping options
+};
+
+\node[BnsMultipartStyle] (OtherAgricPractice) [below left=of EffectivenessOfCroppingOptions]{
+\nodepart{one}
+Other agricultural practices
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item planting date
+  \item previous crop
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node[BnsMultipartStyle] (SoilManagement)[below= 0.85cm of OtherAgricPractice]{
+\nodepart{one}
+Soil fertility management
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item soil amendments
+  \item rich sediment addition
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\tcbsetmacrotowidthofnode{\mywidth}{SoilManagement}
+\tcbsetmacrotoheightofnode{\myheight}{SoilManagement}
+
+\node[BnsMultipartStyle, fit=(SoilManagement.north west) (SoilManagement.south east), inner sep=0pt] (SoilNutrient)[right= of SoilManagement]{
+\nodepart{one}
+Soil fertility
+};
+
+\tcbsetmacrotowidthofnode{\mywidth}{SoilManagement}
+
+\node[BnsMultipartStyle,minimum width=\mywidth] (SocioEconomicContext)[below= of SoilManagement]{
+\nodepart{one}
+Socio-economic context
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item wealth status
+  \item mutual assistance
+  \item access to inputs
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node[BnsMultipartStyle] (FarmerProfile) at (SoilNutrient|-SocioEconomicContext){
+\nodepart{one}
+Farmer profile
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item skills of the farmer
+  \item effectiveness of crop protection
+  \item available labour force
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node[BnsMultipartStyle, align=left] (PreviousBioticStress) [below=of SocioEconomicContext]{
+\nodepart{one}
+Previous biotic stress
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item residual effect of pests \& diseases
+  \item residual effect of weeds
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node[BnsMultipartStyle] (CurrentBioticStress) at (FarmerProfile|-PreviousBioticStress) {
+\nodepart{one}
+Current biotic stress
+\nodepart{two}
+\begin{varwidth}{\textwidth}
+  \begin {BlackBnsBullets}
+  \item pests \& diseases
+  \item weeds
+  \end {BlackBnsBullets}
+  \end{varwidth}
+};
+
+\node[CloudyBnsStyle, draw=white, fill=white, text width=3cm] (AgricManagementEfficiency) at (FarmerProfile-|WaterSupplyAdequacy){
+Agricultural management efficiency
+};
+
+\node[CloudyBnsStyle, draw=white, fill=white, text width=3.5cm] (FarmingConstraints) at (EffectivenessOfCroppingOptions-|AgricManagementEfficiency){
+Farming constraints (FC)
+};
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\node[BnsMultipartStyle, text width = 8cm, align=left] (YieldPotential)[right= 3cm of FloodingSystem]{
+\nodepart{one}
+{\centering
+   Yield potential\par
+}
+\nodepart{two}
+maximum yield potential without farming constraints
+};
+
+\node[BnsMultipartStyle, text width = 8cm, align=left] (AttainbleYield) [below= of YieldPotential]{
+\nodepart{one}
+{\centering
+    Attainable yield\par
+
+}
+\nodepart{two}
+{achievable fraction of yield potential under ideal conditions}
+};
+
+\node[BnsMultipartStyle, text width = 8cm, align=left] (ExploitableYieldGapLoss) at (AttainbleYield|-FarmingConstraints){
+\nodepart{one}
+{\centering
+    Exploitable yield gap loss due to farming constraints\par
+
+}
+\nodepart{two}
+{yield improvement opportunity loss due to avoidable farming constraints}
+};
+
+\node[BnsMultipartStyle, text width = 8cm, align=left] (ExploitableYieldGap) [below= of ExploitableYieldGapLoss] {
+\nodepart{one}
+{\centering
+    Exploitable yield gap\par
+}
+\nodepart{two}
+yield improvement opportunities for a farmer
+};
+
+\node[BnsMultipartStyle, text width = 8cm, align=left] (AverageActualYield) at (AgricManagementEfficiency-|ExploitableYieldGap){
+\nodepart{one}
+{\centering
+    Average actual yield\par
+}
+\nodepart{two}
+historical and realistic yield actually achieved by farmers
+};
+
+\node[BnsMultipartStyle, text width = 8cm, align=left] (BiomassExpansion)[below=of AverageActualYield]{
+\nodepart{one}
+{\centering
+Biomass expansion factor\par
+}
+\nodepart{two}
+account for biomass accumulation over time
+};
+
+%\node[draw=none, fill=none] (fakeNode1) at ([xshift=-1cm]SoilManagement.west|-OtherWaterFactors.west){};
+
+%\node[draw=none, fill=none] (fakeNode2) at (SoilManagement.west-|OtherWaterFactors.west){};
+
+%\node[draw=none, fill=none] (fakeNode2) at (SoilManagement.west-|OtherWaterFactors.west){};
+
+\node[draw=none, fill=none](fake1) at ([xshift=-1cm]SoilManagement.west-|OtherWaterFactors.west) {};
+\node[draw=none, fill=none](fake2) at (OtherWaterFactors.west-|fake1){};
+\node[draw=none, fill=none](fake3) at ($(fake1)!0.5!(fake2)$){};
+\node[draw=none, fill=none](fake4) [above=0.05cm of UpStreamInfluence]{};
+\node[draw=none, fill=none](fake5) [below=0.5cm of PreviousBioticStress]{};
+\node[draw=none, fill=none](fake21)[right=0.5cm of fake2]{};
+\node[draw=none, fill=none](fake11)[right=0.5cm of fake1]{};
+\node[draw=none, fill=none](fake31)[right=0.5cm of fake3]{};
+
+\node[draw=none, fill=none](fake6) [right=0.05cm of FloodingSystem]{};
+\node[draw=none, fill=none](fake7) at (fake6|-AgricManagementEfficiency){};
+\node[draw=none, fill=none, rotate=-90, align=center, text=red](fake71) at ([xshift=0.75cm, yshift=-6.5cm]fake6|-FloodingSystem){\Huge Bayesian Networks};
+\node[draw=none, fill=none](fake8) at (fake4-|YieldPotential){};
+\node[draw=none, fill=none](fake9) at (fake5-|BiomassExpansion){};
+\node[draw=none, fill=none](fake10)[right=1cm of ExploitableYieldGapLoss]{};
+\node[draw=none, fill=none, rotate=-90, align=center, text=blue](fake101) at ([xshift=-0.9cm, yshift=-6.5cm]ExploitableYieldGapLoss.west|-YieldPotential.west){\Huge Monte Carlo model};
+
+\begin{scope}[on background layer]
+\node (BnsBox)[BnsBox, fit=(UpStreamInfluence)(FloodReachingPlot)(FloodingSystem)(FarmerNegotiations)(AvailableSoilWater)(WaterSupplyAdequacy)(OtherWaterFactors)(fake2.west)(SoilManagement)(SoilNutrient)(AgricManagementEfficiency)(CurrentBioticStress)(PreviousBioticStress)(FarmerProfile)(SocioEconomicContext)(fake1.west)(CropAndCroppingSystems)(EffectivenessOfCroppingOptions)(OtherAgricPractice)(fake3.west)(fake4.north)(fake5.south)(fake6)(fake71)] {};
+\end{scope}
+
+\begin{scope}[on background layer]
+\node (BnsWaterBox)[BnsBox, draw=blue, fill=blue, opacity=0.1, fit=(UpStreamInfluence)(FloodReachingPlot)(FloodingSystem)(FarmerNegotiations)(AvailableSoilWater)(WaterSupplyAdequacy)(OtherWaterFactors)(fake4.south)(fake21)(fake6.west)] {};
+\end{scope}
+
+% \tcbsetmacrotowidthofnode{\mywidth}{BnsWaterBox}
+
+\begin{scope}[on background layer]
+\node (BnsManagementBox)[BnsBox,draw=red,fill=red, opacity=0.1, fit=(SoilManagement)(SoilNutrient)(AgricManagementEfficiency)(CurrentBioticStress)(PreviousBioticStress)(FarmerProfile)(SocioEconomicContext)(fake11)(fake7.west)] {};
+\end{scope}
+
+\begin{scope}[on background layer]
+\node (BnsCropBox)[BnsBox,draw=green,fill=green,opacity=0.1, fit=(CropAndCroppingSystems)(EffectivenessOfCroppingOptions)(OtherAgricPractice)(fake31)] {};
+\end{scope}
+
+\begin{scope}[on background layer]
+\node (BnsWaterBox)[McBox, fit=(YieldPotential)(AttainbleYield)(ExploitableYieldGapLoss)(ExploitableYieldGap)(AverageActualYield)(BiomassExpansion)(fake8)(fake9)(fake10)(fake101)] {};
+\end{scope}
+
+\draw[thickarrow] (UpStreamInfluence) -- (FloodReachingPlot);
+\draw[thickarrow] (FarmerNegotiations) -- (FloodReachingPlot);
+\draw[thickarrow] (FloodingSystem) -- (FloodReachingPlot);
+\draw[thickarrow] (FloodReachingPlot) -- (AvailableSoilWater);
+
+\draw[thickes] (AvailableSoilWater) -- ([xshift=-1cm]WaterSupplyAdequacy|-AvailableSoilWater);
+\draw[thickarrow] ([xshift=-1cm]WaterSupplyAdequacy|-AvailableSoilWater) -- ([xshift=-1cm]WaterSupplyAdequacy.south);
+
+\draw[thickarrow] (WaterSupplyAdequacy) -- (FarmingConstraints);
+
+\draw[thickes] (CropAndCroppingSystems) -- ([xshift=-0.5cm]WaterSupplyAdequacy|-CropAndCroppingSystems);
+\draw[thickarrow] ([xshift=-0.5cm]WaterSupplyAdequacy|-CropAndCroppingSystems) -- ([xshift=-0.5cm]WaterSupplyAdequacy.south);
+
+\draw[thickarrow] (CropAndCroppingSystems) -- (EffectivenessOfCroppingOptions);
+\draw[thickarrow] (EffectivenessOfCroppingOptions) -- (FarmingConstraints);
+\draw[thickarrow] (OtherWaterFactors) -- (AvailableSoilWater);
+
+\draw[thickes] (SoilManagement.west) -- (fake1.west);
+
+\draw[thickes] (fake1.west) -- (fake2.west);
+
+\draw[thickarrow] (fake2.west) -- (OtherWaterFactors.west);
+
+
+\draw[thickarrow] (SoilManagement) -- (SoilNutrient);
+\draw[thickarrow] (OtherAgricPractice) -- (EffectivenessOfCroppingOptions);
+\draw[thickarrow] (AgricManagementEfficiency) -- (FarmingConstraints);
+\draw[thickarrow] (CurrentBioticStress) -- (AgricManagementEfficiency);
+\draw[thickarrow] (PreviousBioticStress) -- (CurrentBioticStress);
+\draw[thickarrow] (FarmerProfile) -- (CurrentBioticStress);
+\draw[thickarrow] (SocioEconomicContext) -- (FarmerProfile);
+
+\draw[thickarrow] (YieldPotential) -- (AttainbleYield);
+% \draw[thickarrow] (AttainbleYield) -- (ExploitableYieldGap);
+\draw[thickes] ([yshift=-0.5cm]AttainbleYield.east) -- ([xshift=1cm, yshift=-0.5cm]AttainbleYield.east);
+
+\draw[thickes] ([xshift=1cm, yshift=-0.5cm]AttainbleYield.east) -- ([xshift=1cm, yshift=0.5cm]ExploitableYieldGap.east);
+
+\draw[thickarrow] ([xshift=1cm, yshift=0.5cm]ExploitableYieldGap.east) -- ([yshift=0.5cm]ExploitableYieldGap.east);
+
+\draw[thickarrow] (SoilNutrient) -- (AgricManagementEfficiency);
+
+\draw[thickarrow] (AverageActualYield) -- (ExploitableYieldGap);
+% \draw[thickarrow] (BiomassExpansion) -- (AverageActualYield);
+\draw[thickes] ([yshift=0.5cm]BiomassExpansion.east) -- ([xshift=1cm, yshift=0.5cm]BiomassExpansion.east);
+
+\draw[thickes] ([xshift=1cm, yshift=0.5cm]BiomassExpansion.east) -- ([xshift=1cm, yshift=-0.5cm]ExploitableYieldGap.east);
+
+\draw[thickarrow] ([xshift=1cm, yshift=-0.5cm]ExploitableYieldGap.east) -- ([yshift=-0.5cm]ExploitableYieldGap.east);
+
+\draw[thickarrow] (ExploitableYieldGap) -- (ExploitableYieldGapLoss);
+\draw[thickarrow] (FarmingConstraints) -- (ExploitableYieldGapLoss);
+
+\draw [ultra thick, lightgray](current bounding box.north west) rectangle (current bounding box.south east);
+
+\node[draw=none, fill=none, text=darkgray, text width=4.5cm, align=center] at ($(OtherAgricPractice)!0.5!(CropAndCroppingSystems)$){\huge Cropping \underline {system (b)}};
+\node[draw=none, fill=none, text=darkgray, text width=4cm, align=center] at (OtherWaterFactors|-AvailableSoilWater) {\huge\underline {Soil water (a)}};
+\node[draw=none, fill=none, text=darkgray, text width=5cm, align=center] [right=2mm of CurrentBioticStress] {\huge\underline{Management (c)}};
+
+\node[draw=none, fill=none, text=darkgray] [below=2mm of BiomassExpansion] {\huge\underline{Crop growth (d)}};
+
+%\node [McStyle, text width =30cm] (note1)[below=1cm of %PreviousBioticStress.south east-|AgricManagementEfficiency] {
+%\begin{varwidth}{\textwidth}
+%\begin{center}
+%\textbf Note:
+%\end{center}
+%\end{varwidth}
+%\begin {BlackMcBullets}
+% \item This graph provides a simplified overview of the generic model. %Nodes represent groupings of similar aspects.
+%\end {BlackMcBullets}
+%\begin {BlackMcBullets}
+% \item Bullet lists only provide examples of variables that can be expected %in the model described in fine detail in the technical material.
+%\end {BlackMcBullets}
+%\begin {BlackMcBullets}
+% \item Bubble shapes are Bayesian networks formed by variables (rectangular %shapes) pointing to them.
+%\end {BlackMcBullets}
+%};
+
+\draw [ultra thick, lightgray](current bounding box.north west) rectangle (current bounding box.south east);
+\end{tikzpicture}
+%% End of Overview Detailed Model %%%%
+```
