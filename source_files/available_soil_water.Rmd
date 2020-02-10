@@ -1,0 +1,169 @@
+```{tikz fig5-plot,echo=FALSE,include=FALSE,eval=TRUE,fig.cap="Causal linkages defining the factor ‘available soil water content’ in flood-based farming systems in the Tigray region of Ethiopia and Kisumu County in Kenya (simplified illustration).",fig.ext='png',cache=FALSE,eval=TRUE,engine.opts=list(engine='xetex',template="latex/tikz2pdf.tex")}
+%% Beginning of Available soil water BNs %%%%
+
+\begin{tikzpicture}[node distance = 2cm]
+
+\node[BnsBarplotStyle] (FloodReachsPlot2)  {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Low,Medium, High}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.228,Low)(0.317,Medium)     (0.455,High)};
+
+\end{axis}
+\end{tikzpicture}
+};
+
+\tcbsetmacrotowidthofnode{\mywidth}{FloodReachsPlot2}
+
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](FloodReachsPlot1)[above=0pt of FloodReachsPlot2]{Amount of flood reaching the plot};
+
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (AvailSoilWater2)[below=of FloodReachsPlot2]  {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Drought risk,Normal, Waterlogging risk}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.034,Drought risk)(0.207,Normal)     (0.759,Waterlogging risk)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{AvailSoilWater2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](AvailSoilWater1)[above=0pt of AvailSoilWater2]{Available soil water};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (EvapoTranspirat2)[below=of AvailSoilWater2]  {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Low,Medium, High}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.100,Low)(0.200,Medium)     (0.700,High)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{EvapoTranspirat2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](EvapoTranspirat1)[above=0pt of EvapoTranspirat2]{Evapotranspiration};
+%%%%
+
+
+%%%%
+
+\node[BnsBarplotStyle] (InitWaterCont2)[below left=of AvailSoilWater2]  {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Very low,Low, Medium, High}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.400,Very low)(0.300,Low)(0.150,Medium)     (0.150,High)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{InitWaterCont2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](InitWaterCont1)[above=0pt of InitWaterCont2]{Initial soil water content};
+%%%%
+
+
+%%%%
+
+\node[BnsBarplotStyle] (RainAmount2)[above left=of AvailSoilWater2]  {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Below normal,Normal, Above normal}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.250,Below normal)(0.600,Normal)(0.150,Above normal) };
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{RainAmount2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](RainAmount1)[above=0pt of RainAmount2]{Rainfall amount};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (SoilHoldWater2)[right=of AvailSoilWater2]  {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Low,Medium, High}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.059,Low)(0.194,Medium)     (0.747,High)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{SoilHoldWater2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](SoilHoldWater1)[above=0pt of SoilHoldWater2]{Soil water holding capacity};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (ManureApp2)[above=of SoilHoldWater2]  {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {False, True}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.3,False)(0.7,True) };
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{ManureApp2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](ManureApp1)[above=0pt of ManureApp2]{Manure application};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (SoilType2)[below=of SoilHoldWater2]  {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Sandy, Loamy, Clayey},
+]
+
+\addplot [AddPlotStyle]  coordinates { (0.050,Sandy)(0.550,Loamy)(0.400,Clayey)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{SoilType2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](SoilType1)[above=0pt of SoilType2]{Soil Type};
+%%%%
+
+\draw[thickarrow] (FloodReachsPlot2) -- (AvailSoilWater1);
+\draw[thickarrow] (EvapoTranspirat1) -- (AvailSoilWater2);
+
+\draw[thickes] (InitWaterCont1.north) -- ([yshift=-5mm]InitWaterCont1|-AvailSoilWater2);
+\draw[thickarrow] ([yshift=-5mm]InitWaterCont1|-AvailSoilWater2) -- ([yshift=-5mm]AvailSoilWater2.west);
+
+\draw[thickes] (InitWaterCont1|-RainAmount2.south) -- ([yshift=5mm]InitWaterCont1|-AvailSoilWater2);
+\draw[thickarrow] ([yshift=5mm]InitWaterCont1|-AvailSoilWater2) -- ([yshift=5mm]AvailSoilWater2.west);
+
+\draw[thickarrow] (SoilHoldWater2) -- (AvailSoilWater2);
+\draw[thickarrow] (SoilType1) -- (SoilHoldWater2);
+\draw[thickarrow] (ManureApp2) -- (SoilHoldWater1);
+
+\draw [ultra thick, lightgray](current bounding box.north west) rectangle (current bounding box.south east);
+\end{tikzpicture}
+%% End of Available soil water BNs %%%%
+```

@@ -1,0 +1,305 @@
+```{tikz fig9-plot,echo=FALSE,include=FALSE,eval=TRUE,fig.ext='png',cache=FALSE,eval=TRUE,engine.opts=list(engine='xetex',template="latex/tikz2pdf.tex")}
+%% Beginning of Farming Constraints BNs %%%%
+
+\begin{tikzpicture} [node distance = 2cm]
+%%%%
+
+\node[BnsBarplotStyle] (EffPestDiseaseReduc2)  {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Poor,Good,Excellent}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.162,Poor)(0.217,Good)     (0.621,Excellent)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{EffPestDiseaseReduc2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth, align=center](EffPestDiseaseReduc1)[above=0pt of EffPestDiseaseReduc2]{Effectiveness of pest and disease\\ reduction practices};
+%%%%
+
+
+%%%%
+
+\node[BnsBarplotStyle] (PestDiseaseImpact2) [below=of EffPestDiseaseReduc2]  {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Severe,Significant,Minor}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.213,Severe)(0.190,Significant)(0.597,Minor)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{PestDiseaseImpact2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](PestDiseaseImpact1)[above=0pt of PestDiseaseImpact2]{Pest and disease impact};
+%%%%
+
+
+%%%%
+
+\node[BnsBarplotStyle] (PestDiseaseImpactDev2) [below=of PestDiseaseImpact2] {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Severe,Significant,Minor}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.213,Severe)(0.190,Significant)(0.597,Minor)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{PestDiseaseImpactDev2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth, align=center](PestDiseaseImpactDev1)[above=0pt of PestDiseaseImpactDev2]{Pest and disease impact\\ at development stage};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (AgricManagEff2) [right=of PestDiseaseImpact2] {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Low,Medium,High}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.276,Low)(0.268,Medium)(0.456,High)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{AgricManagEff2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth, align=center](AgricManagEff1)[above=0pt of AgricManagEff2]{Agricultural management\\efficiency};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (AvailSoilNut2) [above=of AgricManagEff2] {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Deficient,Satisfactory,Plenty}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.298,Deficient)(0.342,Satisfactory)(0.456,Plenty)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{AvailSoilNut2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](AvailSoilNut1)[above=0pt of AvailSoilNut2]{Available soil nutrients};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (WeedsImpact2)  [right=of AgricManagEff2]{
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Consuming,Moderate,Negligible}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.359,Consuming)(0.126,Moderate)(0.515,Negligible)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{WeedsImpact2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](WeedsImpact1)[above=0pt of WeedsImpact2]{Weed impact};
+%%%%
+
+
+%%%%
+
+\node[BnsBarplotStyle] (WeedsImpactDev2)  [below=of WeedsImpact2]{
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Consuming,Moderate,Negligible}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.359,Consuming)(0.126,Moderate)(0.515,Negligible)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{WeedsImpactDev2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](WeedsImpactDev1)[above=0pt of WeedsImpactDev2]{Weed impact at development stage};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (EffWeeding2)  [above=of WeedsImpact1]{
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Poor,Good,Excellent}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.204,Poor)(0.298,Good)(0.498,Excellent)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{EffWeeding2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](EffWeeding1)[above=0pt of EffWeeding2]{Effectiveness of weeding};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (EffCropOptions2)  [below=of PestDiseaseImpactDev2]{
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Inefficient,Efficient}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.511,Inefficient)(0.489,Efficient)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{EffCropOptions2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](EffCropOptions1)[above=0pt of EffCropOptions2]{Effectiveness of cropping options};
+
+%%%%
+
+\node[BnsBarplotStyle] (CropType2)  [below=of EffCropOptions2]{
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Sorghum,Maize,Teff,Rice}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.300,Sorghum)(0.400,Maize)(0.100,Teff)(0.200,Rice) };
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{CropType2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](CropType1)[above=0pt of CropType2]{Crop type};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (FarmConstraints2) [right=of EffCropOptions2] {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {High,Medium,Low}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.194,High)(0.466,Medium)(0.340,Low)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{FarmConstraints2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](FarmConstraints1)[above=0pt of FarmConstraints2]{Farming constraints};
+%%%%
+
+%%%%
+
+\node[BnsBarplotStyle] (AdeqWatSupl2) [below=of FarmConstraints2] {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Inadequate,Adequate}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.481,Inadequate)(0.519,Adequate)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{AdeqWatSupl2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](AdeqWatSupl1)[above=0pt of AdeqWatSupl2]{Water supply adequacy};
+%%%%
+
+
+\draw[thickarrow] (WeedsImpactDev1) --  (WeedsImpact2);
+\draw[thickarrow] (EffWeeding2) --  (WeedsImpact1);
+
+\draw[thickarrow] (PestDiseaseImpactDev1) --  (PestDiseaseImpact2);
+\draw[thickarrow] (EffPestDiseaseReduc2) --  (PestDiseaseImpact1);
+
+%\draw[thickarrow] (CropType1.north west) --  (WeedsImpact2.south east);
+\draw[thickes] (CropType2.south) --  ([xshift=5mm,yshift=-5mm]CropType2.south);
+\draw[thickes] ([xshift=5mm,yshift=-5mm]CropType2.south) -- ([yshift=-5mm, xshift=20mm]CropType2.south-|WeedsImpact2.south east);
+\draw[thickes] ([yshift=-5mm, xshift=20mm]CropType2.south-|WeedsImpact2.south east)-- ([xshift=20mm]WeedsImpact2.east);
+\draw[thickarrow] ([xshift=20mm]WeedsImpact2.east) -- (WeedsImpact2.east);
+
+\draw[thickarrow] (CropType1) --  (EffCropOptions2);
+\draw[thickarrow] (CropType2) --  (AdeqWatSupl2);
+\draw[thickes] (CropType2.south) --  ([xshift=-5mm,yshift=-5mm]CropType2.south);
+\draw[thickes] ([xshift=-5mm,yshift=-5mm]CropType2.south) -- ([yshift=-5mm, xshift=-5mm]CropType2.south-|PestDiseaseImpact2.south west);
+
+\draw[thickes] ([yshift=-5mm, xshift=-5mm]CropType2.south-|PestDiseaseImpact2.south west) -- ([xshift=-5mm]PestDiseaseImpact2.west);
+\draw[thickarrow]([xshift=-5mm]PestDiseaseImpact2.west) -- (PestDiseaseImpact2.west);
+
+%\draw[thickarrow, name path= EffCropOptions2 -- FarmConstraints2] (EffCropOptions2) --  (FarmConstraints2);
+\draw[thickarrow] (AdeqWatSupl1) --  (FarmConstraints2);
+\draw[thickarrow] (AgricManagEff2) --  (FarmConstraints1);
+
+
+\draw[thickarrow] (AvailSoilNut2) --  (AgricManagEff1);
+\draw[thickarrow] (WeedsImpact2) --  (AgricManagEff2);
+\draw[thickarrow] (PestDiseaseImpact2) --  (AgricManagEff2);
+
+\node[draw=none, fill=none](FakeNode1) at ($(EffCropOptions1.north east)!0.4!(FarmConstraints1.north west)$) {};
+
+%%%%
+
+\node[BnsBarplotStyle] (AvailSoilWater2) [right=of AdeqWatSupl2] {
+\nodepart{two}
+\begin{tikzpicture}[use background]
+\begin{axis}[AxisStyle,
+                    symbolic y coords = {Drought risk,Normal, Waterlogging risk}
+                  ]
+
+\addplot [AddPlotStyle]  coordinates { (0.077,Drought risk)(0.292,Normal)(0.631,Waterlogging risk)};
+
+\end{axis}
+\end{tikzpicture}
+};
+\tcbsetmacrotowidthofnode{\mywidth}{AvailSoilWater2}
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](AvailSoilWater1)[above=0pt of AvailSoilWater2]{Available soil water};
+%%%%
+
+% \node[draw=none, fill=none] (FakeNode2) at (AvailSoilWater2.south|-AdeqWatSupl1.west) {};
+%\draw[thickes, name path=AvailSoilWater2.south -- FakeNode2] (AvailSoilWater2.south) --  (FakeNode2.center);
+% \draw[thickarrow] (FakeNode2.center) -- (AdeqWatSupl1.west);
+
+
+%\path [name intersections={of=AvailSoilWater2.south -- FakeNode2 and EffCropOptions2 -- FarmConstraints2, by={A}}];
+
+% \node[rectangle, draw=white, fill=white] at (A) { };
+\draw[thickarrow] (AvailSoilWater2) --  (AdeqWatSupl2);
+\draw[thickarrow] (EffCropOptions2) --  (FarmConstraints2);
+
+\node[draw=none, fill=none](Topcheckpoint)[above=0.5cm of EffWeeding1]{};
+\node[draw=none, fill=none](Leftcheckpoint)[left=0.75cm of CropType2]{};
+\node[draw=none, fill=none](Bottomcheckpoint)[below=0.5cm of CropType2]{};
+\node[draw=none, fill=none](Rightcheckpoint)[right=0.5cm of AvailSoilWater2]{};
+
+\draw [ultra thick, lightgray](current bounding box.north west) rectangle (current bounding box.south east);
+
+%% The following are repeated for visibility only
+%%\draw[thickes] (CropType2.south) --  ([yshift=-5mm]CropType2.south);
+%%\draw[thickes] ([yshift=-5mm]CropType2.south) -- ([yshift=-5mm, xshift=-5mm]CropType2.south-|PestDiseaseImpact2.south west);
+
+%%\draw[thickes] ([yshift=-5mm, xshift=-5mm]CropType2.south-|PestDiseaseImpact2.south west) -- ([xshift=-5mm]PestDiseaseImpact2.west);
+%%\draw[thickarrow]([xshift=-5mm]PestDiseaseImpact2.west) -- (PestDiseaseImpact2.west);
+
+%%\draw[thickes] (AgricManagEff1.north) -- ([yshift=5mm]EffWeeding1.north west-|AgricManagEff1.north);
+%%\draw[thickes] ([yshift=5mm]EffWeeding1.north west-|AgricManagEff1.north) -- ([yshift=5mm]EffWeeding1.north west-|AgricManagEff1.north-|FarmConstraints1.north);
+%%\draw[thickarrow] ([yshift=5mm]EffWeeding1.north west-|AgricManagEff1.north-|FarmConstraints1.north) -- (FarmConstraints1.north);
+
+\end{tikzpicture}
+%% End of Farming Constraints BNs %%%%
+
+```

@@ -1,0 +1,264 @@
+```{tikz case-study-2-methods-main,echo=FALSE,include=FALSE,eval=TRUE,fig.ext='png',cache=FALSE,eval=TRUE,engine.opts=list(engine='xetex',template="latex/tikz2pdf.tex")}
+
+%% Beginning of Simplified Monte Carlo Model %%%%
+
+\begin{tikzpicture}
+
+\arrayrulecolor{white}
+
+\node[FlexMcStyle, draw=BlueMcBulletsColor, fill=white] (ExpectedActualYieldDev) {
+\begin{tabular}{c}
+ \hline
+ \rowcolor{graphicbackground}
+ {\LARGE\bf Expected actual yield $(ExpectYaDev)$}\\ \hline \hline
+  \rowcolor{McDomainColor}
+$ActualExplYgDev + (ExpectYaInit \times ExpDev)$ \\ \hline
+\end{tabular}
+};
+
+\node[FlexMcStyle, draw=ModellingInterfaceDomainColor, fill=white] (ExpectedActualYieldInit)[right=of ExpectedActualYieldDev] {
+\begin{tabular}{c}
+\hline
+\rowcolor{graphicbackground}
+{\LARGE\bf Expected actual yield $(ExpectYaInit)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+ $ActualExplYgInit + AvgYaInit$\\ \hline
+\end{tabular}
+};
+
+\node[FlexMcStyle, dashed, draw=ModellingInterfaceDomainColor, fill=white] (AverageActualYieldInit)[above left=of ExpectedActualYieldInit] {
+\begin{tabular}{c | c}
+% \begin{minipage}{2.5cm}
+\hline
+\rowcolor{graphicbackground}
+\multicolumn{2}{c}{\LARGE\bf Average actual yield $(AvgYaInit)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+{Minimum} & {0.04} \\
+\rowcolor{McDomainColor}
+{Median} & {0.26} \\
+\rowcolor{McDomainColor}
+{Maximum} & {0.76} \\
+\rowcolor{McDomainColor}
+{Probability distribution} & {gamma}\\ \hline
+% \end{minipage}
+\end{tabular}
+};
+
+\draw[thickarrow] (AverageActualYieldInit.south east) to [bend right = 20](ExpectedActualYieldInit.north west);
+
+\draw[thickarrow] (ExpectedActualYieldInit.west) -- (ExpectedActualYieldDev.east);
+
+\node[FlexMcStyle, draw=ModellingInterfaceDomainColor, fill=white] (ActualExploitedYieldgapInit)[right= of ExpectedActualYieldInit.north east|-AverageActualYieldInit] {
+\begin{tabular}{c}
+\hline
+\rowcolor{graphicbackground}
+{\LARGE\bf Actually exploited yield gap $(ActualExplYgInit)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+ $ExplYgInit - YgLossInit$\\ \hline
+\end{tabular}
+};
+
+
+\node[FlexMcStyle, draw=ModellingInterfaceDomainColor, fill=white] (ExploitableYieldGapInit) [above right=of AverageActualYieldInit] {
+\begin{tabular}{c}
+\hline
+\rowcolor{graphicbackground}
+{\LARGE\bf Exploitable yield gap $(ExplYgInit)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+ $AttainYpInit - AvgYaInit$\\ \hline
+\end{tabular}
+};
+
+\node[FlexMcStyle, draw=BlueMcBulletsColor, fill=white] (ExploitableYieldGapDev) at ($(ExploitableYieldGapInit)!0.5!(ExpectedActualYieldInit)$) {
+\begin{tabular}{c}
+\hline
+\rowcolor{graphicbackground}
+{\LARGE\bf Exploitable yield gap $(ExplYgDev)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+ $ExplYgInit + (ExplYgInit \times ExpDev)$\\ \hline
+\end{tabular}
+};
+
+\node[FlexMcStyle, draw=BlueMcBulletsColor, fill=white] (ExploitableYieldGapLossDue2ConstraintsDev)[below right= 1.5cm and 4cm of ExpectedActualYieldDev] {
+\begin{tabular}{c}
+\hline
+\rowcolor{graphicbackground}
+{\LARGE\bf Exploitable yield gap loss due to constraints $(YgLossDev)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+ $ExplYgDev \times FcDev$\\ \hline
+\end{tabular}
+};
+
+\node[FlexMcStyle, draw=BlueMcBulletsColor, fill=white] (ActualExploitedYieldgapDev)[left=of ExploitableYieldGapInit] {
+\begin{tabular}{c}
+\hline
+\rowcolor{graphicbackground}
+{\LARGE\bf Actually exploited yield gap $(ActualExplYgDev)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+ $ExplYgInit - ExplLossDev$\\ \hline
+\end{tabular}
+};
+
+\draw[thickarrow] ([xshift = -4cm]ActualExploitedYieldgapDev.south-|ExpectedActualYieldDev) to ([xshift = -4cm]ExpectedActualYieldDev.north);
+
+\node[FlexMcStyle, draw=ModellingInterfaceDomainColor, fill=white] (ExploitableYieldGapLossDue2ConstraintsInit)[right= of ExploitableYieldGapInit] {
+\begin{tabular}{c}
+\hline
+\rowcolor{graphicbackground}
+{\LARGE\bf Exploitable yield gap loss due to constraints $(YgLossInit)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+ $ExplYgInit \times FcInit$\\ \hline
+\end{tabular}
+};
+
+\node[FlexMcStyle,  dashed, draw=ModellingInterfaceDomainColor, fill=white] (YieldPotential)[above= of ExploitableYieldGapLossDue2ConstraintsInit] {
+\begin{tabular}{c | c}
+\hline
+\rowcolor{graphicbackground}
+\multicolumn{2}{c}{\LARGE\bf Yield potential $(YpInit)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+{Minimum} & {0.08} \\
+\rowcolor{McDomainColor}
+{Median} & {0.96} \\
+\rowcolor{McDomainColor}
+{Maximum} & {3.85} \\
+\rowcolor{McDomainColor}
+{Probability distribution} & {gamma}\\ \hline
+\end{tabular}
+};
+
+\node[FlexMcStyle, dashed, draw=ModellingInterfaceDomainColor, fill=white] (ExploitableYieldPotentialInit)[above= of ActualExploitedYieldgapDev] {
+\begin{tabular}{c | c}
+\hline
+\rowcolor{graphicbackground}
+\multicolumn{2}{c}{\LARGE\bf Exploitable yield potential $(ExplYpInit)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+{Minimum} & {0.85} \\
+\rowcolor{McDomainColor}
+{Median} & {0.89} \\
+\rowcolor{McDomainColor}
+{Maximum} & {0.90} \\
+\rowcolor{McDomainColor}
+{Probability distribution} & {unif}\\ \hline
+\end{tabular}
+};
+
+\node[FlexMcStyle, draw=ModellingInterfaceDomainColor, fill=white] (AttainableYieldPotential) at ($(YieldPotential)!0.5!(ExploitableYieldPotentialInit)$) {
+\begin{tabular}{c}
+\hline
+\rowcolor{graphicbackground}
+{\LARGE\bf Attainable yield potential $(AttainYpInit)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+{$YpInit \times ExplYpInit$}\\ \hline
+\end{tabular}
+};
+
+\node[FlexMcStyle,  dashed, draw=BlueMcBulletsColor, fill=white] (BiomassExpansionDev)[right= of ExpectedActualYieldInit] {
+\begin{tabular}{c | c}
+\hline
+\rowcolor{graphicbackground}
+\multicolumn{2}{c}{\LARGE\bf Biomass expansion factor $(ExpDev)$}\\ \hline \hline
+\rowcolor{McDomainColor}
+{Minimum} & {0.27} \\
+\rowcolor{McDomainColor}
+{Median} & { } \\
+\rowcolor{McDomainColor}
+{Maximum} & {0.68} \\
+\rowcolor{McDomainColor}
+{Probability distribution} & {gamma}\\ \hline
+\end{tabular}
+};
+
+\node[CloudyBnsStyle, draw=ModellingInterfaceDomainColor, fill=white] (FarmingConstraintsInit) [right= of YieldPotential] {\LARGE\bf Farming\\\LARGE\bf constraints\\$(FcInit)$};
+
+\node[draw=none, fill=none] (corner1) at ($(ExploitableYieldGapLossDue2ConstraintsDev.north west)!0.5!(ExpectedActualYieldInit.south)$) {};
+
+\node[draw=none, fill=none] (corner2) at (corner1-|ExpectedActualYieldDev.south west) {};
+
+\node[draw=none, fill=none] (corner3) at (corner2|-ActualExploitedYieldgapDev.west) {};
+
+\node[CloudyBnsStyle, draw=BlueMcBulletsColor, fill=white] (FarmingConstraintsDev) at (ExploitableYieldGapLossDue2ConstraintsDev-|FarmingConstraintsInit) {\LARGE\bf Farming\\\LARGE\bf constraints\\$(FcDev)$};
+
+%\node [McStyle, text width =15cm] (note1)[left=of %ExploitableYieldGapLossDue2ConstraintsDev] {
+%\begin{varwidth}{\textwidth}
+%\begin{center}
+%Note:
+%\end{center}
+%\end{varwidth}
+%\begin {GrayModellingInterfaceBullets}
+% \item Gray-bordered nodes are taken at initial stage.
+%\end {GrayModellingInterfaceBullets}
+%\begin {BlueMcBullets}
+% \item Blue-bordered nodes are taken at development stage.
+%\end {BlueMcBullets}
+%\begin {BlackMcBullets}
+% \item Dashed and plain lines nodes, respectively, are elicited and %computed.
+%\end {BlackMcBullets}
+%};
+
+
+%\draw[thickarrow] ([xshift=1cm]ExploitableYieldGapLossDue2ConstraintsDev.north west) -- (corner1.south) -- (corner2.south west) -- (corner3.west) -- (ActualExploitedYieldgapDev.west);
+
+\draw[thickarrow] ([xshift=1cm]ExploitableYieldGapLossDue2ConstraintsDev.north west) -- (corner1.south) -- (corner2.south west) -- (ActualExploitedYieldgapDev.south-|corner2.south west);
+
+\draw[thickarrow, name path=BiomassExpansionDev--ExpectedActualYieldDev] (BiomassExpansionDev.west|-corner1.west) -- (corner1.west) -- (corner2.west-|ExpectedActualYieldDev) -- (ExpectedActualYieldDev);
+
+\draw[thickarrow, name path=BiomassExpansionDev--ExploitableYieldGapDev] (BiomassExpansionDev.north west) to [bend right=10](ExploitableYieldGapDev.east);
+
+%\draw[thickes] (FarmingConstraintsInit.east) -- (ExploitableYieldGapLossDue2ConstraintsInit.south|-FarmingConstraintsInit.east);
+
+%\draw[thickarrow] (ExploitableYieldGapLossDue2ConstraintsInit.south|-FarmingConstraintsInit.east) -- (ExploitableYieldGapLossDue2ConstraintsInit.south);
+
+\draw[thickarrow] (FarmingConstraintsInit.south) -- (ExploitableYieldGapLossDue2ConstraintsInit.north-|FarmingConstraintsInit.south);
+
+\draw[thickarrow] (ExploitableYieldGapLossDue2ConstraintsInit.south) -- (ActualExploitedYieldgapInit.north-|ExploitableYieldGapLossDue2ConstraintsInit.south);
+
+\draw[thickarrow] (ExploitableYieldGapInit.east) -- (ExploitableYieldGapLossDue2ConstraintsInit.west);
+
+\draw[thickarrow] (ExploitableYieldGapInit.south east) to [bend left=20](ActualExploitedYieldgapInit.north west);
+
+\draw[thickarrow] (AverageActualYieldInit.north east) to [bend left=20] (ExploitableYieldGapInit.south west);
+
+\draw[thickarrow] (YieldPotential) -- (AttainableYieldPotential);
+
+\draw[thickarrow] (ExploitableYieldPotentialInit) -- (AttainableYieldPotential);
+
+\draw[thickarrow] (AttainableYieldPotential.south-|ExploitableYieldGapInit) -- (ExploitableYieldGapInit);
+
+\draw[thickarrow] (ExploitableYieldGapInit.south-|AttainableYieldPotential.south-|ExploitableYieldGapInit) -- (ExploitableYieldGapDev.north-|AttainableYieldPotential.south-|ExploitableYieldGapInit);
+
+\draw[thickarrow] (ExploitableYieldGapInit) -- (ActualExploitedYieldgapDev);
+
+%\draw[thickarrow, name path=ExploitableYieldGapDev--ExploitableYieldGapLossDue2ConstraintsDev] (ExploitableYieldGapDev.south east) to [bend left=10]([xshift=-0.5cm]ExploitableYieldGapLossDue2ConstraintsDev.north);
+\draw[thickarrow, name path=ExploitableYieldGapDev--ExploitableYieldGapLossDue2ConstraintsDev] (ExploitableYieldGapDev.south east) to [bend left=30]([xshift=0cm]ExploitableYieldGapLossDue2ConstraintsDev.north);
+\draw[thickarrow, name path=ActualExploitedYieldgapInit--ExpectedActualYieldInit] (ActualExploitedYieldgapInit.south west) to [bend left = 20](ExpectedActualYieldInit.north east);
+
+\path [name intersections={of=BiomassExpansionDev--ExploitableYieldGapDev and ActualExploitedYieldgapInit--ExpectedActualYieldInit, by={A}}];
+\path [name intersections={of=ExploitableYieldGapDev--ExploitableYieldGapLossDue2ConstraintsDev and ActualExploitedYieldgapInit--ExpectedActualYieldInit, by={B}}];
+\path [name intersections={of=BiomassExpansionDev--ExpectedActualYieldDev and ExploitableYieldGapDev--ExploitableYieldGapLossDue2ConstraintsDev, by={C}}];
+
+\node[rectangle, draw=white, fill=white] at (A) { };
+\node[rectangle, draw=white, fill=white] at (B) { };
+\node[rectangle, draw=white, fill=white] at (C) { };
+
+\draw[thickarrow, name path=ActualExploitedYieldgapInit--ExpectedActualYieldInit] (ActualExploitedYieldgapInit.south west) to [bend left = 20](ExpectedActualYieldInit.north east);
+
+\draw[thickarrow, name path=BiomassExpansionDev--ExpectedActualYieldDev] (BiomassExpansionDev.west|-corner1.west) -- (corner1.west) -- (corner2.west-|ExpectedActualYieldDev) -- (ExpectedActualYieldDev);
+
+
+%BiomassExpansionDev--ExploitableYieldGapDev
+%ExploitableYieldGapDev--ExploitableYieldGapLossDue2ConstraintsDev
+%ActualExploitedYieldgapInit--ExpectedActualYieldInit
+
+
+%\draw[thickes] (FarmingConstraintsDev.west) -- ([xshift=1cm]ExploitableYieldGapLossDue2ConstraintsDev.south west|-FarmingConstraintsDev.west);
+
+%\draw[thickarrow] ([xshift=1cm]ExploitableYieldGapLossDue2ConstraintsDev.south west|-FarmingConstraintsDev.west) -- ([xshift=1cm]ExploitableYieldGapLossDue2ConstraintsDev.south west);
+
+\draw[thickarrow] (FarmingConstraintsDev) -- (ExploitableYieldGapLossDue2ConstraintsDev);
+
+\draw [ultra thick, lightgray](current bounding box.north west) rectangle (current bounding box.south east);
+
+\end{tikzpicture}
+%% End of Simplified Monte Carlo Model %%%%
+```
