@@ -1,0 +1,15 @@
+##Farming constraints partial  ####
+ficher <- "output_files/Modelling_FBFS_BNs_Case_study_3.rds"
+if(!file.exists(ficher)){
+  net <- bnlearn::model2network("[Available_soil_nutrients_at_mid_stage][Available_soil_water_at_mid_stage][Effectiveness_of_weeding_at_mid_stage][Weed_impacts_at_development_stage][Crop_type][Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage][Pest_and_disease_impacts_at_development_stage][Weed_impacts_at_mid_stage|Effectiveness_of_weeding_at_mid_stage:Weed_impacts_at_development_stage:Crop_type][Pest_and_disease_impacts_at_mid_stage|Effectiveness_of_pest_and_disease_reduction_practices_at_mid_stage:Pest_and_disease_impacts_at_development_stage:Crop_type][Agricultural_management_efficiency_at_mid_stage|nutrient_supply_adequacy_at_mid_stage:Pest_and_disease_impacts_at_mid_stage:Weed_impacts_at_mid_stage][nutrient_supply_adequacy_at_mid_stage|Available_soil_nutrients_at_mid_stage:Crop_type][Water_supply_adequacy_at_mid_stage|Available_soil_water_at_mid_stage:Crop_type][Effectiveness_of_cropping_options|Crop_type][Local_constraints_at_mid_stage|Effectiveness_of_cropping_options:Water_supply_adequacy_at_mid_stage:Agricultural_management_efficiency_at_mid_stage][Local_constraints_at_late_stage|Effectiveness_of_cropping_options:Water_supply_adequacy_at_mid_stage:Agricultural_management_efficiency_at_mid_stage]")
+  
+  net <- decisionSupportExtra::extract_bn(bn = network_bn_fit, string_model = net)
+  saveRDS(net, ficher)
+} else {
+  net <- readRDS(ficher)
+}
+
+rm(network_bn_fit); gc(verbose=FALSE)
+
+
+

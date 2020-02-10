@@ -1,11 +1,11 @@
 base
+gRbase
+gRain
 usethis
 devtools
 decisionSupportExtra
 ggnomics
 pacman
-gRbase
-gRain
 bnlearn
 BiocGenerics
 graph

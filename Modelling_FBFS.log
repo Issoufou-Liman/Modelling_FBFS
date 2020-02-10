@@ -1,17 +1,22 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.2.7)  7 FEB 2020 10:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2020.2.6)  10 FEB 2020 06:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **Modelling_FBFS.tex
 (./Modelling_FBFS.tex
 LaTeX2e <2020-02-02>
-L3 programming layer <2020-02-03> (/home/liman/.TinyTeX/texmf-dist/tex/latex/el
-sarticle/elsarticle.cls
+L3 programming layer <2020-02-03>
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/elsarticle/els
+article.cls
 Document Class: elsarticle 2019/02/25, 3.2: Elsevier Ltd
 \@bls=\dimen134
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/base/article.cls
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.c
+ls
 Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/base/size10.clo
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.cl
+o
 File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
 )
 \c@part=\count167
@@ -25,20 +30,32 @@ File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen135
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graph
+icx.sty
 Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyva
+l.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks14
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graph
+ics.sty
 Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/trig.
+sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/g
+raphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 105.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/p
+dftex.def
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen136
@@ -63,8 +80,9 @@ File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 \@enLab=\toks16
 \@sep=\skip49
 \@@sep=\skip50
-(./Modelling_FBFS.spl) (/home/liman/.TinyTeX/texmf-dist/tex/latex/natbib/natbib
-.sty
+(./Modelling_FBFS.spl)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/natbib/natbib.
+sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip51
 \bibsep=\skip52
@@ -75,10 +93,12 @@ LaTeX Info: Redefining \cite on input line 694.
 \openout3 = `Modelling_FBFS.spl'.
 
 \appnamewidth=\dimen141
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/url/url.sty
+) (c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/lineno/lineno.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lineno/lineno.
+sty
 Package: lineno 2005/11/02 line numbers on paragraphs v4.41
 \linenopenalty=\count182
 \output=\toks17
@@ -95,7 +115,9 @@ Package: lineno 2005/11/02 line numbers on paragraphs v4.41
 \bframesep=\dimen146
 \bframebox=\box51
 LaTeX Info: Redefining \\ on input line 3056.
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/bookt
+abs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen147
 \lightrulewidth=\dimen148
@@ -114,9 +136,12 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count191
 \@lastruleclass=\count192
 \@thisrulewidth=\dimen159
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fontenc.s
+ty
 Package: fontenc 2020/01/25 v2.0m Standard LaTeX package
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty
 Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -150,9 +175,13 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amssy
+mb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfo
+nts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \@emptytoks=\toks18
 \symAMSa=\mathgroup4
@@ -160,20 +189,30 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (/home/liman/.TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+))
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsmat
+h.sty
 Package: amsmath 2020/01/20 v2.17e AMS math features
 \@mathmargin=\skip53
 For additional information on amsmath, use the `?' option.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amstex
+t.sty
 Package: amstext 2000/06/29 v2.01 AMS text
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen
+.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks19
 \ex@=\dimen160
-)) (/home/liman/.TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
+))
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy
+.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen161
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn
+.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
 \inf@bad=\count193
@@ -213,13 +252,21 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
 \mathdisplay@stack=\toks23
 LaTeX Info: Redefining \[ on input line 2859.
 LaTeX Info: Redefining \] on input line 2860.
-) (/home/liman/.TinyTeX/texmf-dist/tex/generic/iftex/ifxetex.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifxete
+x.sty
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
-(/home/liman/.TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.
+sty
 Package: iftex 2019/11/07 v1.0c TeX engine tests
-)) (/home/liman/.TinyTeX/texmf-dist/tex/generic/iftex/ifluatex.sty
+))
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifluat
+ex.sty
 Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/base/fixltx2e.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fixltx2e.
+sty
 Package: fixltx2e 2016/12/29 v2.1a fixes to LaTeX (obsolete)
 Applying: [2015/01/01] Old fixltx2e package on input line 46.
 
@@ -228,76 +275,138 @@ Package fixltx2e Warning: fixltx2e is not required with releases after 2015
 (fixltx2e)                See the latexrelease package for details.
 
 Already applied: [0000/00/00] Old fixltx2e package on input line 53.
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/upquote/upquote.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/upquote/upquot
+e.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/base/textcomp.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/textcomp.
+sty
 Package: textcomp 2020/02/02 v2.0m Standard LaTeX package
-)) (/home/liman/.TinyTeX/texmf-dist/tex/latex/base/inputenc.sty
+))
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/inputenc.
+sty
 Package: inputenc 2018/08/11 v1.3c Input encoding file
 \inpenc@prehook=\toks24
 \inpenc@posthook=\toks25
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/micr
+otype.sty
+Package: microtype 2018/01/14 v2.7a Micro-typographical refinements (RS)
+\MT@toks=\toks26
+\MT@count=\count271
+LaTeX Info: Redefining \textls on input line 793.
+\MT@outer@kern=\dimen169
+LaTeX Info: Redefining \textmicrotypecontext on input line 1339.
+\MT@listname@count=\count272
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/micr
+otype-pdftex.def
+File: microtype-pdftex.def 2018/01/14 v2.7a Definitions specific to pdftex (RS)
+
+LaTeX Info: Redefining \lsstyle on input line 913.
+LaTeX Info: Redefining \lslig on input line 913.
+\MT@outer@space=\skip56
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/micr
+otype.cfg
+File: microtype.cfg 2018/01/14 v2.7a microtype main configuration file (RS)
+))
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtabl
+e.sty
 Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
-\LTleft=\skip56
-\LTright=\skip57
-\LTpre=\skip58
-\LTpost=\skip59
-\LTchunksize=\count271
-\LTcapwidth=\dimen169
+\LTleft=\skip57
+\LTright=\skip58
+\LTpre=\skip59
+\LTpost=\skip60
+\LTchunksize=\count273
+\LTcapwidth=\dimen170
 \LT@head=\box54
 \LT@firsthead=\box55
 \LT@foot=\box56
 \LT@lastfoot=\box57
-\LT@cols=\count272
-\LT@rows=\count273
-\c@LT@tables=\count274
-\c@LT@chunks=\count275
-\LT@p@ftn=\toks26
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
+\LT@cols=\count274
+\LT@rows=\count275
+\c@LT@tables=\count276
+\c@LT@chunks=\count277
+\LT@p@ftn=\toks27
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyper
+ref.sty
 Package: hyperref 2020/01/14 v7.00d Hypertext links for LaTeX
-(/home/liman/.TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxc
+mds.sty
 Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/pdftexcmds/pdftexcmds.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdftexcmds/pdf
+texcmds.sty
 Package: pdftexcmds 2019/11/24 v0.31 Utility functions of pdfTeX for LuaTeX (HO
 )
-(/home/liman/.TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/in
+fwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-) (/home/liman/.TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvsetkeys/kv
+setkeys.sty
 Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
-) (/home/liman/.TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys
+/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-) (/home/liman/.TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdfescape/pd
+fescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hycolor/hycolo
+r.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/letltxmacro/le
+tltxmacro.sty
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/auxhook/auxhoo
+k.sty
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvop
+tions.sty
 Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
 )
-\@linkdim=\dimen170
-\Hy@linkcounter=\count276
-\Hy@pagecounter=\count277
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+\@linkdim=\dimen171
+\Hy@linkcounter=\count278
+\Hy@pagecounter=\count279
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1en
+c.def
 File: pd1enc.def 2020/01/14 v7.00d Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-) (/home/liman/.TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intc
+alc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
-) (/home/liman/.TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/etexcmds/ete
+xcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count278
-\pdfmajorversion=\count279
+\Hy@SavedSpaceFactor=\count280
+\pdfmajorversion=\count281
 Package hyperref Info: Option `unicode' set `true' on input line 4421.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc
+.def
 File: puenc.def 2020/01/14 v7.00d Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
@@ -309,18 +418,22 @@ Package hyperref Info: Plain pages OFF on input line 4562.
 Package hyperref Info: Backreferencing OFF on input line 4567.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4800.
-\c@Hy@tempcnt=\count280
+\c@Hy@tempcnt=\count282
 LaTeX Info: Redefining \url on input line 5159.
-\XeTeXLinkMargin=\dimen171
-(/home/liman/.TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
+\XeTeXLinkMargin=\dimen172
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitse
+t.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-(/home/liman/.TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/b
+igintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count281
-\Field@Width=\dimen172
-\Fld@charsize=\dimen173
+\Fld@menulength=\count283
+\Field@Width=\dimen173
+\Fld@charsize=\dimen174
 Package hyperref Info: Hyper figures OFF on input line 6430.
 Package hyperref Info: Link nesting OFF on input line 6435.
 Package hyperref Info: Hyper index ON on input line 6438.
@@ -330,31 +443,41 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6455.
 Package hyperref Info: PDF/A mode OFF on input line 6460.
 LaTeX Info: Redefining \ref on input line 6500.
 LaTeX Info: Redefining \pageref on input line 6504.
-(/home/liman/.TinyTeX/texmf-dist/tex/generic/atbegshi/atbegshi.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/atbegshi/atb
+egshi.sty
 Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
 )
-\Hy@abspage=\count282
-\c@Item=\count283
-\c@Hfootnote=\count284
+\Hy@abspage=\count284
+\c@Item=\count285
+\c@Hfootnote=\count286
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdft
+ex.def
 File: hpdftex.def 2020/01/14 v7.00d Hyperref driver for pdfTeX
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/atveryend/atveryend.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/atveryend/atve
+ryend.sty
 Package: atveryend 2019-12-11 v1.11 Hooks at the very end of document (HO)
 Package atveryend Info: \enddocument detected (standard20110627).
 )
-\Fld@listcount=\count285
-\c@bookmark@seq@number=\count286
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+\Fld@listcount=\count287
+\c@bookmark@seq@number=\count288
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck
+/rerunfilecheck.sty
 Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
-(/home/liman/.TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/uniquecounte
+r/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 86.
 )
-\Hy@SectionHShift=\skip60
+\Hy@SectionHShift=\skip61
 )
 Package hyperref Info: Option `breaklinks' set `true' on input line 50.
 
@@ -362,11 +485,15 @@ Package hyperref Warning: Option `bookmarks' has already been used,
 (hyperref)                setting the option has no effect on input line 50.
 
 Package hyperref Info: Option `colorlinks' set `false' on input line 50.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/setspace/setspace.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/setspace/setsp
+ace.sty
 Package: setspace 2011/12/19 v6.7a set line spacing
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3ba
+ckend-pdfmode.def
 File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count287
+\l__kernel_color_stack_int=\count289
 \l__pdf_internal_box=\box58
 ) (./Modelling_FBFS.aux)
 \openout1 = `Modelling_FBFS.aux'.
@@ -391,27 +518,56 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 62.
 LaTeX Font Info:    ... okay on input line 62.
 LaTeX Font Info:    Trying to load font information for T1+lmr on input line 62
 .
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) (/home/liman/.TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/e
+pstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/ep
+stopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+LaTeX Info: Redefining \microtypecontext on input line 62.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
+Package microtype Info: Using default expansion set `basictext'.
+
+LaTeX Warning: Command \showhyphens  has changed.
+               Check if current package is valid.
+
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-c
+mr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
+(RS)
+)
 \AtBeginShipoutBox=\box59
 Package hyperref Info: Link coloring OFF on input line 62.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/namer
+ef.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refco
+unt.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-) (/home/liman/.TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.st
-y
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestri
+ng/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count288
+\c@section@level=\count290
 )
 LaTeX Info: Redefining \ref on input line 62.
 LaTeX Info: Redefining \pageref on input line 62.
@@ -422,22 +578,22 @@ LaTeX Info: Redefining \nameref on input line 62.
 
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 8
 3.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 8
 3.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
 83.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
 83.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -448,19 +604,35 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 83.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 83.
 
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.
+fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-m
+sa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 83.
 
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.
+fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-m
+sb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 8
 3.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `lmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10> on input line 83.
 LaTeX Font Info:    External font `lmex10' loaded for size
@@ -489,11 +661,11 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [1
 
 
-{/home/liman/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4
-] [5]
+{c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/p
+dftex.map}] [2] [3] [4] [5]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
 21.
-(/home/liman/.TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
+(c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 <figures/Modelling_FBFS_study_area.pdf, id=129, 498.86375pt x 479.7925pt>
@@ -514,23 +686,23 @@ Package pdftex.def Info: figures/fig2-plot-1.pdf  used on input line 154.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[8] [9 <./figures/fig2-plot-1.pdf>] [10] [11] [12] [13]
-<figures/fig3-plot-1.pdf, id=243, 979.04773pt x 365.72633pt>
+[8] [9 <./figures/fig2-plot-1.pdf>] [10] [11] [12]
+<figures/fig3-plot-1.pdf, id=237, 979.04773pt x 365.72633pt>
 File: figures/fig3-plot-1.pdf Graphic file (type pdf)
 <use figures/fig3-plot-1.pdf>
 Package pdftex.def Info: figures/fig3-plot-1.pdf  used on input line 219.
 (pdftex.def)             Requested size: 345.0pt x 128.8767pt.
-[14 <./figures/fig3-plot-1.pdf>] [15]
-<figures/fig4-plot-1.pdf, id=277, 934.4812pt x 687.97028pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[13] [14 <./figures/fig3-plot-1.pdf>] [15]
+<figures/fig4-plot-1.pdf, id=278, 934.4812pt x 687.97028pt>
 File: figures/fig4-plot-1.pdf Graphic file (type pdf)
 <use figures/fig4-plot-1.pdf>
 Package pdftex.def Info: figures/fig4-plot-1.pdf  used on input line 257.
 (pdftex.def)             Requested size: 345.0pt x 253.98865pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[16]
-<Modelling_FBFS_files/figure-latex/fig5-plot-1.pdf, id=291, 993.90321pt x 388.5
+[16 <./figures/fig4-plot-1.pdf>]
+<Modelling_FBFS_files/figure-latex/fig5-plot-1.pdf, id=313, 993.90321pt x 388.5
 717pt>
 File: Modelling_FBFS_files/figure-latex/fig5-plot-1.pdf Graphic file (type pdf)
 
@@ -541,20 +713,16 @@ d on input line 273.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[17 <./figures/fig4-plot-1.pdf>]
-<figures/Modelling_FBFS_factor_of_soil_water.pdf, id=322, 542.025pt x 210.7875p
+<figures/Modelling_FBFS_factor_of_soil_water.pdf, id=316, 542.025pt x 210.7875p
 t>
 File: figures/Modelling_FBFS_factor_of_soil_water.pdf Graphic file (type pdf)
 <use figures/Modelling_FBFS_factor_of_soil_water.pdf>
 Package pdftex.def Info: figures/Modelling_FBFS_factor_of_soil_water.pdf  used 
 on input line 286.
 (pdftex.def)             Requested size: 345.0pt x 134.17021pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[18 <./Modelling_FBFS_files/figure-latex/fig5-plot-1.pdf>] [19 <./figures/Model
+[17] [18 <./Modelling_FBFS_files/figure-latex/fig5-plot-1.pdf> <./figures/Model
 ling_FBFS_factor_of_soil_water.pdf>]
-<Modelling_FBFS_files/figure-latex/fig7-plot-1.pdf, id=388, 1217.21756pt x 501.
+<Modelling_FBFS_files/figure-latex/fig7-plot-1.pdf, id=381, 1217.21756pt x 501.
 9051pt>
 File: Modelling_FBFS_files/figure-latex/fig7-plot-1.pdf Graphic file (type pdf)
 
@@ -562,7 +730,11 @@ File: Modelling_FBFS_files/figure-latex/fig7-plot-1.pdf Graphic file (type pdf)
 Package pdftex.def Info: Modelling_FBFS_files/figure-latex/fig7-plot-1.pdf  use
 d on input line 305.
 (pdftex.def)             Requested size: 345.0pt x 142.25562pt.
-<figures/Modelling_FBFS_biomass_yield_Initial_and_late_stage.pdf, id=391, 542.0
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[19]
+<figures/Modelling_FBFS_biomass_yield_Initial_and_late_stage.pdf, id=392, 542.0
 25pt x 588.1975pt>
 File: figures/Modelling_FBFS_biomass_yield_Initial_and_late_stage.pdf Graphic f
 ile (type pdf)
@@ -573,9 +745,7 @@ stage.pdf  used on input line 320.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[20 <./Modelling_FBFS_files/figure-latex/fig7-plot-1.pdf>] [21 <./figures/Model
-ling_FBFS_biomass_yield_Initial_and_late_stage.pdf>]
-<Modelling_FBFS_files/figure-latex/fig9-plot-1.pdf, id=447, 1039.99539pt x 730.
+<Modelling_FBFS_files/figure-latex/fig9-plot-1.pdf, id=397, 1039.99539pt x 730.
 06755pt>
 File: Modelling_FBFS_files/figure-latex/fig9-plot-1.pdf Graphic file (type pdf)
 
@@ -583,8 +753,12 @@ File: Modelling_FBFS_files/figure-latex/fig9-plot-1.pdf Graphic file (type pdf)
 Package pdftex.def Info: Modelling_FBFS_files/figure-latex/fig9-plot-1.pdf  use
 d on input line 334.
 (pdftex.def)             Requested size: 345.0pt x 242.18184pt.
-[22 <./Modelling_FBFS_files/figure-latex/fig9-plot-1.pdf>]
-<figures/Modelling_FBFS_grain_yield_violin_LOW.pdf, id=483, 542.025pt x 505.89p
+[20 <./Modelling_FBFS_files/figure-latex/fig7-plot-1.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[21 <./figures/Modelling_FBFS_biomass_yield_Initial_and_late_stage.pdf>]
+<figures/Modelling_FBFS_grain_yield_violin_LOW.pdf, id=448, 542.025pt x 505.89p
 t>
 File: figures/Modelling_FBFS_grain_yield_violin_LOW.pdf Graphic file (type pdf)
 
@@ -592,10 +766,14 @@ File: figures/Modelling_FBFS_grain_yield_violin_LOW.pdf Graphic file (type pdf)
 Package pdftex.def Info: figures/Modelling_FBFS_grain_yield_violin_LOW.pdf  use
 d on input line 345.
 (pdftex.def)             Requested size: 345.0pt x 322.0085pt.
-[23 <./figures/Modelling_FBFS_grain_yield_violin_LOW.pdf>] [24] [25] [26] [27] 
-[28] [29] [30] [31] [32] [33] [34]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[22 <./Modelling_FBFS_files/figure-latex/fig9-plot-1.pdf>] [23 <./figures/Model
+ling_FBFS_grain_yield_violin_LOW.pdf>] [24] [25] [26] [27] [28] [29] [30] [31] 
+[32] [33]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 545.
-[35]
+[34]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 545.
 (./Modelling_FBFS.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 545.
@@ -605,31 +783,36 @@ Package rerunfilecheck Info: File `Modelling_FBFS.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 545.
  ) 
 Here is how much of TeX's memory you used:
- 10806 strings out of 483192
- 153915 string characters out of 5966380
- 390564 words of memory out of 5000000
- 25456 multiletter control sequences out of 15000+600000
- 584812 words of font info for 62 fonts, out of 8000000 for 9000
+ 12467 strings out of 483192
+ 188210 string characters out of 5964569
+ 452655 words of memory out of 5000000
+ 26971 multiletter control sequences out of 15000+600000
+ 590074 words of font info for 123 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 38i,7n,34p,2093b,413s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/home/liman/.TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/home/liman/.
-TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</home/liman/.TinyTeX/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi12.pfb></home/liman/.TinyTeX/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmr10.pfb></home/liman/.TinyTeX/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr12.pfb></home/liman/.TinyTeX/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr17.pfb></home/liman/.TinyTeX/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmsy10.pfb></home/liman/.TinyTeX/texmf-dist/fonts/type1/public/lm
-/lmbx10.pfb></home/liman/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></
-home/liman/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></home/liman/.Ti
-nyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></home/liman/.TinyTeX/texmf-dis
-t/fonts/type1/public/lm/lmr8.pfb></home/liman/.TinyTeX/texmf-dist/fonts/type1/p
-ublic/lm/lmri10.pfb></home/liman/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri
-7.pfb></home/liman/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb></home/l
-iman/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Modelling_FBFS.pdf (35 pages, 4875620 bytes).
+ 39i,7n,42p,2093b,423s stack positions out of 5000i,500n,10000p,200000b,80000s
+{c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-
+ts1.enc}{c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/
+lm/lm-ec.enc}<c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi12.pfb><c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/LIssoufou/AppData/Roa
+ming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/Users/LIss
+oufou/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.p
+fb><c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb><c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/fon
+ts/type1/public/lm/lmbx10.pfb><c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf
+-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/LIssoufou/AppData/Roaming/TinyT
+eX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/LIssoufou/AppData/Roami
+ng/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/LIssoufou/AppDat
+a/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/LIssoufou
+/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/
+LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri7.pfb><c
+:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri
+8.pfb><c:/Users/LIssoufou/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public
+/lm/lmtt8.pfb>
+Output written on Modelling_FBFS.pdf (34 pages, 4898358 bytes).
 PDF statistics:
- 714 PDF objects out of 1000 (max. 8388607)
- 576 compressed objects within 6 object streams
- 153 named destinations out of 1000 (max. 500000)
- 219 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 709 PDF objects out of 1000 (max. 8388607)
+ 572 compressed objects within 6 object streams
+ 152 named destinations out of 1000 (max. 500000)
+ 17627 words of extra memory for PDF output out of 20736 (max. 10000000)
 
