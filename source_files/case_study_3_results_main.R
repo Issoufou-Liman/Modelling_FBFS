@@ -134,8 +134,28 @@ model_function <- function(x){
 
 ### Rice ####
 ficher <- "output_files/Modelling_FBFS_model_RICE_RAW_predictions_Case_study_3.rds"
-if(file.exists(ficher)){
-  mc_nodes_biomass_exp_factor_init <- list(mc_nodes_lower_biomass_exp_factor_init=estimate(distribution = 'unif', lower = .Machine$double.eps, median = 0.19-0.1, upper = 0.20-0.1, variable= 'biomass_exp_factor_init', method = 'fit'),
+# bn nodes estimates
+
+stage_ratio = c(initial_stage = 0.27,  development_stage = 0.80, mid_stage = 0.95, late_stage = 1)
+
+## A function for making an informed guess of biomass yield at each stage
+## This can also be used as checklist for the final prediction
+guess_biomass_yield <- function(grain_yield_pot, 
+                                # harvest_index = c(0.1, 0.3),
+                                stage_ratio = c(initial_stage = 0.10,  development_stage = 0.80, mid_stage = 0.95, late_stage = 1)){
+  # harvest_index <- runif(1000, harvest_index[1], harvest_index[2]) #
+  # total_biomass_pot <- sapply(harvest_index, function(i){
+  #   grain_yield_pot/i
+  # })
+  
+  total_biomass_pot <- sapply(stage_ratio, function (i){
+    # total_biomass_pot*i
+    grain_yield_pot*i
+  }, simplify = TRUE, USE.NAMES = TRUE)
+  as.data.frame(na.omit(total_biomass_pot))
+}
+
+ mc_nodes_biomass_exp_factor_init <- list(mc_nodes_lower_biomass_exp_factor_init=estimate(distribution = 'unif', lower = .Machine$double.eps, median = 0.19-0.1, upper = 0.20-0.1, variable= 'biomass_exp_factor_init', method = 'fit'),
                                            mc_nodes_mid_biomass_exp_factor_init=estimate(distribution = 'unif', lower = 0.18, median = 0.19, upper = 0.20, variable= 'biomass_exp_factor_init', method = 'fit'),
                                            mc_nodes_upper_biomass_exp_factor_init=estimate(distribution = 'unif', lower = 0.19, median = 0.19+0.1, upper = 0.20+0.1, variable= 'biomass_exp_factor_init', method = 'fit'))
   
@@ -151,32 +171,15 @@ if(file.exists(ficher)){
   mc_nodes_biomass_exp_factor_late <- list(mc_nodes_lower_biomass_exp_factor_late=estimate(distribution = 'unif', lower = .Machine$double.eps, median = 0.09-0.01, upper = 0.10-0.01, variable= 'biomass_exp_factor_late', method = 'fit'),
                                            mc_nodes_mid_biomass_exp_factor_late=estimate(distribution = 'unif', lower = 0.05, median = 0.09, upper = 0.10, variable= 'biomass_exp_factor_late', method = 'fit'),
                                            mc_nodes_upper_biomass_exp_factor_late=estimate(distribution = 'unif', lower = 0.08, median = 0.09+0.01, upper = 0.10+0.01, variable= 'biomass_exp_factor_late', method = 'fit'))
-  
-  mc_nodes_harvest_index <- list(mc_nodes_lower_harvest_index=estimate(distribution = 'gamma', lower = .Machine$double.eps, median=0.1, upper = 0.3, variable= 'harvest_index', method = 'fit'),
+
+mc_nodes_harvest_index <- list(mc_nodes_lower_harvest_index=estimate(distribution = 'gamma', lower = .Machine$double.eps, median=0.1, upper = 0.3, variable= 'harvest_index', method = 'fit'),
                                  mc_nodes_mid_harvest_index=estimate(distribution = 'gamma', lower = 0.2, median=0.4, upper = 0.5, variable= 'harvest_index', method = 'fit'),
                                  mc_nodes_upper_harvest_index=estimate(distribution = 'gamma', lower = 0.3, median=0.6, upper = 0.7, variable= 'harvest_index', method = 'fit'))
   
+  if(!file.exists(ficher)){
+   
   
   source("data_files/rice.R")
-  stage_ratio = c(initial_stage = 0.27,  development_stage = 0.80, mid_stage = 0.95, late_stage = 1)
-  
-  ## A function for making an informed guess of biomass yield at each stage
-  ## This can also be used as checklist for the final prediction
-  guess_biomass_yield <- function(grain_yield_pot, 
-                                  # harvest_index = c(0.1, 0.3),
-                                  stage_ratio = c(initial_stage = 0.10,  development_stage = 0.80, mid_stage = 0.95, late_stage = 1)){
-    # harvest_index <- runif(1000, harvest_index[1], harvest_index[2]) #
-    # total_biomass_pot <- sapply(harvest_index, function(i){
-    #   grain_yield_pot/i
-    # })
-    
-    total_biomass_pot <- sapply(stage_ratio, function (i){
-      # total_biomass_pot*i
-      grain_yield_pot*i
-    }, simplify = TRUE, USE.NAMES = TRUE)
-    as.data.frame(na.omit(total_biomass_pot))
-  }
-  
   
   ## yield potential estimate
   mc_nodes_estimates_biomass_yield_pot <- guess_decisionSupport_estimates (data = list(potential_grain_yield, 
@@ -477,8 +480,6 @@ if(!file.exists(ficher)){
     
     
     ## Biomass yield at mid stage
-    # Local_constraints_at_mid_stage_estimates <- make_node_states_estimates(bn=net, node='Local_constraints_at_mid_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1), evidence = evid, include_relatives = FALSE)
-    # Local_constraints_at_mid_stage_estimates <- make_grain_node_states_estimates(network = net, node='Local_constraints_at_mid_stage', evidence = evid, state_effects = c(0.9, 0.6, 0.1))
     Local_constraints_at_mid_stage_estimates <- make_node_states_estimates(bn = net, node='Local_constraints_at_mid_stage', distr = distr_mid[[evid]], evidence = evidence_list_sorghum[[evid]], state_effects = c(0.9, 0.6, 0.1))
     
     tmp <- 1:length(Local_constraints_at_mid_stage_estimates)
@@ -494,10 +495,7 @@ if(!file.exists(ficher)){
     })
     
     ## Biomass yield at late stage
-    # Local_constraints_at_late_stage_estimates <- make_node_states_estimates(bn=net, node='Local_constraints_at_late_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1), evidence = evid, include_relatives = FALSE)
-    # Local_constraints_at_late_stage_estimates <- make_grain_node_states_estimates(network = net, node = 'Local_constraints_at_late_stage', evidence = evid, state_effects = c(0.9, 0.6, 0.1))
     Local_constraints_at_late_stage_estimates <- make_node_states_estimates(bn = net, node = 'Local_constraints_at_late_stage', distr = distr_late[[evid]], evidence = evidence_list_sorghum[[evid]], state_effects = c(0.9, 0.6, 0.1))
-    
     
     tmp <- 1:length(Local_constraints_at_late_stage_estimates)
     names(tmp) <- names(Local_constraints_at_late_stage_estimates)

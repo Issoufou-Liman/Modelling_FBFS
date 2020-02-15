@@ -1,6 +1,15 @@
 ## simulation ####
 
 ficher <- "output_files/Modelling_FBFS_model_RAW_predictions_Case_study_2.rds"
+
+# bn nodes estimates
+Local_constraints_at_initial_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_initial_stage', op = 'proba', distr = c('beta', 'unif', 'unif'), state_effects = c(0.9, 0.6, 0.1)) # , state_effects = c(0.9, 0.6, 0.1) # c(0.6, 0.3, 0.1)
+Local_constraints_at_development_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_development_stage', op = 'proba', distr = c('beta', 'unif', 'unif'), state_effects = c(0.9, 0.6, 0.1))
+
+Local_constraints_at_mid_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_mid_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1))
+Local_constraints_at_late_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_late_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1))
+rm(network_bn_fit); gc(verbose=FALSE)
+
 if(!file.exists(ficher)){
   ## Obversed and potential grain yield for various rainfed crops near kisumu county and tigray region
   source("data_files/yield.R")
@@ -27,14 +36,6 @@ if(!file.exists(ficher)){
     }, simplify = TRUE, USE.NAMES = TRUE)
     as.data.frame(na.omit(total_biomass_pot))
   }
-  
-  # bn nodes estimates
-  
-  Local_constraints_at_initial_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_initial_stage', op = 'proba', distr = c('beta', 'unif', 'unif'), state_effects = c(0.9, 0.6, 0.1)) # , state_effects = c(0.9, 0.6, 0.1) # c(0.6, 0.3, 0.1)
-  Local_constraints_at_development_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_development_stage', op = 'proba', distr = c('beta', 'unif', 'unif'), state_effects = c(0.9, 0.6, 0.1))
-  
-  Local_constraints_at_mid_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_mid_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1))
-  Local_constraints_at_late_stage_estimates <- make_node_states_estimates(bn=network_bn_fit, node='Local_constraints_at_late_stage', op = 'proba', distr = 'beta', state_effects = c(0.9, 0.6, 0.1))
   
   ## yield potential estimate
   mc_nodes_estimates_biomass_yield_pot <- guess_decisionSupport_estimates (data = list(potential_grain_yield, 
@@ -288,7 +289,7 @@ x_scaleFUN <- function(x) sprintf("%.0f", x)
 
 scale_fun <- function(gg_obj, new_data, split_column, facet_column) {
   if (!is.null(new_data)){
-    p <- p %+% new_data
+    p <- gg_obj %+% new_data
   } else {
     p <- gg_obj
   }

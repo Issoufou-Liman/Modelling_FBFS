@@ -9,7 +9,6 @@ if(!file.exists(ficher)){
   net <- readRDS(ficher)
 }
 
-rm(network_bn_fit); gc(verbose=FALSE)
 
 
 
