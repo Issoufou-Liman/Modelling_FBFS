@@ -229,57 +229,60 @@ inst <- grid.arrange(inst_Kisumu, inst_Tigray, ncol=2)
 inst <- gTree(children = gList(inst, grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
                                                gp=gpar(lwd=2, fill="NA", col="darkgray"))))
 
-schemes <- rbind(
-  c('Sampled areas', "Original design idea", "Diversion type", "Water Source", 'Water Source hydrology', "Water acquisition"),
-  c('East Kano', 'Engineers', "Modern", "Nyando River", 'Permanent', 'Pump'),
-  c('West Kano', 'Engineers', "Modern", "Lake Victoria", "Permanent", "Pump"),
-  c("Ahero out-growers", "Farmers", 'Traditional', "Nyando River, East Kano", 'Permanent', 'Gravity'),
-  c("Awach out-growers", "Farmers", "Traditional", "Awach river", 'Permanent', 'Gravity'),
-  c("East Nyankach", 'Farmers', 'Modern and Traditional', 'Runoff harvesting', 'Ephemeral', 'Household pond/roof'),
-  c("Tsige'a (Guguf)", "Farmers and engineers", "Improved", "Dry Wadis", 'Ephemeral','Gravity'),
-  c("Dayu (Gerjele)", "Engineers", "Modern", "Dry Wadis", 'Ephemeral', "Gravity"),
-  c("Harosha (Tumuga)", "Farmers", "Traditional", "Dry Wadis", 'Ephemeral', "Graviy")
-)
-schemes <- tableGrob(schemes,
-                     theme=ttheme_minimal(base_size =7.3,
-                                          core=list(bg_params = list(fill = 'white', col=c('lightgrey')),
-                                                    fg_params=list(fontface=3, fontsize=6.3, rot=0)),
-                                          colhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
-                                          rowhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
-                                          padding = unit(c(1, 1), "mm")),
-                     rows = NULL)
+# schemes <- rbind(
+#   c('Sampled areas', "Original design idea", "Diversion type", "Water Source", 'Water Source hydrology', "Water acquisition"),
+#   c('East Kano', 'Engineers', "Modern", "Nyando River", 'Permanent', 'Pump'),
+#   c('West Kano', 'Engineers', "Modern", "Lake Victoria", "Permanent", "Pump"),
+#   c("Ahero out-growers", "Farmers", 'Traditional', "Nyando River, East Kano", 'Permanent', 'Gravity'),
+#   c("Awach out-growers", "Farmers", "Traditional", "Awach river", 'Permanent', 'Gravity'),
+#   c("East Nyankach", 'Farmers', 'Modern and Traditional', 'Runoff harvesting', 'Ephemeral', 'Household pond/roof'),
+#   c("Tsige'a (Guguf)", "Farmers and engineers", "Improved", "Dry Wadis", 'Ephemeral','Gravity'),
+#   c("Dayu (Gerjele)", "Engineers", "Modern", "Dry Wadis", 'Ephemeral', "Gravity"),
+#   c("Harosha (Tumuga)", "Farmers", "Traditional", "Dry Wadis", 'Ephemeral', "Graviy")
+# )
+# schemes <- tableGrob(schemes,
+#                      theme=ttheme_minimal(base_size =7.3,
+#                                           core=list(bg_params = list(fill = 'white', col=c('lightgrey')),
+#                                                     fg_params=list(fontface=3, fontsize=6.3, rot=0)),
+#                                           colhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
+#                                           rowhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
+#                                           padding = unit(c(1, 1), "mm")),
+#                      rows = NULL)
+# 
+# areas <- c("Study region", "Kisumu", "Tigray")
+# areas <- tableGrob(areas,
+#                    theme=ttheme_minimal(base_size =7.3,
+#                                         core=list(bg_params = list(fill = 'white', col=c('lightgrey')),
+#                                                   fg_params=list(fontface=3, fontsize=6.3, rot=0)),
+#                                         colhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
+#                                         rowhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
+#                                         padding = unit(c(1, 1), "mm")),
+#                    rows = NULL)
+# 
+# jn <- gtable_combine(areas, schemes)
+# jn$widths <- rep(max(jn$widths), length(jn$widths)) # make column widths equal
+# 
+# jn$layout[1:6 , c("t", "b")] <- list(c(1, 2, 7), c(1, 6, 9))
+# 
+# jn <- grid.arrange(
+#   grid::textGrob("Characteristics of the sampled schemes (e)",
+#                  x=0.5, y=0.3, hjust=0.5, vjust = 0.5,
+#                  gp = gpar(fontfamily='serif',fontsize=12,fontface="bold.italic", col="blue")),
+#   jn,
+# heights=unit(c(1, 5), 'null')
+# 
+#   
+# )
+# 
+# instt <- grid.arrange(inst, jn, heights=unit(c(7/2+3.76/2, ((7/2)+(3.76/2))/4.25), 'in'))
+# 
+# 
+# insttt <- gTree(children = gList(instt, grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
+#                                                gp=gpar(lwd=2, fill="NA", col="darkgray"))))
+# 
+# ggsave(plot = insttt, filename = 'figures/Modelling_FBFS_study_area.png', device = 'png', dpi = 300, height = (((7/2)+(3.76/2))+(((7/2)+(3.76/2))/4.25)), width = (6.58/2)*2.1)
+# ggsave(plot = insttt, filename = 'figures/Modelling_FBFS_study_area.pdf', device = 'pdf', dpi = 300, height = (((7/2)+(3.76/2))+(((7/2)+(3.76/2))/4.25)), width = (6.58/2)*2.1)
 
-areas <- c("Study region", "Kisumu", "Tigray")
-areas <- tableGrob(areas,
-                   theme=ttheme_minimal(base_size =7.3,
-                                        core=list(bg_params = list(fill = 'white', col=c('lightgrey')),
-                                                  fg_params=list(fontface=3, fontsize=6.3, rot=0)),
-                                        colhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
-                                        rowhead=list(bg_params = list(fill = 'white', col=c('lightgrey'))),
-                                        padding = unit(c(1, 1), "mm")),
-                   rows = NULL)
-
-jn <- gtable_combine(areas, schemes)
-jn$widths <- rep(max(jn$widths), length(jn$widths)) # make column widths equal
-
-jn$layout[1:6 , c("t", "b")] <- list(c(1, 2, 7), c(1, 6, 9))
-
-jn <- grid.arrange(
-  grid::textGrob("Characteristics of the sampled schemes (e)",
-                 x=0.5, y=0.3, hjust=0.5, vjust = 0.5,
-                 gp = gpar(fontfamily='serif',fontsize=12,fontface="bold.italic", col="blue")),
-  jn,
-heights=unit(c(1, 5), 'null')
-
-  
-)
-
-instt <- grid.arrange(inst, jn, heights=unit(c(7/2+3.76/2, ((7/2)+(3.76/2))/4.25), 'in'))
-
-
-insttt <- gTree(children = gList(instt, grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
-                                               gp=gpar(lwd=2, fill="NA", col="darkgray"))))
-
-ggsave(plot = insttt, filename = 'figures/Modelling_FBFS_study_area.png', device = 'png', dpi = 300, height = (((7/2)+(3.76/2))+(((7/2)+(3.76/2))/4.25)), width = (6.58/2)*2.1)
-ggsave(plot = insttt, filename = 'figures/Modelling_FBFS_study_area.pdf', device = 'pdf', dpi = 300, height = (((7/2)+(3.76/2))+(((7/2)+(3.76/2))/4.25)), width = (6.58/2)*2.1)
+ggsave(plot = inst, filename = 'figures/Modelling_FBFS_study_area.png', device = 'png', dpi = 300, height = (((7/2)+(3.76/2))), width = (6.58/2)*2.1)
+ggsave(plot = inst, filename = 'figures/Modelling_FBFS_study_area.pdf', device = 'pdf', dpi = 300, height = (((7/2)+(3.76/2))), width = (6.58/2)*2.1)
 

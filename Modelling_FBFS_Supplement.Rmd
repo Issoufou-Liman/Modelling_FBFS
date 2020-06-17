@@ -10,7 +10,7 @@ author:
 - name: Cory Whitney
   email: cory.whitney@uni-bonn.de
   affiliation: INRES
-- name: James Kungu
+- name: James Kung'u
   email: kungu.james@ku.ac.ke
   affiliation: KU
 - name: Eike Luedeling
@@ -27,16 +27,26 @@ address:
   code: ZEF
 header-includes:
     - \usepackage{setspace}\setstretch{1.5}
+    - \usepackage{float} \floatplacement{figure}{H}
+    - \newcommand{\beginsupplement}{\setcounter{table}{0}
+    - \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0}
+    - \renewcommand{\thefigure}{S\arabic{figure}}}
 bibliography: ./referencing_files/bibliographie.bib
-csl: ./referencing_files/environmental-modelling-and-software.csl
+csl: ./referencing_files/agricultural-systems.csl
 geometry: margin=1in
 note: Replication files are available on the author's Github account (http://github.com/Issoufou-Liman).
-abstract: Crop models support agricultural decisions under various agricultural conditions. However, problems related to the scope of application, data availability, system complexity, or system-specific settings make many models applicable only with far-reaching and often questionable assumptions. In this paper, we used Decision Theory and participatory methods to address these challenges in a complex system where data and resources are limited. The resulting generic models is customizable and solution-oriented, and it accounts for all important variables and their interactions, as determined by local and foreign experts as well as relevant literature. We describe how such a probabilistic model can be developed and customized to specific situations based on case studies related to flood-based farming systems in Ethiopia and Kenya. Bayesian networks, describing stochastic system components, are used to generate inputs for a Monte Carlo model that simulates plausible ranges of expected grain and biomass yields at various stages of crop development.
+citecolor: blue
+classoption: oneside
+link-citations: yes
+linkcolor: blue
+abstract: Modelling the performance of crops grown under specific conditions is an important strategy to support agricultural decisions. Towards this end, many crop models are being used to inform agricultural policies. However, many of these models are applied beyond a reasonable scope of application, mainly because they are either designed for other settings, they fail to capture system complexity, or because some of their data requirements are not within reach. This work attempts to address these challenges by deriving a crop model using a set of probabilistic methods rooted in Decision Theory. We transparently use all available sources of information and consider all relevant uncertainties using participatory analysis. The transdisciplinary process results in a model where all important variables and their interactions, as determined by calibrated experts and relevant literature, are used to simulate the plausible ranges of expected grain and biomass yield at various stages of crop development. System components are described using individual Bayesian networks, in which expert knowledge is used to specify causal relationships among important variables along with their probability distributions. These Bayesian networks, along with other quantitative variables, are used as inputs to Monte Carlo models that simulate the plausible performance of crops. Our objective is to develop a customizable solution-oriented approach to crop modelling in settings where data and resources are limited. We describe how such a model can be developed and provide some applications in three case studies focusing on flood-based farming systems. The case studies illustrate the scope of such a model by assessing the performance of a cropping system, individual crops, or other factors of high agricultural importance across the Tigray region of Ethiopia and Kisumu County of Kenya. The present supporting material provides further details on some of the aspects briefly described in the main paper. These aspects, mainly, are the different modules and sub-modules that make up the generic model. Still, this material will only give a general idea about the model. The full model is provided as reproducible code in two repositories available on GitHub. The [first one](https://github.com/Issoufou-Liman/decisionSupportExtra) is a package describing all functions used for various purposes such as translating the expert-elicited data into graphical computer models, extracting local Bayesian networks, sampling from the joint distribution of these Bayesian networks based on a specific query, constructing estimates (as defined in the *decisionSupport* package) from Bayesian networks for Monte Carlo simulations, or plotting the results. [The second](https://github.com/Issoufou-Liman/Modelling_FBFS) is an Rmarkdown folder containing the necessary ingredients to reproduce the main paper and these supplementary materials.
 Keywords: Flood-based farming systems, crop modelling, customized decision support tools, uncertainty, Bayesian Networks, Monte Carlo Simulation.
 output:
   bookdown::pdf_book:
     base_format: rticles::elsevier_article
 ---
+
+\beginsupplement
 
 ```{r, include=FALSE}
 options(tinytex.engine = 'xelatex')
@@ -60,6 +70,15 @@ if (!require("devtools")) {
   install.packages("devtools")
 }
 
+### Forcing the use of gRain 1.3-0 because higher versions seems to introduce changes that break certain parts of this works
+if (!require("gRain")) {
+  install.packages('https://cran.r-project.org/src/contrib/Archive/gRain/gRain_1.3-0.tar.gz',repo=NULL,type = 'source')
+} else {
+  if(packageVersion("gRain") > '1.3.0'){
+    stop("gRain version 1.3-0 is required to reproduce this work. Higher version introduced important changes that are not compatible.")
+  }
+}
+
 ## Installing decisionSupportExtra package from github ####
 if (!require("decisionSupportExtra")) {
   devtools::install_github("Issoufou-Liman/decisionSupportExtra", build = TRUE, force = TRUE,
@@ -67,9 +86,10 @@ if (!require("decisionSupportExtra")) {
 
 }
 
+
 ## loading required packages ####
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(gRain,
+pacman::p_load(
                bnlearn,
                Rgraphviz,
                ggplot2,
@@ -95,13 +115,13 @@ source("source_files/graphviz_chart_bn.R")
 
 ## some common plots specifications
 legend_bg <- adjustcolor( "yellow", alpha.f = 0.15)
-plots_lwd <- 0.5
+plots_lwd <- 1
 min_plots_width_in <- 2.63
 max_plots_width_in <- 7.5
 max_plots_height_in <- 8.75
 min_plots_res <- 300
 plots_compression <- "lzw"
-plots_font_family <- 'serif' # 'sans'
+plots_font_family <- 'sans' # 'sans'
 plots_font <- 1 # 2
 plot_font_size <- 10
 
@@ -133,10 +153,18 @@ my_theme <- theme_bw(base_size = plot_font_size,
 
 # Introduction {-}
 
-Crop modelling has been used to provide guidance to scientists and decision makers on various aspects of agriculture. Several of these crop models were developed to assess aspects of high agricultural importance (e.g. soil water, soil carbon, crop growth, crop yield under constraints). Despite their usefulness and widespread use across the globe, there are often concerns about several aspects such as the requirement for precise data which are largely unavailable or the complexity of the system being model. 
-This work attempts to address these concerns by using a set of Decision Theory methods to propose a new approach to crop modelling. We use all available sources of information to develop a generic crop model for flood-based farming systems (FBFS) by fusing Bayesian networks (BNs) and Monte Carlo models. BNs are used to include qualitative variables, whereas MC models were used for quantitative ones. We describe how such a model can be developed and provide ways for deriving customized models for specific situations using three case studies. Each case study presents a customized instance of the generic model to demonstrate the usefulness and usability of the model from different perspectives. The modelling exercise took place in Kisumu County in Kenya and the Tigray region in Ethiopia. This document provides supplementary materials supporting the main paper. The details provided here concern, mainly, the different modules and sub-module that make up the generic model. Still, this material will only give a general idea about the model. The full model is provided as reproducible code in two repositories available on GitHub. [The first one](https://github.com/Issoufou-Liman/decisionSupportExtra) is a package describing the different functions. [The second](https://github.com/Issoufou-Liman/Modelling_FBFS) is an Rmarkdown folder containing the necessary ingredient to reproduce the main paper and this supplementary material.
+Crop modelling has been used to provide guidance to scientists and decision makers on various aspects of agriculture. Several of these crop models were developed to assess aspects of high agricultural importance (e.g. soil water, soil carbon, crop growth, crop yield under constraints). Despite their usefulness and widespread use across the globe, there are often concerns about several aspects, such as the requirement for precise data, which are largely unavailable, or the complexity of the system being modelled. 
+This work attempts to address these concerns by using a set of Decision Theory methods to propose a new approach to crop modelling. We use all available sources of information to develop a generic crop model for flood-based farming systems (FBFS) by fusing Bayesian networks (BNs) and Monte Carlo models. BNs are used to include qualitative variables, whereas MC models were used for quantitative ones. We describe how such a model can be developed and provide ways for deriving customized models for specific situations using three case studies. Each case study presents a customized instance of the generic model to demonstrate the usefulness and usability of the model from different perspectives. The modelling exercise took place in Kisumu County in Kenya and the Tigray region in Ethiopia. This document provides supplementary materials supporting the main paper. The details provided here concern, mainly, the different modules and sub-module that make up the generic model. Still, this material will only give a general idea about the model. The full model is provided as reproducible code in two repositories available on GitHub. [The first one](https://github.com/Issoufou-Liman/decisionSupportExtra) is a package describing the different functions. [The second](https://github.com/Issoufou-Liman/Modelling_FBFS) is an Rmarkdown folder containing the necessary ingredients to reproduce the main paper and this supplementary material.
 
-#	Description of the modules in the BN models {#refs1}
+# Data collection process and information extraction
+
+The data collection was conducted in five sequential steps used to maximize information gain along the process. We started with an extensive literature review which covered most of the database of the flood-based livelihood network foundation and extended to other sources. From this review, we designed broad leading questions and conducted expert interviews aiming at general discussions on the topic of FBFS. The outcomes of these interviews were generated as text files documenting the expert reasoning. Note that these interviews were conducted with individual experts either via skype or as physical meeting and no structure was imposed. The expert was first brief on the objective of the study and asked one simple question: How do you define FBFS? The remaining discussions were mainly dictated by the aspects considered in the definition given by the expert. In many cases, the experts expanded on the importance of flooding systems (set of infrastructures farmers used to facilitate flooding of their fields such as the canals) and the water source. Some of the recurrent follow-up questions concerned the importance of the flooding systems in FBFS, or which type of water source makes FBFS sustainable. These high-level discussions were followed by a set of focus group discussions. 
+The focus group discussions were conducted on the considered FBFS schemes with small groups (3 – 5 people per group) of knowledgeable people and a well-trained enumerator whose tasks were to moderate the discussions and take notes of farmers’ narratives. These knowledgeable people were represented by key farmers, farmers’ representatives, and technicians working with them. The discussions started with an overview of agriculture to mainly focus on the importance of FBFS in the area. The local practices of FBFS were described in terms of flooding systems, crop types, cropping systems, and socio-institutional arrangements in place. Where we had several groups, the discussions were first conducted in subgroups, then in a group with all farmers. These group discussions also resulted in text files documenting the most important points of each discussion.
+The focus group discussions were followed by local expert consultations, whose goal was to examine the information from the focus group and high-level discussions, enrich the concepts that arose, and ultimately draft a model. The consultation process started with an overview of decision analysis followed by a calibration training. The experts were then briefed on the information acquired in the previous steps and provided with further sources of information (e.g. global yield gap database, FBLN database). After defining the main modules of the model, the experts were engaged in participatory model development in working groups. The experts first drafted the graphical model, then estimated the variable values. At this stage, separate models were drafted for both Kisumu County and Tigray.
+The next step consisted of farmer interviews, which focused on the estimation of yield values and the enumeration of farming constraints. The farmers were informed about the meaning of the 90% confidence interval, the uniform distribution, and asked to estimate the ranges (5% and 95% quantiles) of yield values they had achieved on their farm over the last ten years. They were then asked to list the most important constraints that affect crop yield on their farms. Based on recommendations from key informants, the farmers were selected based on their wealth status (i.e. poor farmers, average farmers, and rich farmers) considering a stratified sampling. We considered three groups of farmers in a stratified sampling. Based on these constraints and the other information summarized in the two models, these models were further merged into a single model that captured the realities of both study regions at the Center for Development Research (ZEF), University of Bonn, Germany. 
+
+
+#	Description of the modules in the BN model {#refs1}
 
 ##	Farming constraints at farming plot level	{#refs11}
 
@@ -186,7 +214,7 @@ inset <- list(c(0.035, 0.15), c(0.035, 0.15))
 text_width_ext <- c(0.55*1, 0.55)
 
 
-png(export_fun(export = "Modelling_FBFS_Suppl_Farming_Constraints_BNs_plot"),
+png(export_fun(export = "figure_s1"),
      res = min_plots_res,
      units = 'in',
      # compression = plots_compression,
@@ -232,13 +260,13 @@ lapply(1:length(legende), function(i) {
 dev.off()
 ```
 
-```{r fig1, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the farming constraints in FBFS in Kenya and Ethiopia."}
-knitr::include_graphics("figures/Modelling_FBFS_Suppl_Farming_Constraints_BNs_plot.png")
+```{r fig1, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the farming constraints in flood-based farming systems in Kenya and Ethiopia."}
+knitr::include_graphics("figures/figure_s1.png")
 ```
 
 ##	Water supply adequacy	{#refs12}
 
-Because of the complexity of water supply in FBFS, water supply adequacy was described via 2 sub-modules (Figure \@ref(fig:fig2); Figure \@ref(fig:fig3)). The amount of flood reaching the farming plot (FloodReachsPlot) was assessed separately, since it is an important variable with regard to the overall available water for crop development in FBFS settings.
+Because of the complexity of water supply in FBFS, water supply adequacy was described via 2 sub-modules (Figure \@ref(fig:fig2); Figure \@ref(fig:fig3)). The amount of floodwater reaching the farming plot (FloodReachsPlot) was assessed separately, since it is an important variable with regard to the overall available water for crop development in FBFS settings.
 
 ```{r Water Supply Adequacy local BNs,eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
 
@@ -318,7 +346,7 @@ legend_title <- c("Legend (1 of 2)", "Legend (2 of 2)")
 inset <- list(c(0.09, 0.067), c(0.05, 0.07))
 ncol_leg <- c(1,2)
 
-png(export_fun(export = "Modelling_FBFS_Suppl_flood_reaching_plot_BNs_plot"),
+png(export_fun(export = "figure_s2"),
      res = min_plots_res,
      units = 'in',
      # compression = plots_compression,
@@ -367,11 +395,11 @@ lapply(1:length(legende), function (i){
 dev.off()
 ```
 
-```{r fig2, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the amount of flood at the farming plot level in FBFS in Kenya and Ethiopia."}
-knitr::include_graphics("figures/Modelling_FBFS_Suppl_flood_reaching_plot_BNs_plot.png")
+```{r fig2, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the amount of floodwater at the farming plot level in FBFS in Kenya and Ethiopia."}
+knitr::include_graphics("figures/figure_s2.png")
 ```
 
-At the root of the BN that describes the amount of flood reaching the plot are the nodes describing water diversion type (DiversionType), the social arrangement for water acquisition and sharing (SocialArrang), and the location of the farming plot (PlotLocat). The water diversion type is important, since it determines the overall water delivery (SharedFlood) and ultimately the overall expected flood amount at the plot level (FloodReachsPlot). It acts via the way in which farmers are committed as a group (SocialArrang) to maintain their main water distribution networks (MainCanalMaint) and its efficiency with regard to sediment load (SedimentLoad). If the social organisation (SocialArrang) is not adequate along a topographic gradient (Slope), this may lead to unfair upstream abstraction (UpsAbstract), hence penalising water users downstream (FloodReachsPlot). Flood water is trapped in FBFS fields using earthen bunds, which need to be opened at the right time either for irrigation or for water release if there is too much water. Individual farmers, therefore, need to make sure this happens by being present at the right time and making sure the water is diverted from the main canal to the respective secondary and tertiary sub-divisions of their water distribution system. Given the adequacy of the above-mentioned aspects, the presence of the farmers in the field during floods (Pznt4Flood) and the quality of canal maintenance (FieldCanalMaint) can still strongly affect the amount of flood reaching the plot (FloodReachsPlot), and ultimately the overall soil water budget. The presence of the farmer and the quality of canal maintenance  can either have minor importance when it rains on the field (RainOccur = On-site) or major importance in the case of spontaneous flood events from upstream (RainOccur = Off-site).
+At the root of the BN that describes the amount of floodwater reaching the plot are the nodes describing water diversion type (DiversionType), the social arrangement for water acquisition and sharing (SocialArrang), and the location of the farming plot (PlotLocat). The water diversion type is important, since it determines the overall water delivery (SharedFlood) and ultimately the overall expected flood amount at the plot level (FloodReachsPlot). It acts via the way in which farmers are committed as a group (SocialArrang) to maintain their main water distribution networks (MainCanalMaint) and its efficiency with regard to sediment load (SedimentLoad). If the social organisation (SocialArrang) is not adequate along a topographic gradient (Slope), this may lead to unfair upstream abstraction (UpsAbstract), hence penalising water users downstream (FloodReachsPlot). Flood water is trapped in FBFS fields using earthen bunds, which need to be opened at the right time either for irrigation, or for water release, if there is too much water. Individual farmers, therefore, need to make sure this happens by being present at the right time and making sure the water is diverted from the main canal to the respective secondary and tertiary sub-divisions of their water distribution system. Given the adequacy of the above-mentioned aspects, the presence of the farmers in the field during floods (Pznt4Flood) and the quality of canal maintenance (FieldCanalMaint) can still strongly affect the amount of floodwater reaching the plot (FloodReachsPlot), and ultimately the overall soil water budget. The presence of the farmer and the quality of canal maintenance can either have minor importance when it rains on the field (RainOccur = On-site) or major importance in the case of spontaneous flood events from upstream (RainOccur = Off-site).
 
 ```{r Water Supply Adequacy BNs,eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
 
@@ -412,7 +440,7 @@ legende <- mapply(paste, abbr_node_names, sprintf('\u2192'), legende)
 legende <- gsub("_", " ",  legende)
 legende <- gsub(" at initial stage", "",  legende)
 
-png(export_fun(export = "Modelling_FBFS_Suppl_Water_Supply_Adequacy_BNs_plot"),
+png(export_fun(export = "figure_s3"),
      res = min_plots_res,
      units = 'in',
      # compression = plots_compression,
@@ -458,11 +486,11 @@ dev.off()
 
 ```
 
-```{r fig3, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the available soil water content in FBFS in Kenya and Ethiopia."}
-knitr::include_graphics("figures/Modelling_FBFS_Suppl_Water_Supply_Adequacy_BNs_plot.png")
+```{r fig3, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the available soil water content in flood-based farming systems in Kenya and Ethiopia."}
+knitr::include_graphics("figures/figure_s3.png")
 ```
 
-The soil water profile of a given farming plot includes important biophysical aspects related to soils and climate. The available water for crops is determined by the soil water holding capacity (SoilHoldWater), the total amount and temporal distribution of rainfall (RainAmount) and residual soil moisture (InitWaterCont), which can be significant under certain FBFS such as flood recession agriculture. Soil water holding capacity (SoilHoldWater) can vary greatly depending on the soil type (SoilType) and the soil management strategies employed by the farmer (e.g. manure application; ManureApp). 
+The soil water profile of a given farming plot includes important biophysical aspects related to soils and climate. The available water for crops is determined by the soil water holding capacity (SoilHoldWater), the total amount and temporal distribution of rainfall (RainAmount) and residual soil moisture (InitWaterCont), which can be significant under certain FBFS, such as flood recession agriculture. Soil water holding capacity (SoilHoldWater) can vary greatly depending on the soil type (SoilType) and the soil management strategies employed by the farmer (e.g. manure application; ManureApp). 
 
 ##	Agricultural management efficiency	{#refs13}
 
@@ -532,7 +560,7 @@ legende <- mapply(paste, abbr_node_names, sprintf('\u2192'), legende)
 legende <- gsub("_", " ",  legende)
 legende <- gsub(" at initial stage", "",  legende)
 
-png(export_fun(export = "Modelling_FBFS_Available_soil_Nutrients_BNs_plot"),
+png(export_fun(export = "figure_s4"),
      res = min_plots_res,
      units = 'in',
      # compression = plots_compression,
@@ -578,8 +606,8 @@ dev.off()
 
 ```
 
-```{r fig4, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the available nutrients in FBFS in Kenya and Ethiopia."}
-knitr::include_graphics("figures/Modelling_FBFS_Available_soil_Nutrients_BNs_plot.png")
+```{r fig4, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the available nutrients in flood-based farming systems in Kenya and Ethiopia."}
+knitr::include_graphics("figures/figure_s4.png")
 ```
 
 ```{r Agricultural management efficiency BNs,eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
@@ -625,7 +653,7 @@ legend_title <- c("Legend (1 of 2)", "Legend (2 of 2)")
 inset <- list(c(0.04, 0.16), c(0.05, 0.035))
 
 
-png(export_fun(export = "Modelling_FBFS_Agricultural_management_efficiency_BNs_plot"),
+png(export_fun(export = "figure_s5"),
      res = min_plots_res,
      units = 'in',
      # compression = plots_compression,
@@ -676,15 +704,15 @@ lapply(1:length(legende), function(i) {
 dev.off()
 ```
 
-```{r fig5, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the effectiveness of agricultural management in FBFS in Kenya and Ethiopia."}
-knitr::include_graphics("figures/Modelling_FBFS_Agricultural_management_efficiency_BNs_plot.png")
+```{r fig5, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model describing the effectiveness of agricultural management in flood-based farming systems in Kenya and Ethiopia."}
+knitr::include_graphics("figures/figure_s5.png")
 ```
 
 The factors of agricultural management efficiency include the available soil nutrients (AvailSoilNut), crop exposure/sensitivity to pests and diseases (PestDiseaseImpact) and the severity of weeds (WeedsImpact). The magnitude and recurrence of damage to crops due to pests & diseases and yield losses due to weeds can be related to the skills of the farmers (FarmerSkills) in crop protection, the farmers’ ability to acquire chemicals, and other aspects such as the available labour force, which may influence the effectiveness of crop protection. 
 
 ##	Effectiveness of cropping options	{#refs14}
 
-The ‘effectiveness of cropping options’ (EffCropsOptions) BN describes the various factors shaping the cropping system at the very early stages of crop growth. Crops are defined by their type (CropType: rice, maize, sorghum, teff), their variety (CropVariety) and the farmers’ decision regarding which crops to grow and how to grow them (Intercropping). The decision of the farmer to grow a given type of crop and variety have strong yield implications. 
+The ‘effectiveness of cropping options’ (EffCropsOptions) BN describes the various factors shaping the cropping system at the very early stages of crop growth. Crops are defined by their type (CropType: rice (*Oryza sativa*), maize (*Zea mays*), sorghum (*Sorghum bicolor*), tef (*Eragrostis tef*)), their variety (CropVariety) and the farmers’ decision regarding which crops to grow and how to grow them (Intercropping). The decision of the farmer to grow a given type of crop and variety have strong yield implications.
 
 ```{r Effectiveness of cropping options BNs,eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
 
@@ -736,7 +764,7 @@ legend_title <- c("Legend (1 of 2)", "Legend (2 of 2)")
 inset <- list(c(0.035, 0.13), c(0.035, 0.13))
 text_width_ext <- c(0.55*1.905, 0.6)
 
-png(export_fun(export = "Modelling_FBFS_Suppl_Effectiveness_of_cropping_options_BNs_plot"),
+png(export_fun(export = "figure_s6"),
      res = min_plots_res,
      units = 'in',
      # compression = plots_compression,
@@ -785,17 +813,17 @@ lapply(1:length(legende), function(i) {
 dev.off()
 ```
 
-```{r fig6, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model of the effectiveness of cropping options in FBFS in Kenya and Ethiopia."}
-knitr::include_graphics("figures/Modelling_FBFS_Suppl_Effectiveness_of_cropping_options_BNs_plot.png")
+```{r fig6, echo=FALSE, out.width = '100%', fig.cap="Bayesian Network describing important variables as part of a mixed model of the effectiveness of cropping options in flood-based farming systems in Kenya and Ethiopia."}
+knitr::include_graphics("figures/figure_s6.png")
 ```
 
 #	BN structures and node sensitivity in relation to crop development	{#refs2}
 
-The local BNs described above were connected to form a single BN accounting for the complexity of the farming system. This BN aims to integrate the joint effect of all farming constraints in one single variable (see section \@ref(refs11)) to be used along with other variables described in the MC model. In the MC model, the entire BN was replicated with some changes in the CPTs and the causal relations when necessary. For example, the impact of weeds may depend on the crop development stage. The model assumes that crop sensitivity to biotic and abiotic factors depends on the period when these factors are considered. Therefore, these stage-specific BNs or rather the concepts embedded in their nodes, their causal relationships, and their CPTs were developed according to available information. BNs were developed to estimate the farming constraint at plot level and at each phenological stage of crop development. The BN nodes ( Figure \@ref(fig:fig1) to Figure \@ref(fig:fig6)) are represented in the model in four crop development stages (e.g. amount of shared flood at initial stage, development stage, mid stage, and late stage). A few BN nodes that are expected to remain constant (e.g. the type of water diversion (DiversionType), the slope etc.), however, were represented only once in the model and transported through the various crop development stages. For example, the BN nodes ‘soil type’ and ‘location of the farming plot’ are considered static variables over time. They are unlikely to change, at least not within a few years, in contrast to other nodes such as the impact of weeds and diseases, which differs between consecutive phenological stages. We focus on processes at the initial stage in the description, but the target variable is assessed quantitively at each of the four stages to feed the MC model.
+The local BNs described above were connected to form a single BN accounting for the complexity of the farming system. This BN aims to integrate the joint effect of all farming constraints in one single variable (see section \@ref(refs11)) to be used along with other variables described in the MC model. In the MC model, the entire BN was replicated with some changes in the CPTs and the causal relations when necessary. For example, the impact of weeds may depend on the crop development stage. The model assumes that crop sensitivity to biotic and abiotic factors depends on the period when these factors are considered. Therefore, these stage-specific BNs or rather the concepts embedded in their nodes, their causal relationships, and their CPTs were developed according to available information. BNs were developed to estimate the farming constraints at plot level and at each phenological stage of crop development. The BN nodes (Figure \@ref(fig:fig1) to Figure \@ref(fig:fig6)) are represented in the model in four crop development stages (e.g. amount of shared flood at initial stage, development stage, mid stage, and late stage). A few BN nodes that are expected to remain constant (e.g. the type of water diversion (DiversionType), the slope etc.), however, were represented only once in the model and transported through the various crop development stages. For example, the BN nodes ‘soil type’ and ‘location of the farming plot’ are considered static variables over time. They are unlikely to change, at least not within a few years, in contrast to other nodes such as the impact of weeds and diseases, which differs between consecutive phenological stages. We focus on processes at the initial stage in the description, but the target variable is assessed quantitatively at each of the four stages to feed the MC model.
 
 #	Quantitative assessment of Farming Constraints	{#refs3}
 
-The inclusion of the farming constraint variable in the MC models requires its quantitative description capturing all possible scenarios for the variable. For each scenario, these estimates include the range of variable values spanning the 90% confidence interval and its probability distribution as required by the [mcSimulation](https://www.rdocumentation.org/packages/decisionSupport/versions/1.103.8/topics/mcSimulation) function [@Luedeling_Goehring_et_al_2019, see also the main paper]. We generated the probabilities of the variable from the BN based on the query of interest. The resulting data were used to compute the lower bound, the median and the upper bound of the 90% confidence interval, and to estimate the shape of the best-fitting probability distribution given several candidate distributions and the ranges of skewness and kurtosis (Cellen and Fray graph, also skewness-kurtosis plot) of the generated data [@Cullen_and_Frey_1999; @Delignette-Muller_and_Dutang_2015]. The probability distribution of the variable at the four crop development stages was assessed via visual observation of the Cullen and Fray graph (see example for the initial stage of crop development in Figure \@ref(fig:fig7)). 
+The inclusion of the farming constraints variable in the MC models requires its quantitative description capturing all possible scenarios for the variable. For each scenario, these estimates include the range of variable values spanning the 90% confidence interval and its probability distribution as required by the *mcSimulation* function [@Luedeling_Goehring_et_al_2019]. We generated the probabilities of the variable from the BN based on the query of interest. The resulting data were used to compute the lower bound, the median and the upper bound of the 90% confidence interval, and to estimate the shape of the best-fitting probability distribution given several candidate distributions and the ranges of skewness and kurtosis (Cullen and Frey graph, also skewness-kurtosis plot) of the generated data [@Cullen_and_Frey_1999; @Delignette-Muller_and_Dutang_2015]. The probability distribution of the variable at the four crop development stages was assessed via visual observation of the Cullen and Frey graph (see example for the initial stage of crop development in Figure \@ref(fig:fig7)).
 
 ```{r Cullen and Frey graph, include=FALSE, eval=TRUE}
 
@@ -816,9 +844,12 @@ p1 <- ggplot_descdist_bn(bn=network_bn_fit, node = "Local_constraints_at_initial
                    plot_title_size = plot_title_size, plot_subtitle_size = plot_subtitle_size,
                    strip_text_size = strip_text_size, legend_text_size = legend_text_size)
 
+gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
+               gp=gpar(lwd=1, fill=NA, col="lightgray"))
 
+p1 <- gTree(children = gList(arrangeGrob(p1), gb))
 
-ggsave(plot=p1, device = 'png', filename = "figures/Local_constraints_at_initial_stage_ggplot_distributions.png", 
+ggsave(plot=p1, device = 'png', filename = "figures/figure_s7.png", 
        width = max_plots_width_in, 
        height =max_plots_height_in/2.5, units = "in", dpi = min_plots_res
 )
@@ -832,8 +863,8 @@ ggsave(plot=p1, device = 'tiff', filename = "figures/figure_s7.tif",
 )
 ```
 
-```{r fig7,echo=FALSE, out.width = '100%',fig.cap="Cullen and Frey graph showing the bounds for skewness and kurtosis and the best fitting distribution of three states of the variable ‘farming constraint’ derived from the joint distribution of a Bayesian network used to feed a Monte Carlo model as part of a mixed crop model for flood-based farming systems in Kisumu (Kenya) and Tigray (Ethiopia). The Bayesian network describes the variable farming constraint at 4 crop development stages (i.e. initial, development, mid-season, and late stages). This figure provides an example for the initial stage."}
-knitr::include_graphics("figures/Local_constraints_at_initial_stage_ggplot_distributions.png")
+```{r fig7,echo=FALSE, out.width = '100%',fig.cap="Cullen and Frey graph showing the bounds for skewness and kurtosis and the best fitting distribution of three states of the variable ‘farming constraints’ derived from the joint distribution of a Bayesian network used to feed a Monte Carlo model as part of a mixed crop model for flood-based farming systems in Kisumu County (Kenya) and Tigray (Ethiopia). The Bayesian network describes the variable farming constraints at 4 crop development stages (i.e. initial, development, mid-season, and late stages). This figure provides an example for the initial stage."}
+knitr::include_graphics("figures/figure_s7.png")
 ```
 
 ```{r quantile and probability plots, include=FALSE, eval=TRUE}
@@ -860,7 +891,12 @@ p1 <- gg_plotdist(fit_Local_constraints_at_initial_stage, title = "Farming_const
                  axis_text_size = axis_text_size, axis_title_size = axis_title_size, plot_subtitle_size = plot_subtitle_size,
                  plot_title_size = plot_title_size, strip_text_size = strip_text_size)
 
-ggsave(plot=p1, device = 'png', filename = "figures/Local_constraints_at_initial_stage_fitted_distribution.png", 
+gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
+               gp=gpar(lwd=1, fill=NA, col="lightgray"))
+
+p1 <- gTree(children = gList(arrangeGrob(p1), gb))
+
+ggsave(plot=p1, device = 'png', filename = "figures/figure_s8.png", 
        width = max_plots_width_in, 
        height =max_plots_height_in/2.5, units = "in", dpi = min_plots_res
 )
@@ -872,16 +908,16 @@ ggsave(plot=p1, device = 'tiff', filename = "figures/figure_s8.tif",
 )
 ```
 
-```{r fig8,echo=FALSE, out.width = '100%',fig.cap="Graphical assessment of probability distribution fits, including the quantile and probability plots along with the theoretical and empirical density and cumulative distribution functions, for the variable farming constraint derived from the joint distribution of a Bayesian network used to feed a Monte Carlo model as part of a mixed crop model for flood-based farming systems in Kisumu (Kenya) and Tigray (Ethiopia). The Bayesian network describes the variable farming constraint at 4 crop development stages (i.e. initial, development, mid-season, and late stages). This figure provides example for the initial stage."}
+```{r fig8,echo=FALSE, out.width = '100%',fig.cap="Graphical assessment of probability distribution fits, including the quantile and probability plots along with the theoretical and empirical density and cumulative distribution functions, for the variable farming constraints derived from the joint distribution of a Bayesian network used to feed a Monte Carlo model as part of a mixed crop model for flood-based farming systems in Kisumu County (Kenya) and Tigray (Ethiopia). The Bayesian network describes the variable farming constraints at 4 crop development stages (i.e. initial, development, mid-season, and late stages). This figure provides example for the initial stage."}
 
-knitr::include_graphics("figures/Local_constraints_at_initial_stage_fitted_distribution.png")
+knitr::include_graphics("figures/figure_s8.png")
 ```
 
-The best fit for candidate distributions of the target node (farming constraints) derived from the sampling of the posterior probabilities of the BNs are shown in Figure \@ref(fig:fig7). In these examples (corresponding to the case study on the probabilistic assessment of crop biomass in section \@ref(refs52)), the distribution of the farming constraint variable at the initial stage of crop development was fitted to beta, uniform, and uniform distributions, respectively, for the three states of the variable (i.e. high, medium, low) owing to the values of the bootstrapped samples lying within reasonable bounds for skewness and kurtosis characterising these distributions. A graphical assessment of the fit including the quantile and probability plots, along with the theoretical and empirical density and cumulative distribution functions, is presented in Figure \@ref(fig:fig8).
+The best fit for candidate distributions of the target node (farming constraints) derived from the sampling of the posterior probabilities of the BNs are shown in Figure \@ref(fig:fig7). In these examples (corresponding to the case study on the probabilistic assessment of crop biomass in section \@ref(refs52)), the distribution of the farming constraints variable at the initial stage of crop development was fitted to beta, uniform, and uniform distributions, respectively, for the three states of the variable (i.e. high, medium, low) owing to the values of the bootstrapped samples lying within reasonable bounds for skewness and kurtosis characterising these distributions. A graphical assessment of the fit including the quantile and probability plots, along with the theoretical and empirical density and cumulative distribution functions, is presented in Figure \@ref(fig:fig8).
 
 #	Model Carlo model	{#refs4}
 
-Several MC nodes were considered to quantitatively describe crop yield following the crop development subdivided into 4 stages. Figure \@ref(fig:fig9) presents the graphical model including the initial and development stages. Note that the mid and the late stages were described using the same concept as in the case of development stage. Potential yield, average actual yield and biomass expansion factor were modelled using gamma distributions, whereas the exploitable yield potential and the harvest index were modelled using uniform distributions.
+Several MC nodes were considered to quantitatively describe crop yield following the crop development subdivided into 4 stages. Figure \@ref(fig:fig9) presents the graphical model including the initial and development stages. Note that the mid and the late stages were described using the same concept as in the case of development stage. Potential yield, average actual yield and crop growth were modelled using gamma distributions, whereas the exploitable yield potential and the harvest index were modelled using uniform distributions.
 
 ```{r Monte Carlo Simulation plot, eval=TRUE, include = FALSE, echo = FALSE, cache = FALSE}
 
@@ -904,7 +940,7 @@ highlit_some_nodes_col <- c(highlit_some_MC_nodes_col, highlit_some_FC_nodes_col
 
 ## exporting the plot to file.####
 
-png(export_fun(export = "Modelling_FBFS_Monte_carlo_model"),
+png(export_fun(export = "figure_s9"),
      res = min_plots_res,
      units = 'in',
      # compression = plots_compression,
@@ -947,28 +983,25 @@ graphviz_plot_net(net5, shape="ellipse", layout = "dot", cex = 0.5, plot_bg = 'w
 dev.off()
 ```
 
-```{r fig9, echo=FALSE, out.width = '100%', fig.cap="Monte Carlo model describing important variables as part of a mixed model describing the expected crop yield at different stages of crop development in flood-based farming systems in Kisumu (Kenya) and Tigray (Ethiopia)."}
-knitr::include_graphics("figures/Modelling_FBFS_Monte_carlo_model.png")
+```{r fig9, echo=FALSE, out.width = '100%', fig.cap="Monte Carlo model describing important variables as part of a mixed model describing the expected crop yield at different stages of crop development in flood-based farming systems in Kisumu County (Kenya) and Tigray (Ethiopia)."}
+knitr::include_graphics("figures/figure_s9.png")
 ```
 
-We modelled biomass accumulation following the crop development, and ultimately converted biomass into grain yield using a realistic range of possible harvest index values. The maximum attainable biomass yield (Attainable yield potential) depends on the crop potential yield (Yield potential) and its achievable limit (Exploitable yield potential). This concept acknowledges that it is impossible for farmers to fully eliminate the farming constraints. The exploitable yield gap is then estimated by subtracting the long-term average yield (Average actual yield) from the attainable yield. Yield opportunity losses (Exploitable yield gap), therefore, are proportional to the difference in input allocation among farmers (Farming constraints) relative to the exploitable yield gap. Therefore, additional yield opportunity for a given farmer (Actual exploited yield gap) can be estimated by subtracting the yield opportunity loss from the exploitable yield gap. Finally, farm yield (Expected actual yield) can be obtained by adding the yield opportunity to the average yield.
+We modelled biomass accumulation (i.e. the amount of above-ground biomass produced by crops on a given farm) following the crop development, and ultimately converted biomass into grain yield using a realistic range of possible harvest index values. The maximum attainable biomass yield (Attainable yield potential) depends on the potential crop yield (Yield potential) and its achievable limit (Exploitable yield potential). This concept acknowledges that it is impossible for farmers to fully eliminate the farming constraints. The exploitable yield gap is then estimated by subtracting the long-term average yield (Average actual yield) from the attainable yield. Yield opportunity losses (Exploitable yield gap), therefore, are proportional to the difference in input allocation among farmers (Farming constraints) relative to the exploitable yield gap. Therefore, additional yield opportunity for a given farmer (Actual exploited yield gap) can be estimated by subtracting the yield opportunity loss from the exploitable yield gap. Finally, farm yield (Expected actual yield) can be obtained by adding the yield opportunity to the average yield.
 
-#	Case studies: rationale and methods	{#refs5}
+#	Rationales and objectives of the case studies {#refs5}
 
-##	Soil water assessment in flood-based livelihood systems	{#refs51}
+## Assessment of soil water using the soil water module {#refs51}
 
-FBFS are possible solutions to the challenges of high rainfall variability and drought risk that characterize rainfed agriculture in many places, because they can harness additional water sources for supplementary irrigation. To resolve potential drought risk, farmers must store enough flood water in soils without creating lasting anaerobic conditions that would be detrimental for crops. This requires maximizing water storage in soils, while limiting waterlogging and restricting water losses through evaporation, run-off or percolation. In FBFS, drought and waterlogging depend heavily on the amount of floodwater reaching the plot, and water losses are inversely related to the quality and quantity of soil organic amendments and other intrinsic soil properties, as well as climatic factors. Depending on the soil type, farmers optimize soil water at plot level by diverting the desired amount of floodwater, sometimes in combination with manure application and tillage (e.g. ploughing / rotavating). While most farmers use one or more soil and water conservation techniques, we encountered limited understanding of which techniques are most effective. The objective of this case study is to demonstrate how the generic model can be customized to prescribe optimum pre-season cultural practices for improved soil water on specific soil types using the soil water module in the BN sub-model. To this end, this instance of the model consists in querying the soil water module (see **_Figure 5_** in the main paper material) targeting the node describing the available soil water, conditional on various combinations of the states of 3 parent nodes that are relevant for soil water. We formulated all possible scenarios, accounting for each set of child-parent state relationships to ultimately investigate the probability of obtaining a specific soil water level. The emerging insights can be used diagnostically to prescribe optimal pre-season management for FBFS.
-The target node is a child node of nodes describing the amount of floodwater reaching the plot, the level of evapotranspiration, the initial water content and the amount of rainfall. The available soil water node is also dependent on the soil’s water holding capacity, which in turn is a child of manure application and soil type. These were considered only at the initial stage of crop development as a basis for querying the soil water module. The resulting posterior distributions were then used to study the probability of obtaining each of 3 levels of available soil water (drought risk, normal, waterlogging risk). 
+FBFS are possible solutions to the challenges of high rainfall variability and drought risk that characterize rainfed agriculture in many places, because they can harness additional water sources for supplementary irrigation. To resolve potential drought risk, farmers must store enough flood water in soils without creating lasting anaerobic conditions that would be detrimental for crops. This requires maximizing water storage in soils, while limiting waterlogging and restricting water losses through evaporation, run-off or percolation. In FBFS, drought and waterlogging depend heavily on the amount of floodwater reaching the plot, and water losses are inversely related to the quality and quantity of soil organic amendments and other intrinsic soil properties, as well as climatic factors. Depending on the soil type, farmers optimize soil water at plot level by diverting the desired amount of floodwater, sometimes in combination with manure application and tillage (e.g. ploughing / rotavating). While most farmers use one or more soil and water conservation techniques, we encountered limited understanding of which techniques are most effective. The objective of this case study (sections **_2.7. Inputs, outputs and special models_** and **_3.2. Soil water module_** of the main paper) is to demonstrate how the generic model can be customized to prescribe optimum pre-season cultural practices for improved soil water on specific soil types using the soil water module in the BN sub-model. 
 
-##	Probabilistic assessment of crop biomass in flood-based farming systems	{#refs52}
+## Probabilistic assessment of crop biomass using the crop growth module	{#refs52}
 
-Apart from their substantial contribution to food security, FBFS also provide extensive amounts of fodder and post-harvest grazing opportunities for livestock in many areas. In both the Tigray region and in Kisumu County, livestock feed on crop residues and other flood recession grasses, which make substantial contributions to livestock production. The symbiotic relationship between crops and livestock is well known and common to many farming systems. While crop biomass makes a substantial contribution to livestock production, most crop models focus their attention on grain yields, often failing to consider biomass yield at all. This case study provides a purely probabilistic attempt towards using the crop growth module for assessing the expected biomass yield and other important biomass yield metrics (e.g. biomass yield gap, exploited biomass yield). By providing these estimates at different stages of crop development, this instance of the generic model may also serve as a monitoring tool for biomass accumulation over the growing season.  
-The biomass expansion model was specified as described in the main paper and used to simulate the biomass yield along with several important yield metrics (see sections on **_Models for quantitative variables_**, and **_Crop growth module_** in the main paper material) at both the initial and late stages of crop development. The **_Figure 7_** in the main paper summarises the MC model including the relationships between the quantitative variables and the mathematical calculations involved at the initial and development stages. The Bayesian networks describing the qualitative variables along with the full MC model are presented in the supplementary and technical materials. In this lumped assessment, all possible scenarios across the different nodes specified in the BN were considered. With the 3 states for each of the 4 nodes describing the farming constraints at the 4 crop development stages (section \@ref(refs52) and section on **_Models for quantitative variables_** in the main paper material), and the 4 metrics considered (i.e. exploitable yield gap, exploitable yield gap loss due to constraints, actual exploited yield gap, and expected actual yield), the model simulation produced 324 ($324 = 3\times3\times3\times4$) results corresponding to the total set of possibilities. Only a few of these results are presented here to showcase the model. We selected the initial and the late stages of crop development along with the worst, medium, and best-case scenarios to show the biomass accumulation over time, and to illustrate the effect of varying farming constraints on crop development.
+Apart from their substantial contribution to food security, FBFS also provide extensive amounts of fodder and post-harvest grazing opportunities for livestock in many areas. In both the Tigray region and Kisumu County, livestock feed on crop residues and other flood recession grasses, which make substantial contributions to livestock production. The symbiotic relationship between crops and livestock is well known and common to many farming systems. While crop biomass makes a substantial contribution to livestock production, most crop models focus their attention on grain yields, often failing to consider biomass yield at all. This case study (sections **_2.7. Inputs, outputs and special models_** and **_3.4. Crop growth module_** of the main paper) provides a purely probabilistic attempt towards using the crop growth module for assessing the expected biomass yield and other important biomass yield metrics (e.g. biomass yield gap, exploited biomass yield). By providing these estimates at different stages of crop development, this instance of the generic model may also serve as a monitoring tool for biomass accumulation over the growing season.
 
-##	Impact of major constraints on grain yield variability of rice and sorghum	{#refs53}
+## Impact of soil water and biotic stresses on grain yield of rice and sorghum {#refs53}
 
-Many important risk factors that affect farms (e.g. pests, diseases and weeds) are ignored by many crop models, because they are either difficult to measure or too complex to include. The stochastic nature of many risk factors makes them difficult to predict with accuracy. In many agricultural settings, water, weeds, and pests & diseases rank among the top concerns and are perceived by farmers as major impediments to agricultural production. This is particularly important for FBFS, where the type of water management can strongly affect yield losses due to pests, diseases and weeds. Crop spacing can have a strong influence on the skills required of farmers for adequate management of biotic stressors. For example, weed removal in teff can be difficult and time consuming compared to sorghum, which is traditionally planted in relatively sparse rows. Weed seeds can be washed onto fields by the flood water, along with moisture that creates suitable conditions for their germination and growth. In most FBFS, therefore, farmers must protect their crops at every stage against a host of biotic stressors. This becomes challenging when the available labour force is limited, in which case a farmer must prioritize certain crop protection activities over others. Such prioritization should be based on comparative analysis of plausible outcomes for different scenarios. The objective of this short case study is to demonstrate how the model can be customized for use in assessments of the relative impacts of the top three yield-related concerns of farmers in the study area. As in the first case study, we formulated evidence-based specifications to derive this instance of the generic model to study the joint effect of pests & diseases, weeds, and available soil water on grain yield of rice and sorghum.
-To assess the effect of pests & diseases, weeds, available soil water and crop type on grain yield, the FBFS model was queried to simulate grain yields of rice and sorghum for FBFS settings in Kisumu County (Kenya) and Tigray region (Ethiopia). Each query was run 1000 times using the [mcSimulation](https://www.rdocumentation.org/packages/decisionSupport/versions/1.103.8/topics/mcSimulation) function [@Luedeling_Goehring_et_al_2019]. The derived model consists of three important levels of customization based on recommendations from the farmers. The first one, applied to the BN sub-model, consisted of selecting the two extreme states of the nodes of interest to derive a sequence of all possible combinations, which were later used as evidence to query the posterior distribution of the ‘farming constraint’ node (see **_Figure 9_** in the main paper material). The results of the BN queries were used to provide customized estimates of the ‘farming constraints’ node for the MC model, as described in section \@ref(refs4) and section on **_Modelling interface_** in the main paper. The second feature concerns the MC model where the `farming constraint` variable is assumed to directly affect crop growth by affecting the `biomass expansion factor` variable. The third one is that the average yield estimates used to feed the MC model were derived by the farmers who were asked to provide the ranges of values that are plausible on their farms. Scenarios were developed for the mid stage of crop development and the simulated grain yield data were analysed, accounting for uncertainty in estimates.
+Many important risk factors that affect farms (e.g. pests, diseases and weeds) are ignored by many crop models, because they are either difficult to measure or too complex to include. The stochastic nature of many risk factors makes them difficult to predict with accuracy. In many agricultural settings, water, weeds, and pests and diseases rank among the top concerns and are perceived by farmers as major impediments to agricultural production. This is particularly important for FBFS, where the type of water management can strongly affect yield losses due to pests, diseases and weeds. Crop spacing can have a strong influence on the skills required of farmers for adequate management of biotic stressors. For example, weed removal in tef can be difficult and time-consuming compared to sorghum, which is traditionally planted in relatively sparse rows. Weed seeds can be washed onto fields by the flood water, along with moisture that creates suitable conditions for their germination and growth. In most FBFS, therefore, farmers must protect their crops at every stage against a host of biotic stressors. This becomes challenging when the available labour force is limited, in which case a farmer must prioritize certain crop protection activities over others. Such prioritization should be based on comparative analysis of plausible outcomes for different scenarios. The objective of this case study (sections **_2.7. Inputs, outputs and special models_** and **_3.5. Management module_** of the main paper) is to demonstrate how the model can be customized for use in assessments of the relative impacts of the top three yield-related concerns of farmers in the study area.
 
 # References	{-}
 

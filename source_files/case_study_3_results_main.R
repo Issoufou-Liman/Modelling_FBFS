@@ -588,34 +588,46 @@ ssp <- ssp[
     (ssp$L4 != "Local_constraints_at_development_stage=Medium")&
     (ssp$L3 != "Local_constraints_at_mid_stage=Medium")&
     (ssp$L2 != "Local_constraints_at_late_stage=Medium"), ]
-
-ssp$L5 <- gsub("Local_constraints_at_initial_stage=High", "{bold('FC'[italic(i)]==High)}", ssp$L5)
-ssp$L5 <- gsub("Local_constraints_at_initial_stage=Low", "{bold('FC'[italic(i)]==Low)}", ssp$L5)
-
-ssp$L5 <- gsub(pattern = 'Low', replacement = "L", ssp$L5)
-ssp$L5 <- gsub(pattern = 'Medium', replacement = "M", ssp$L5)
-ssp$L5 <- gsub(pattern = 'High', replacement = "H", ssp$L5)
-
-ssp$L4 <- gsub("Local_constraints_at_development_stage=High", "{bold('FC'[italic(ii)]==High)}", ssp$L4)
-ssp$L4 <- gsub("Local_constraints_at_development_stage=Low", "{bold('FC'[italic(ii)]==Low)}", ssp$L4)
-
-ssp$L4 <- gsub(pattern = 'Low', replacement = "L", ssp$L4)
-ssp$L4 <- gsub(pattern = 'Medium', replacement = "M", ssp$L4)
-ssp$L4 <- gsub(pattern = 'High', replacement = "H", ssp$L4)
-
-ssp$L3 <- gsub("Local_constraints_at_mid_stage=High", "{bold('FC'[italic(iii)]==High)}", ssp$L3)
-ssp$L3 <- gsub("Local_constraints_at_mid_stage=Low", "{bold('FC'[italic(iii)]==Low)}", ssp$L3)
-
-ssp$L3 <- gsub(pattern = 'Low', replacement = "L", ssp$L3)
-ssp$L3 <- gsub(pattern = 'Medium', replacement = "M", ssp$L3)
-ssp$L3 <- gsub(pattern = 'High', replacement = "H", ssp$L3)
-
-ssp$L2 <- gsub("Local_constraints_at_late_stage=High", "{bold('FC'[italic(iiii)]==High)}", ssp$L2)
-ssp$L2 <- gsub("Local_constraints_at_late_stage=Low", "{bold('FC'[italic(iiii)]==Low)}", ssp$L2)
-
-ssp$L2 <- gsub(pattern = 'Low', replacement = "L", ssp$L2)
-ssp$L2 <- gsub(pattern = 'Medium', replacement = "M", ssp$L2)
-ssp$L2 <- gsub(pattern = 'High', replacement = "H", ssp$L2)
+# 
+# ssp$L5 <- gsub("Local_constraints", "Farming_constraints", ssp$L5)
+# ssp$L5 <- gsub("_", " ", ssp$L5)
+# 
+# # ssp$L5 <- gsub("Local_constraints_at_initial_stage=High", "{bold('FC'[italic(i)]==High)}", ssp$L5)
+# # ssp$L5 <- gsub("Local_constraints_at_initial_stage=Low", "{bold('FC'[italic(i)]==Low)}", ssp$L5)
+# 
+# # ssp$L5 <- gsub(pattern = 'Low', replacement = "L", ssp$L5)
+# # ssp$L5 <- gsub(pattern = 'Medium', replacement = "M", ssp$L5)
+# # ssp$L5 <- gsub(pattern = 'High', replacement = "H", ssp$L5)
+# 
+# ssp$L4 <- gsub("Local_constraints", "Farming_constraints", ssp$L4)
+# ssp$L4 <- gsub("_", " ", ssp$L4)
+# 
+# # ssp$L4 <- gsub("Local_constraints_at_development_stage=High", "{bold('FC'[italic(ii)]==High)}", ssp$L4)
+# # ssp$L4 <- gsub("Local_constraints_at_development_stage=Low", "{bold('FC'[italic(ii)]==Low)}", ssp$L4)
+# 
+# # ssp$L4 <- gsub(pattern = 'Low', replacement = "L", ssp$L4)
+# # ssp$L4 <- gsub(pattern = 'Medium', replacement = "M", ssp$L4)
+# # ssp$L4 <- gsub(pattern = 'High', replacement = "H", ssp$L4)
+# 
+# ssp$L3 <- gsub("Local_constraints", "Farming_constraints", ssp$L3)
+# ssp$L3 <- gsub("_", " ", ssp$L3)
+# 
+# # ssp$L3 <- gsub("Local_constraints_at_mid_stage=High", "{bold('FC'[italic(iii)]==High)}", ssp$L3)
+# # ssp$L3 <- gsub("Local_constraints_at_mid_stage=Low", "{bold('FC'[italic(iii)]==Low)}", ssp$L3)
+# 
+# # ssp$L3 <- gsub(pattern = 'Low', replacement = "L", ssp$L3)
+# # ssp$L3 <- gsub(pattern = 'Medium', replacement = "M", ssp$L3)
+# # ssp$L3 <- gsub(pattern = 'High', replacement = "H", ssp$L3)
+# 
+# ssp$L2 <- gsub("Local_constraints", "Farming_constraints", ssp$L2)
+# ssp$L2 <- gsub("_", " ", ssp$L2)
+# 
+# # ssp$L2 <- gsub("Local_constraints_at_late_stage=High", "{bold('FC'[italic(iiii)]==High)}", ssp$L2)
+# # ssp$L2 <- gsub("Local_constraints_at_late_stage=Low", "{bold('FC'[italic(iiii)]==Low)}", ssp$L2)
+# 
+# # ssp$L2 <- gsub(pattern = 'Low', replacement = "L", ssp$L2)
+# # ssp$L2 <- gsub(pattern = 'Medium', replacement = "M", ssp$L2)
+# # ssp$L2 <- gsub(pattern = 'High', replacement = "H", ssp$L2)
 
 ssp$Pest_and_disease_impacts_at_mid_stage <- factor(ssp$Pest_and_disease_impacts_at_mid_stage, levels = unique(ssp$Pest_and_disease_impacts_at_mid_stage))
 ssp$Weed_impacts_at_mid_stage <- factor(ssp$Weed_impacts_at_mid_stage, levels = unique(ssp$Weed_impacts_at_mid_stage))
@@ -633,26 +645,51 @@ labellers <- labeller(
                                 Significant = "Weeds impact = Significant"),
   Available_soil_water_at_mid_stage = c(`Drought risk` = "Drought\nrisk",
                                         `Waterlogging risk` = "Waterlogging\nrisk"),
-  L5 = label_parsed,
-  L4 = label_parsed,
-  L3 = label_parsed,
-  L2 = label_parsed
+  # L5 = label_parsed,
+  # L4 = label_parsed,
+  # L3 = label_parsed,
+  # L2 = label_parsed
+  L5 = c(`Local_constraints_at_initial_stage=Low` = "Farming constraints at\ninitial stage=Low",
+         `Local_constraints_at_initial_stage=High` = "Farming constraints at\ninitial stage=High"),
+  
+  L4 = c(`Local_constraints_at_development_stage=Low` = "Farming constraints at development stage=Low",
+         `Local_constraints_at_development_stage=High` = "Farming constraints at development stage=High"),
+  
+  L3 = c(`Local_constraints_at_mid_stage=Low` = "Farming constraints at mid stage=Low",
+         `Local_constraints_at_mid_stage=High` = "Farming constraints at mid stage=High"),
+  
+  L2 = c(`Local_constraints_at_late_stage=Low` = "Farming constraints at late stage=Low",
+         `Local_constraints_at_late_stage=High` = "Farming constraints at late stage=High")
+  
 )
 
-p1 <- ggplot (data = ssp[ssp$L3 == "{bold('FC'[italic(iii)]==L)}", ], aes(x=Crop_type, y=value, fill=Crop_type, colour=Crop_type))+
+## Rice ####
+
+p1 <- ggplot (data = ssp[(ssp$L3 == "Local_constraints_at_mid_stage=Low")&
+                           (ssp$L2 == "Local_constraints_at_late_stage=Low")&
+                           (ssp$Crop_type == "Rice"), ], 
+              aes(x=Crop_type, y=value
+                  # , fill=Crop_type, colour=Crop_type
+                  ))+
   # geom_density_ridges(scale=1, size=0.05)+
   # geom_violin(draw_quantiles = c(0.05, 0.5, 0.95), size = 0.1)+
-  geom_violin(size = 0.1, alpha=0.5)+
-  geom_boxplot(width=0.1, position = 'dodge', outlier.colour=NA, size = 0.2, colour='black') +
+  geom_violin(size = 0.1, 
+              # alpha=0.5,
+              fill='gray')+
+  geom_boxplot(width=0.2, position = 'dodge', outlier.colour=NA, size = 0.3, colour='black') +
   # geom_boxplot(width=0.1)+
   # stat_summary(fun.y=mean, geom="point", shape=23, size=1)+
   # stat_summary(fun.y=median, geom="point", size=1, color="red")+
+  # ggnomics::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
+  #                        space = 'free_x', scales = 'free_x', labeller = labellers)+
   ggnomics::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
-                         space = 'free_x', scales = 'free_x', labeller = labellers)+
+                         # space = 'free_x', scales = 'free_x', 
+                         labeller = labellers)+
   scale_y_continuous(
     expand = c(0, 0),
-    limits = function(x) c(min(x, na.rm = TRUE), 10),
-    breaks = seq(2, 8, by = 2)
+    limits = function(x) c(min(x, na.rm = TRUE), 6),
+    breaks = seq(1, 5, by = 1),
+    minor_breaks = seq(0, 6, by = 0.25)
   )+
   
   my_theme+
@@ -669,7 +706,7 @@ p1 <- ggplot (data = ssp[ssp$L3 == "{bold('FC'[italic(iii)]==L)}", ], aes(x=Crop
     legend.box.margin=margin(-40,-53,0, 0),
     legend.key.width = unit(0.25/1.5, "cm"),
     legend.key.height = unit(0.05, "cm"),
-    strip.text = element_text(size = plot_font_size-0.5, face = 'bold'),
+    strip.text = element_text(size = plot_font_size-1, face = 'bold'),
     strip.text.x = element_text(margin = margin(t=3, b = 3)),
     axis.text = element_text(size = plot_font_size+2),
     # axis.text.x = element_text(hjust = 0.5),
@@ -696,13 +733,90 @@ ga = do.call("grid.arrange", p1)
 g <- gTree(children = gList(ga, gb))
 grid.draw(g)
 
-ggsave(plot=g, device='png', filename = "figures/Modelling_FBFS_grain_yield_violin_LOW.png", width = max_plots_width_in, 
+ggsave(plot=g, device='png', filename = "figures/Modelling_FBFS_grain_yield_violin_LOW_Rice.png", width = max_plots_width_in, 
        height=max_plots_height_in/1.25, units="in", dpi=min_plots_res
 )
-ggsave(plot=g, device='pdf', filename = "figures/Modelling_FBFS_grain_yield_violin_LOW.pdf", width = max_plots_width_in, 
+ggsave(plot=g, device='pdf', filename = "figures/Modelling_FBFS_grain_yield_violin_LOW_Rice.pdf", width = max_plots_width_in, 
        height=max_plots_height_in/1.25, units="in", dpi=min_plots_res
 )
 
+
+## Sorghum ####
+
+p1 <- ggplot (data = ssp[(ssp$L3 == "Local_constraints_at_mid_stage=Low")&
+                           (ssp$L2 == "Local_constraints_at_late_stage=Low")&
+                           (ssp$Crop_type == "Sorghum"), ], 
+              aes(x=Crop_type, y=value
+                  # , fill=Crop_type, colour=Crop_type
+              ))+
+  # geom_density_ridges(scale=1, size=0.05)+
+  # geom_violin(draw_quantiles = c(0.05, 0.5, 0.95), size = 0.1)+
+  geom_violin(size = 0.1, 
+              # alpha=0.5,
+              fill='gray')+
+  geom_boxplot(width=0.2, position = 'dodge', outlier.colour=NA, size = 0.3, colour='black') +
+  # geom_boxplot(width=0.1)+
+  # stat_summary(fun.y=mean, geom="point", shape=23, size=1)+
+  # stat_summary(fun.y=median, geom="point", size=1, color="red")+
+  # ggnomics::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
+  #                        space = 'free_x', scales = 'free_x', labeller = labellers)+
+  ggnomics::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
+                         # space = 'free_x', scales = 'free_x', 
+                         labeller = labellers)+
+  scale_y_continuous(
+    expand = c(0, 0),
+    limits = function(x) c(min(x, na.rm = TRUE), 6),
+    breaks = seq(1, 5, by = 1),
+    minor_breaks = seq(0, 6, by = 0.25)
+  )+
+  
+  my_theme+
+  theme(
+    panel.grid.major = element_line(size = 0.2),
+    panel.grid.minor = element_line(size = 0.1),
+    axis.title.x = element_blank(),
+    axis.text.x=element_blank(),
+    legend.position=c(1,1),
+    legend.justification = c("right", "top"),
+    legend.text = element_text(size = plot_font_size+2, margin = margin(0,0,0,-4)),
+    legend.margin=margin(0,0,0,0),
+    legend.box = "vertical",
+    legend.box.margin=margin(-40,-53,0, 0),
+    legend.key.width = unit(0.25/1.5, "cm"),
+    legend.key.height = unit(0.05, "cm"),
+    strip.text = element_text(size = plot_font_size-1, face = 'bold'),
+    strip.text.x = element_text(margin = margin(t=3, b = 3)),
+    axis.text = element_text(size = plot_font_size+2),
+    # axis.text.x = element_text(hjust = 0.5),
+    axis.text.y = element_text(hjust = 0.5),
+    axis.ticks.length = unit(0.25, "mm"),
+    plot.margin=unit(c(4, 1, 1, 1), "pt")
+  )+
+  labs(y = 'Grain yield (tons/ha)')
+# rm(ssp); gc(verbose=FALSE)
+
+gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
+               gp=gpar(lwd=1, fill=NA, col="lightgray"))
+p1 <- gTree(children = gList(ggplotGrob(p1), gb))
+
+p1 <- list(p1)
+p1$ncol=1
+# p1$top = grid::textGrob(
+# "FC = farming constraint, H = High, M = Medium, L = Low. The indices i, ii, iiii, respectively, indicate crop at initial, developement and late stages.",
+#                         x=0.04, hjust=0, vjust = 0.5,
+#                         gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size-2,fontface="italic", col="black"))
+grid.newpage()
+ga = do.call("grid.arrange", p1)
+
+g <- gTree(children = gList(ga, gb))
+grid.draw(g)
+
+ggsave(plot=g, device='png', filename = "figures/Modelling_FBFS_grain_yield_violin_LOW_Sorghum.png", width = max_plots_width_in, 
+       height=max_plots_height_in/1.25, units="in", dpi=min_plots_res
+)
+ggsave(plot=g, device='pdf', filename = "figures/Modelling_FBFS_grain_yield_violin_LOW_Sorghum.pdf", width = max_plots_width_in, 
+       height=max_plots_height_in/1.25, units="in", dpi=min_plots_res
+)
 # p1 <- ggplot (data = ssp[ssp$L3 == "{bold('FC'[italic(iii)]==H)}", ], aes(x=Crop_type, y=value, fill=Crop_type))+
 #   # geom_density_ridges(scale=1, size=0.05)+
 #   # geom_violin(draw_quantiles = c(0.05, 0.5, 0.95), size = 0.1)+

@@ -194,7 +194,7 @@ source("source_files/ggmaps.R")
 source("source_files/study_area_map.R")
 ```
 
-```{r fig1, echo=FALSE,out.width='100%',fig.cap="Description of the sampling frame used to develop a mixed model of various flood-based farming practices in the Tigray region of Ethiopia and Kisumu County in Kenya. Agricultural practices are mainly homogeneous within study regions. The term 'out-growers' refers to farmers outside the scope of the Kenyan national irrigation board. Traditional flood water diversions are physical infrastructure, such as deflecting spurs or soil bunds that are constructed by farmers across flood channels using locally available materials. Modern diversion structures, such as diversion weirs, are usually designed by engineers and made of concrete. The improved diversion type constitutes an integration of farmer and engineer knowledge."}
+```{r fig1, echo=FALSE,out.width='100%',fig.cap="Description of the sampling frame used to develop a mixed model of various flood-based farming practices in the Tigray region of Ethiopia and Kisumu County in Kenya. Agricultural practices are mainly homogeneous within study regions."}
 knitr::include_graphics("figures/Modelling_FBFS_study_area.pdf")
 ```
 
@@ -203,6 +203,30 @@ knitr::include_graphics("figures/Modelling_FBFS_study_area.pdf")
 * East Nyankach (Kisumu): in this location, water is collected via runoff and roof water harvesting. Typically, the collected water is stored in various household ponds and water tanks to later be used for irrigation. 
 
 * Tsige’a, Harosha, and Dayu (Tigray): in these locations, farmers use improved, traditional, and modern floodwater diversions, respectively, to harness spate flow from various dry wadis.
+
+```{r tab, echo=FALSE}
+schemes <- rbind(
+  c('Kisumu', 'East Kano', 'Engineers', "Modern", "Nyando River", 'Permanent', 'Pump'),
+  c('Kisumu', 'West Kano', 'Engineers', "Modern", "Lake Victoria", "Permanent", "Pump"),
+  c('Kisumu', "Ahero out-growers", "Farmers", 'Traditional', "Nyando River, East Kano", 'Permanent', 'Gravity'),
+  c('Kisumu',"Awach out-growers", "Farmers", "Traditional", "Awach river", 'Permanent', 'Gravity'),
+  c('Kisumu', "East Nyankach", 'Farmers', 'Modern and Traditional', 'Runoff harvesting', 'Ephemeral', 'Household pond/roof'),
+  c('Tigray', "Tsige'a (Guguf)", "Farmers and engineers", "Improved", "Dry Wadis", 'Ephemeral','Gravity'),
+  c('Tigray', "Dayu (Gerjele)", "Engineers", "Modern", "Dry Wadis", 'Ephemeral', "Gravity"),
+  c('Tigray', "Harosha (Tumuga)", "Farmers", "Traditional", "Dry Wadis", 'Ephemeral', "Graviy")
+)
+colnames(schemes) <- 
+  c('Study region', 'Sampled areas', "Original design idea", "Diversion type", "Water Source", 'Water Source hydrology', "Water acquisition")
+write.csv(schemes, "output_files/schemes.csv")
+kable(
+schemes,
+format="latex", booktabs=TRUE,
+  caption = "Characteristics of the sampled schemes considered as part of a sampling frame used to develop a mixed model of various flood-based farming practices in the Tigray region of Ethiopia and Kisumu County in Kenya. The term 'out-growers' refers to farmers outside the scope of the Kenyan national irrigation board. Traditional flood water diversions are physical infrastructure, such as deflecting spurs or soil bunds that are constructed by farmers across flood channels using locally available materials. Modern diversion structures, such as diversion weirs, are usually designed by engineers and made of concrete. The improved diversion type constitutes an integration of farmer and engineer knowledge.") %>% 
+  row_spec(0,bold=TRUE) %>%
+  column_spec(1,bold=TRUE) %>%
+  kable_styling(latex_options="scale_down")%>%
+  collapse_rows(columns = 1)
+```
 
 The differences captured in these eight areas (Figure \@ref(fig:fig1) c, d, e) have implications for water supply, social organization, and crop development. For example, risks related to water supply may be more prominent in the out-growers’ schemes, which are exposed to water excess and shortages, compared to the schemes managed by the Kenyan national irrigation board, where the water supply is more regulated. While the water sources and acquisition procedures vary among rice-based systems in Kisumu (i.e. out-growers, East and West Kano), cultural practices are similar. In these areas, rice is sown (after tillage and flooding) in monoculture during floods, followed by various types of flood recession crops that are intercropped depending on farmers’ preferences and water availability (Figure \@ref(fig:fig1) c). In Tigray, in contrast, crops (mainly maize, sorghum and teff) are sown based on rainfall and are later irrigated using flood water (Figure \@ref(fig:fig1) d).
 
