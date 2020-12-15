@@ -1,7 +1,7 @@
 ---
 title: "Modelling Risk and Uncertainty in Flood-based Farming Systems using a Knowledge-based Approach."
 author:
-- name: Issoufou, Liman Harou
+- name: Liman Harou, Issoufou
   email: 
     issoufoul@gmail.com;
     L.issoufou@cgiar.org
@@ -28,7 +28,7 @@ address:
 header-includes:
     - \usepackage{setspace}\setstretch{1.5}
 bibliography: ./referencing_files/bibliographie.bib
-csl: ./referencing_files/environmental-modelling-and-software.csl
+csl: ./referencing_files/agricultural-systems.csl
 note: Replication files are available on the author's Github account (http://github.com/Issoufou-Liman).
 abstract: Crop models support agricultural decisions under various agricultural conditions. However, problems related to the scope of application, data availability, system complexity, or system-specific settings make many models applicable only with far-reaching and often questionable assumptions. In this paper, we used Decision Theory and participatory methods to address these challenges in a complex system where data and resources are limited. The resulting generic models is customizable and solution-oriented, and it accounts for all important variables and their interactions, as determined by local and foreign experts as well as relevant literature. We describe how such a probabilistic model can be developed and customized to specific situations based on case studies related to flood-based farming systems in Ethiopia and Kenya. Bayesian networks, describing stochastic system components, are used to generate inputs for a Monte Carlo model that simulates plausible ranges of expected grain and biomass yields at various stages of crop development.
 Keywords: Flood-based farming systems, crop modelling, customized decision support tools, uncertainty, Bayesian Networks, Monte Carlo Simulation.
@@ -94,7 +94,8 @@ pacman::p_load(bnlearn,
                scales,
                rgdal,
                raster,
-               magick
+               magick,
+               kableExtra
 )
 
 ## Loading decisionSupportExtra package ####
@@ -1216,7 +1217,7 @@ source("source_files/case_study_1_methods_main.R")
 \end{tikzpicture}
 };
 \tcbsetmacrotowidthofnode{\mywidth}{SoilType2}
-\node[BnsBarplotTitleStyle, minimum width=\mywidth](SoilType1)[above=0pt of SoilType2]{Soil Type};
+\node[BnsBarplotTitleStyle, minimum width=\mywidth](SoilType1)[above=0pt of SoilType2]{Soil type};
 %%%%
 
 \draw[thickarrow] (FloodReachsPlot2) -- (AvailSoilWater1);

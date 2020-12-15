@@ -56,6 +56,19 @@
 
 % Pandoc header
 \usepackage{setspace}\setstretch{1.5}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
 
 
 
@@ -63,7 +76,7 @@
 \begin{frontmatter}
 
   \title{Modelling Risk and Uncertainty in Flood-based Farming Systems using a Knowledge-based Approach.}
-    \author[KU,ICRAF]{Issoufou, Liman Harou\corref{Corresponding Author}}
+    \author[KU,ICRAF]{Liman Harou, Issoufou\corref{Corresponding Author}}
    \ead{issoufoul@gmail.com; L.issoufou@cgiar.org} 
     \author[INRES]{Cory Whitney}
    \ead{cory.whitney@uni-bonn.de} 
@@ -127,7 +140,7 @@ The study areas, Kisumu County in Kenya and the Tigray region in Ethiopia, are l
 
 }
 
-\caption{Description of the sampling frame used to develop a mixed model of various flood-based farming practices in the Tigray region of Ethiopia and Kisumu County in Kenya. Agricultural practices are mainly homogeneous within study regions. The term 'out-growers' refers to farmers outside the scope of the Kenyan national irrigation board. Traditional flood water diversions are physical infrastructure, such as deflecting spurs or soil bunds that are constructed by farmers across flood channels using locally available materials. Modern diversion structures, such as diversion weirs, are usually designed by engineers and made of concrete. The improved diversion type constitutes an integration of farmer and engineer knowledge.}\label{fig:fig1}
+\caption{Description of the sampling frame used to develop a mixed model of various flood-based farming practices in the Tigray region of Ethiopia and Kisumu County in Kenya. Agricultural practices are mainly homogeneous within study regions.}\label{fig:fig1}
 \end{figure}
 
 \begin{itemize}
@@ -138,6 +151,34 @@ The study areas, Kisumu County in Kenya and the Tigray region in Ethiopia, are l
 \item
   Tsige'a, Harosha, and Dayu (Tigray): in these locations, farmers use improved, traditional, and modern floodwater diversions, respectively, to harness spate flow from various dry wadis.
 \end{itemize}
+
+\begin{table}
+
+\caption{\label{tab:tab}Characteristics of the sampled schemes considered as part of a sampling frame used to develop a mixed model of various flood-based farming practices in the Tigray region of Ethiopia and Kisumu County in Kenya. The term 'out-growers' refers to farmers outside the scope of the Kenyan national irrigation board. Traditional flood water diversions are physical infrastructure, such as deflecting spurs or soil bunds that are constructed by farmers across flood channels using locally available materials. Modern diversion structures, such as diversion weirs, are usually designed by engineers and made of concrete. The improved diversion type constitutes an integration of farmer and engineer knowledge.}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{>{}lllllll}
+\toprule
+\textbf{Study region} & \textbf{Sampled areas} & \textbf{Original design idea} & \textbf{Diversion type} & \textbf{Water Source} & \textbf{Water Source hydrology} & \textbf{Water acquisition}\\
+\midrule
+ & East Kano & Engineers & Modern & Nyando River & Permanent & Pump\\
+\cmidrule{2-7}
+ & West Kano & Engineers & Modern & Lake Victoria & Permanent & Pump\\
+\cmidrule{2-7}
+ & Ahero out-growers & Farmers & Traditional & Nyando River, East Kano & Permanent & Gravity\\
+\cmidrule{2-7}
+ & Awach out-growers & Farmers & Traditional & Awach river & Permanent & Gravity\\
+\cmidrule{2-7}
+\multirow{-5}{*}{\raggedright\arraybackslash \textbf{Kisumu}} & East Nyankach & Farmers & Modern and Traditional & Runoff harvesting & Ephemeral & Household pond/roof\\
+\cmidrule{1-7}
+ & Tsige'a (Guguf) & Farmers and engineers & Improved & Dry Wadis & Ephemeral & Gravity\\
+\cmidrule{2-7}
+ & Dayu (Gerjele) & Engineers & Modern & Dry Wadis & Ephemeral & Gravity\\
+\cmidrule{2-7}
+\multirow{-3}{*}{\raggedright\arraybackslash \textbf{Tigray}} & Harosha (Tumuga) & Farmers & Traditional & Dry Wadis & Ephemeral & Graviy\\
+\bottomrule
+\end{tabular}}
+\end{table}
 
 The differences captured in these eight areas (Figure \ref{fig:fig1} c, d, e) have implications for water supply, social organization, and crop development. For example, risks related to water supply may be more prominent in the out-growers' schemes, which are exposed to water excess and shortages, compared to the schemes managed by the Kenyan national irrigation board, where the water supply is more regulated. While the water sources and acquisition procedures vary among rice-based systems in Kisumu (i.e.~out-growers, East and West Kano), cultural practices are similar. In these areas, rice is sown (after tillage and flooding) in monoculture during floods, followed by various types of flood recession crops that are intercropped depending on farmers' preferences and water availability (Figure \ref{fig:fig1} c). In Tigray, in contrast, crops (mainly maize, sorghum and teff) are sown based on rainfall and are later irrigated using flood water (Figure \ref{fig:fig1} d).
 
@@ -491,7 +532,7 @@ Luedeling, E., Shepherd, K., 2016. Decision-Focused Agricultural Research. Solut
 Meng, Q., Hou, P., Wu, L., Chen, X., Cui, Z., Zhang, F., 2013. Understanding production potentials and yield gaps in intensive maize production in China. Field Crops Research 143, 91--97. \url{https://doi.org/10.1016/j.fcr.2012.09.023}
 
 \leavevmode\hypertarget{ref-Murthy_2004}{}%
-Murthy, V.R.K., 2004. Crop Growth Modeling and Its Applications in Agricultural Meteorology, in: Sivakumar, M.V., Roy, P.S., Harmsen, K., Saha, S.K. (Eds.), Satellite Remote Sensing and Gis Applications in Agricultural Meteorology. World Meteorological Organisation, Dehra Dun, pp. 235--261.
+Murthy, V.R.K., 2004. Crop Growth Modeling and Its Applications in Agricultural Meteorology, in: Sivakumar, M.V.K., Roy, P.S., Harmsen, K., Saha, S.K. (Eds.), Satellite Remote Sensing and Gis Applications in Agricultural Meteorology. World Meteorological Organisation, Dehra Dun, pp. 235--261.
 
 \leavevmode\hypertarget{ref-Pearl_1988}{}%
 Pearl, J., 1988. Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference. Morgan Kaufmann Publishers Inc., San Francisco.
