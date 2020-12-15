@@ -30,7 +30,7 @@ titres <- structure(list(Soil_type = structure(1L, .Label = "Soil type", class =
                                                                                                                    -1L))
 p1 <- ggplot(data = ssp, aes(x=L1, y = value, fill = variable))+
   geom_bar(stat="identity", position="stack")+
-  ggnomics::facet_nested(.~Soil_type+Amount_of_flood_reaching_the_plot_at_initial_stage+Manure_application, 
+  ggh4x::facet_nested(.~Soil_type+Amount_of_flood_reaching_the_plot_at_initial_stage+Manure_application, 
                          space = 'free_x', scales = 'free_x')+
   scale_fill_discrete(labels = function(x) gsub("[.]", " ", x))+
   scale_x_discrete(breaks=1:10, expand = c(0, 0))+
@@ -57,7 +57,7 @@ p1 <- ggplot(data = ssp, aes(x=L1, y = value, fill = variable))+
 
 p2 = ggplot(data = titres, aes(x=1, y = 1, label = variable, fill=variable))+ 
   geom_text(angle = -90, size=plot_font_size-6, family=plots_font_family,lineheight = 0.9)+
-  ggnomics::facet_nested(.~Soil_type+Amount_of_flood_reaching_the_plot_at_initial_stage+Manure_application,
+  ggh4x::facet_nested(.~Soil_type+Amount_of_flood_reaching_the_plot_at_initial_stage+Manure_application,
                          space = 'free_x', scales = 'free_x')+
   theme_void(base_family = plots_font_family)+
   theme(

@@ -680,9 +680,9 @@ p1 <- ggplot (data = ssp[(ssp$L3 == "Local_constraints_at_mid_stage=Low")&
   # geom_boxplot(width=0.1)+
   # stat_summary(fun.y=mean, geom="point", shape=23, size=1)+
   # stat_summary(fun.y=median, geom="point", size=1, color="red")+
-  # ggnomics::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
+  # ggh4x::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
   #                        space = 'free_x', scales = 'free_x', labeller = labellers)+
-  ggnomics::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
+  ggh4x::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
                          # space = 'free_x', scales = 'free_x', 
                          labeller = labellers)+
   scale_y_continuous(
@@ -714,7 +714,7 @@ p1 <- ggplot (data = ssp[(ssp$L3 == "Local_constraints_at_mid_stage=Low")&
     axis.ticks.length = unit(0.25, "mm"),
     plot.margin=unit(c(4, 1, 1, 1), "pt")
   )+
-  labs(y = 'Grain yield (tons/ha)')
+  labs(y = expression('Grain yield (Mg ha'^-1*')'))
 # rm(ssp); gc(verbose=FALSE)
 
 gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
@@ -731,7 +731,7 @@ grid.newpage()
 ga = do.call("grid.arrange", p1)
 
 g <- gTree(children = gList(ga, gb))
-grid.draw(g)
+# grid.draw(g)
 
 ggsave(plot=g, device='png', filename = "figures/Modelling_FBFS_grain_yield_violin_LOW_Rice.png", width = max_plots_width_in, 
        height=max_plots_height_in/1.25, units="in", dpi=min_plots_res
@@ -758,9 +758,9 @@ p1 <- ggplot (data = ssp[(ssp$L3 == "Local_constraints_at_mid_stage=Low")&
   # geom_boxplot(width=0.1)+
   # stat_summary(fun.y=mean, geom="point", shape=23, size=1)+
   # stat_summary(fun.y=median, geom="point", size=1, color="red")+
-  # ggnomics::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
+  # ggh4x::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
   #                        space = 'free_x', scales = 'free_x', labeller = labellers)+
-  ggnomics::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
+  ggh4x::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage, 
                          # space = 'free_x', scales = 'free_x', 
                          labeller = labellers)+
   scale_y_continuous(
@@ -792,7 +792,7 @@ p1 <- ggplot (data = ssp[(ssp$L3 == "Local_constraints_at_mid_stage=Low")&
     axis.ticks.length = unit(0.25, "mm"),
     plot.margin=unit(c(4, 1, 1, 1), "pt")
   )+
-  labs(y = 'Grain yield (tons/ha)')
+  labs(y = expression('Grain yield (Mg ha'^-1*')'))
 # rm(ssp); gc(verbose=FALSE)
 
 gb = grid.rect(.5,.5,width=unit(1,"npc"), height=unit(1,"npc"), 
@@ -809,7 +809,7 @@ grid.newpage()
 ga = do.call("grid.arrange", p1)
 
 g <- gTree(children = gList(ga, gb))
-grid.draw(g)
+# grid.draw(g)
 
 ggsave(plot=g, device='png', filename = "figures/Modelling_FBFS_grain_yield_violin_LOW_Sorghum.png", width = max_plots_width_in, 
        height=max_plots_height_in/1.25, units="in", dpi=min_plots_res
@@ -825,7 +825,7 @@ ggsave(plot=g, device='pdf', filename = "figures/Modelling_FBFS_grain_yield_viol
 #   # geom_boxplot(width=0.1)+
 #   # stat_summary(fun.y=mean, geom="point", shape=23, size=1)+
 #   # stat_summary(fun.y=median, geom="point", size=1, color="red")+
-#   ggnomics::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage,
+#   ggh4x::facet_nested(L2+L4+L5 ~ Pest_and_disease_impacts_at_mid_stage+Weed_impacts_at_mid_stage+Available_soil_water_at_mid_stage,
 #                          space = 'free_x', scales = 'free_x', labeller = labellers)+
 #   scale_y_continuous(
 #     expand = c(0, 0),
@@ -853,7 +853,7 @@ ggsave(plot=g, device='pdf', filename = "figures/Modelling_FBFS_grain_yield_viol
 #     axis.ticks.length = unit(0.25, "mm"),
 #     plot.margin=unit(c(4, 1, 1, 1), "pt")
 #   )+
-#   labs(y = 'Grain yield (tons/ha)')
+#   labs(y = expression('Grain yield (Mg ha'^-1*')'))
 # rm(ssp); gc(verbose=FALSE)
 # 
 # p1 <- list(p1)

@@ -449,13 +449,17 @@ p1 <- sapply(X = tmp, function(i) {
     p_i <- p_i +
       scale_x_continuous(breaks = x_breaks[[i]], limits = x_limits[[i]], labels = x_scaleFUN)+
       # scale_y_continuous(labels = x_scaleFUN) # use only 1 digit for this one to fit the figures on grid.
-      scale_y_continuous(position = "right", labels = function(x) sprintf("%.1f", x)) # use only 1 digit for this one to fit the figures on grid.
+      scale_y_continuous(position = "right", labels = function(x) sprintf("%.1f", x))+ # use only 1 digit for this one to fit the figures on grid.
+      theme(
+        strip.background = element_blank(),
+        strip.text.x = element_blank()
+        )
     
     p_i
   } else {
     if (i == 1){
       p_i <- p_i +
-        ggnomics::facet_nested(.~facet_twick+L4,
+        ggh4x::facet_nested(.~facet_twick+L4,
                                # nrow= 1,
                                labeller = label_parsed, scales = "free_x")+
         
@@ -465,7 +469,11 @@ p1 <- sapply(X = tmp, function(i) {
     } else {
       p_i <- p_i +
         scale_x_continuous(breaks = x_breaks[[i]], limits = x_limits[[i]], labels = x_scaleFUN)+
-        scale_y_continuous(position = "right", labels = y_scaleFUN)
+        scale_y_continuous(position = "right", labels = y_scaleFUN)+
+        theme(
+          strip.background = element_blank(),
+          strip.text.x = element_blank()
+          )
     }
     p_i
   }
@@ -486,7 +494,7 @@ p1$top = grid::textGrob("Initial crop development stage",
 p1$right = grid::textGrob("Density", rot = 90,  
                           gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size, col="black"))
 
-p1$bottom <-  grid::textGrob("Biomass stock (Mg/ha)", 
+p1$bottom <-  grid::textGrob(expression('Total biomass (Mg ha'^-1*')'), 
                              gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size,  col="black"))
 p1$layout_matrix = rbind(1,1,1,1,2,2,2,3,3,3,4,4,4)
 
@@ -573,13 +581,16 @@ p1 <- sapply(X = tmp, function(i) {
     p_i <- p_i +
       scale_x_continuous(breaks = x_breaks[[i]], limits = x_limits[[i]], labels = x_scaleFUN)+
       # scale_y_continuous(labels = x_scaleFUN) # use only 1 digit for this one to fit the figures on grid.
-      scale_y_continuous(position = "right", labels = y_scaleFUN) # use only 1 digit for this one to fit the figures on grid.
-    
+      scale_y_continuous(position = "right", labels = y_scaleFUN)+ # use only 1 digit for this one to fit the figures on grid.
+      theme(
+        strip.background = element_blank(),
+        strip.text.x = element_blank()
+      )
     p_i
   } else {
     if (i == 1){
       p_i <- p_i +
-        ggnomics::facet_nested(.~facet_twick+facet_query,
+        ggh4x::facet_nested(.~facet_twick+facet_query,
                                # nrow= 1,
                                labeller = label_parsed, scales = "free_x")+
         
@@ -589,7 +600,11 @@ p1 <- sapply(X = tmp, function(i) {
     } else {
       p_i <- p_i +
         scale_x_continuous(breaks = x_breaks[[i]], limits = x_limits[[i]], labels = x_scaleFUN)+
-        scale_y_continuous(position = "right", labels = y_scaleFUN)
+        scale_y_continuous(position = "right", labels = y_scaleFUN)+
+        theme(
+          strip.background = element_blank(),
+          strip.text.x = element_blank()
+        )
     }
     p_i
   }
@@ -611,7 +626,7 @@ p1$top = grid::textGrob("Late crop development stage",
 p1$right = grid::textGrob("Density", rot = 90,
                           gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size,  col="black"))
 
-p1$bottom <-  grid::textGrob("Biomass stock (Mg/ha)",
+p1$bottom <-  grid::textGrob(expression('Total biomass (Mg ha'^-1*')'),
                              gp = gpar(fontfamily=plots_font_family,fontsize=plot_font_size,  col="black"))
 p1$layout_matrix = rbind(1,1,1,1,2,2,2,3,3,3,4,4,4)
 grid.newpage()
