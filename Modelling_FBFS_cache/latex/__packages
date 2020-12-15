@@ -4,7 +4,6 @@ gRain
 usethis
 devtools
 decisionSupportExtra
-ggnomics
 pacman
 bnlearn
 BiocGenerics
@@ -15,8 +14,6 @@ gridExtra
 decisionSupport
 MASS
 survival
-lsei
-npsurv
 fitdistrplus
 rriskDistributions
 scales
@@ -24,3 +21,6 @@ sp
 rgdal
 raster
 magick
+S4Vectors
+ggnomics
+kableExtra
