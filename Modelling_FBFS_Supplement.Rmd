@@ -60,7 +60,6 @@ options(tinytex.engine = 'xelatex')
 knitr::opts_chunk$set(echo = TRUE,out.extra = '',fig.align='center',fig.pos='!h',cache=TRUE)
 ```
 
-
 ```{r Setting the Scene, include = FALSE, echo = FALSE, cache = FALSE}
 
 set.seed(123)
@@ -162,7 +161,6 @@ The data collection was conducted in five sequential steps used to maximize info
 The focus group discussions were conducted on the considered FBFS schemes with small groups (3 – 5 people per group) of knowledgeable people and a well-trained enumerator whose tasks were to moderate the discussions and take notes of farmers’ narratives. These knowledgeable people were represented by key farmers, farmers’ representatives, and technicians working with them. The discussions started with an overview of agriculture to mainly focus on the importance of FBFS in the area. The local practices of FBFS were described in terms of flooding systems, crop types, cropping systems, and socio-institutional arrangements in place. Where we had several groups, the discussions were first conducted in subgroups, then in a group with all farmers. These group discussions also resulted in text files documenting the most important points of each discussion.
 The focus group discussions were followed by local expert consultations, whose goal was to examine the information from the focus group and high-level discussions, enrich the concepts that arose, and ultimately draft a model. The consultation process started with an overview of decision analysis followed by calibration training. The experts were then briefed on the information acquired in the previous steps and provided with further sources of information (e.g. global yield gap database, FBLN database). After defining the main modules of the model, the experts were engaged in participatory model development in working groups. The experts first drafted the graphical model, then estimated the variable values. At this stage, separate models were drafted for both Kisumu County and Tigray.
 The next step consisted of farmer interviews, which focused on the estimation of yield values and the enumeration of farming constraints. The farmers were informed about the meaning of the 90% confidence interval and the uniform distribution, and asked to estimate the ranges (5% and 95% quantiles) of yield values they had achieved on their farm over the last ten years. They were then asked to list the most important constraints that affect crop yield on their farms. Based on recommendations from key informants, the farmers were selected based on their wealth status (i.e. poor farmers, average farmers, and rich farmers) considering a stratified sampling. Based on these constraints and the other information summarized in the two models, the models were further merged into a single model that captured the realities of both study regions. 
-
 
 #	Description of the modules in the BN model {#refs1}
 
